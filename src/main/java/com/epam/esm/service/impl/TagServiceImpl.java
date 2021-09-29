@@ -1,18 +1,14 @@
 package com.epam.esm.service.impl;
 
-import com.epam.esm.dao.CommonCRUDOperations;
 import com.epam.esm.dao.DAOException;
-import com.epam.esm.dao.impl.CommonCRUDOperationsImpl;
 import com.epam.esm.dao.impl.TagDAOImpl;
 import com.epam.esm.entity.Tag;
 import com.epam.esm.service.ServiceException;
-import com.epam.esm.service.SpringConfig;
+import com.epam.esm.config.SpringConfig;
 import com.epam.esm.service.TagService;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.Import;
 import org.springframework.stereotype.Service;
 
-import java.util.LinkedList;
 import java.util.List;
 
 @Service

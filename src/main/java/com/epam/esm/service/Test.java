@@ -1,6 +1,7 @@
 package com.epam.esm.service;
 
 
+import com.epam.esm.config.SpringConfig;
 import com.epam.esm.dao.connection.ConnectionPool;
 import com.epam.esm.service.impl.CertificateServiceImpl;
 import com.epam.esm.service.impl.TagServiceImpl;

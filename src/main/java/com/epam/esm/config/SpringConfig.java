@@ -1,4 +1,4 @@
-package com.epam.esm.service;
+package com.epam.esm.config;
 
 import com.epam.esm.dao.impl.CertificatesDAOImpl;
 import com.epam.esm.dao.impl.CommonCRUDOperationsImpl;

@@ -1,5 +1,7 @@
 package com.epam.esm.controller;
 
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -14,8 +16,21 @@ import java.io.IOException;
 public class Tag extends HttpServlet {
 
     @PostMapping("/tag")
-    private void process(HttpServletResponse response, HttpServletRequest request) throws IOException, ServletException {
+    private void createTag(HttpServletResponse response, HttpServletRequest request) throws IOException, ServletException {
         RequestDispatcher requestDispatcher = request.getRequestDispatcher("");
         requestDispatcher.forward(request, response);
     }
+
+    @GetMapping("/tag")
+    private void getTag(HttpServletResponse response, HttpServletRequest request) throws IOException, ServletException {
+        RequestDispatcher requestDispatcher = request.getRequestDispatcher("");
+        requestDispatcher.forward(request, response);
+    }
+
+    @DeleteMapping("/tag")
+    private void deleteTag(HttpServletResponse response, HttpServletRequest request) throws IOException, ServletException {
+        RequestDispatcher requestDispatcher = request.getRequestDispatcher("");
+        requestDispatcher.forward(request, response);
+    }
+
 }
