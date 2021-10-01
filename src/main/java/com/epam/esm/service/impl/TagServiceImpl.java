@@ -4,15 +4,12 @@ import com.epam.esm.dao.DAOException;
 import com.epam.esm.dao.impl.TagDAOImpl;
 import com.epam.esm.entity.Tag;
 import com.epam.esm.service.ServiceException;
-import com.epam.esm.config.SpringConfig;
 import com.epam.esm.service.TagService;
-import org.springframework.context.annotation.Import;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-@Import({SpringConfig.class})
 public class TagServiceImpl implements TagService {
     private TagDAOImpl tagDAO;
 

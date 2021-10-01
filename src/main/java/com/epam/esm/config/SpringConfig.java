@@ -34,5 +34,4 @@ public class SpringConfig {
     public CertificateServiceImpl getCertificateService(){
         return new CertificateServiceImpl(getCertificatesDAOImpl());
     }
-
 }

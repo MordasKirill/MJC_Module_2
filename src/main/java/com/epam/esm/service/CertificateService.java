@@ -8,5 +8,6 @@ public interface CertificateService {
     void createCertificates(Certificate certificate) throws ServiceException;
     void deleteCertificates(Certificate certificate) throws ServiceException;
     void updateCertificates(Certificate certificate) throws ServiceException;
+    String getCurrentDate();
     List<Certificate> getCertificates() throws ServiceException;
 }

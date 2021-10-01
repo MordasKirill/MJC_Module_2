@@ -18,10 +18,10 @@ import java.util.List;
 
 @Repository
 public class CertificatesDAOImpl implements CertificateDAO {
-    private static final String DELETE_FROM_CERTIFICATE = "delete from gift_certificate where id=?";
-    private static final String CREATE_CERTIFICATE = "insert into gift_certificate (id, name, price, duration, create_date, last_update_date, description) values (?,?,?,?,?,?,?)";
-    private static final String UPDATE_CERTIFICATE = "update gift_certificate set name = ?, price = ? where id = ?";
-    private static final String SELECT_FROM_CERTIFICATE = "select id, name, description, price, duration, create_date, last_update_date from gift_certificate where id>0";
+    private static final String DELETE_FROM_CERTIFICATE = "delete from certificate where id=?";
+    private static final String CREATE_CERTIFICATE = "insert into certificate (name, description, price, duration, create_date, last_update_date) values (?,?,?,?,?,?)";
+    private static final String UPDATE_CERTIFICATE = "update certificate set name = ?, price = ? where id = ?";
+    private static final String SELECT_FROM_CERTIFICATE = "select id, name, description, price, duration, create_date, last_update_date from certificate where id>0";
     private static final String COLUMN_ID = "id";
     private static final String COLUMN_NAME = "name";
     private static final String COLUMN_DESCRIPTION = "description";
@@ -64,13 +64,12 @@ public class CertificatesDAOImpl implements CertificateDAO {
     @Override
     public void createCertificates(Certificate certificate) throws DAOException{
         List<Object> paramList = new LinkedList<>();
-        paramList.add(certificate.getId());
         paramList.add(certificate.getName());
+        paramList.add(certificate.getDescription());
         paramList.add(certificate.getPrice());
         paramList.add(certificate.getDuration());
         paramList.add(certificate.getCreateDate());
         paramList.add(certificate.getLastUpdateDate());
-        paramList.add(certificate.getDescription());
         commonCRUDOperations.executeUpdate(CREATE_CERTIFICATE, paramList);
     }
 

@@ -7,7 +7,11 @@ import com.epam.esm.service.CertificateService;
 import com.epam.esm.service.ServiceException;
 import org.springframework.stereotype.Service;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 @Service
 public class CertificateServiceImpl implements CertificateService {
@@ -41,6 +45,14 @@ public class CertificateServiceImpl implements CertificateService {
         } catch (DAOException e) {
             throw new ServiceException("UpdateCertificate fail", e);
         }
+    }
+
+    @Override
+    public String getCurrentDate() {
+        TimeZone tz = TimeZone.getTimeZone("UTC");
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+        df.setTimeZone(tz);
+        return df.format(new Date());
     }
 
     @Override

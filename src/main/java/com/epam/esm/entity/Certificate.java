@@ -1,5 +1,9 @@
 package com.epam.esm.entity;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonSetter;
+
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -26,6 +30,18 @@ public class Certificate implements Serializable {
         this.duration = duration;
     }
 
+    @JsonCreator
+    public Certificate (String name, double price,
+                        int duration, String createDate, String lastUpdateDate, String description){
+        this.name = name;
+        this.price = price;
+        this.duration = duration;
+        this.createDate = createDate;
+        this.lastUpdateDate = lastUpdateDate;
+        this.description = description;
+    }
+
+    @JsonCreator
     public Certificate (int id, String name, double price,
                         int duration, String createDate, String lastUpdateDate, String description){
         this.id = id;
@@ -36,58 +52,66 @@ public class Certificate implements Serializable {
         this.lastUpdateDate = lastUpdateDate;
         this.description = description;
     }
+    @JsonGetter("id")
     public int getId() {
         return id;
     }
 
+    @JsonSetter("id")
     public void setId(int id) {
         this.id = id;
     }
-
+    @JsonGetter("name")
     public String getName() {
         return name;
     }
-
+    @JsonSetter("name")
     public void setName(String name) {
         this.name = name;
     }
 
+    @JsonGetter("description")
     public String getDescription() {
         return description;
     }
-
+    @JsonSetter("description")
     public void setDescription(String description) {
         this.description = description;
     }
 
+    @JsonGetter("price")
     public double getPrice() {
         return price;
     }
-
+    @JsonSetter("price")
     public void setPrice(double price) {
         this.price = price;
     }
 
+    @JsonGetter("duration")
     public int getDuration() {
         return duration;
     }
-
+    @JsonSetter("duration")
     public void setDuration(int duration) {
         this.duration = duration;
     }
 
+    @JsonGetter("createDate")
     public String getCreateDate() {
         return createDate;
     }
-
+    @JsonSetter("createDate")
     public void setCreateDate(String createDate) {
         this.createDate = createDate;
     }
 
+    @JsonGetter("lastUpdateDate")
     public String getLastUpdateDate() {
         return lastUpdateDate;
     }
 
+    @JsonSetter("lastUpdateDate")
     public void setLastUpdateDate(String lastUpdateDate) {
         this.lastUpdateDate = lastUpdateDate;
     }

@@ -10,6 +10,11 @@ import org.apache.log4j.Logger;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.TimeZone;
+
 public class Test {
 
     private static final Logger LOG = Logger.getLogger(Test.class);
@@ -22,12 +27,18 @@ public class Test {
         try {
             //tagService.deleteTag(new Tag(13));
             //tagService.createTag(new Tag(11, "test"));
-            tagService.getTags().forEach(System.out::println);
+
+            //tagService.getTags().forEach(System.out::println);
             //certificateService.createCertificates(new Certificate(11, "fw",  11.20, 5, "2021-09-29", "2021-09-30", "gwgwgrw"));
             //certificateService.deleteCertificates(new Certificate(11));
             certificateService.getCertificates().forEach(System.out::println);
         } catch (ServiceException e) {
             LOG.log(Level.ERROR, "Error in tag/certificate operations.");
         }
+        TimeZone tz = TimeZone.getTimeZone("UTC+03:00");
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm'Z'"); // Quoted "Z" to indicate UTC, no timezone offset
+        df.setTimeZone(tz);
+        String nowAsISO = df.format(new Date());
+        System.out.println(nowAsISO);
     }
 }
