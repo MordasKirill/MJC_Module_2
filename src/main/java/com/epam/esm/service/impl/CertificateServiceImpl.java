@@ -48,7 +48,7 @@ public class CertificateServiceImpl implements CertificateService {
     }
 
     @Override
-    public String getCurrentDate() {
+    public String getCurrentDate(String pattern) {
         TimeZone tz = TimeZone.getTimeZone("UTC");
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
         df.setTimeZone(tz);

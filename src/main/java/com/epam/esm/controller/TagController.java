@@ -33,7 +33,7 @@ public class TagController {
             tagService.createTag(new Tag(name));
             return new ResponseEntity<>(tagService.getTags(), HttpStatus.OK);
         } catch (ServiceException e) {
-            LOG.log(Level.ERROR, "FAIL DB: Fail to create tags.", e);
+            LOG.log(Level.ERROR, "FAIL DB: Fail to create tag.", e);
             return ResponseEntity.notFound().build();
         }
     }

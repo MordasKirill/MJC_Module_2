@@ -15,6 +15,7 @@ public class Certificate implements Serializable {
     private int duration;
     private String createDate;
     private String lastUpdateDate;
+    private String tag;
 
     public Certificate(){
 
@@ -24,10 +25,11 @@ public class Certificate implements Serializable {
         this.id = id;
     }
 
-    public Certificate (String name, double price, int duration){
+    public Certificate (String name, double price, String description, int id){
         this.name = name;
         this.price = price;
-        this.duration = duration;
+        this.description = description;
+        this.id = id;
     }
 
     @JsonCreator
@@ -114,6 +116,14 @@ public class Certificate implements Serializable {
     @JsonSetter("lastUpdateDate")
     public void setLastUpdateDate(String lastUpdateDate) {
         this.lastUpdateDate = lastUpdateDate;
+    }
+
+    public String getTag() {
+        return tag;
+    }
+
+    public void setTag(String tag) {
+        this.tag = tag;
     }
 
     @Override

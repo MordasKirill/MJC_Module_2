@@ -20,8 +20,9 @@ import java.util.List;
 public class CertificatesDAOImpl implements CertificateDAO {
     private static final String DELETE_FROM_CERTIFICATE = "delete from certificate where id=?";
     private static final String CREATE_CERTIFICATE = "insert into certificate (name, description, price, duration, create_date, last_update_date) values (?,?,?,?,?,?)";
-    private static final String UPDATE_CERTIFICATE = "update certificate set name = ?, price = ? where id = ?";
+    private static final String UPDATE_CERTIFICATE = "update certificate set name = ?, price = ?, description = ? where id = ?";
     private static final String SELECT_FROM_CERTIFICATE = "select id, name, description, price, duration, create_date, last_update_date from certificate where id>0";
+    //private static final String SELECT_FROM_CERTIFICATE_TAG = "select Certificate.id, Certificate.name, Certificate.description, Certificate.price, Certificate.duration, Certificate.create_date, Certificate.last_update_date from certificate, tag where Tag.name=?";
     private static final String COLUMN_ID = "id";
     private static final String COLUMN_NAME = "name";
     private static final String COLUMN_DESCRIPTION = "description";
@@ -85,6 +86,7 @@ public class CertificatesDAOImpl implements CertificateDAO {
         List<Object> paramList = new LinkedList<>();
         paramList.add(certificate.getName());
         paramList.add(certificate.getPrice());
+        paramList.add(certificate.getDescription());
         paramList.add(certificate.getId());
         commonCRUDOperations.executeUpdate(UPDATE_CERTIFICATE, paramList);
     }
