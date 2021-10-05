@@ -10,6 +10,11 @@ import com.epam.esm.service.impl.TagServiceImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+/**
+ * class SpringConfig
+ * used to build a configuration for
+ * spring context
+ */
 @Configuration
 public class SpringConfig {
     @Bean

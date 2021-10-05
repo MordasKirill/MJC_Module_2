@@ -7,15 +7,33 @@ import org.apache.log4j.Logger;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
+/**
+ * ServletContextListener
+ * set up a connection pool when contextInitialized
+ * dispose connection poll when contextDestroyed
+ */
 public class Listener implements ServletContextListener {
+    /**
+     *
+     */
     private static final Logger LOG = Logger.getLogger(Listener.class);
 
+    /**
+     * set up a connection pool when contextInitialized
+     *
+     * @param servletContextEvent servletContextEvent
+     */
     @Override
     public void contextInitialized(ServletContextEvent servletContextEvent) {
         LOG.log(Level.INFO, "ServletContextListener was created!");
         ConnectionPool.connectionPool = new ConnectionPool();
     }
 
+    /**
+     * dispose connection poll when contextDestroyed
+     *
+     * @param servletContextEvent servletContextEvent
+     */
     @Override
     public void contextDestroyed(ServletContextEvent servletContextEvent) {
         LOG.log(Level.INFO, "ServletContextListener was destroyed!");

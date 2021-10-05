@@ -17,6 +17,11 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
+/**
+ * CertificateTagController
+ * Spring rest controller
+ * receives requests with /certificateTag mapping
+ */
 @ComponentScan("com.epam.esm.config")
 @RestController
 @RequestMapping("/certificateTag")
@@ -29,6 +34,13 @@ public class CertificateTagController {
         this.certificateService = certificateService;
     }
 
+    /**
+     * getCertificatesByTag, RequestMethod.GET
+     * receives requests with /list/tag mapping
+     *
+     * @param request request from client
+     * @return ResponseEntity<List < Certificate>>
+     */
     @RequestMapping(value = "/list/tag", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<Certificate>> getCertificatesByTag(HttpServletRequest request) {
         int tagId = Integer.parseInt(request.getParameter("tagId"));
@@ -40,6 +52,13 @@ public class CertificateTagController {
         }
     }
 
+    /**
+     * getCertificatesByPartName, RequestMethod.GET
+     * receives requests with /list/name/part mapping
+     *
+     * @param request request from client
+     * @return ResponseEntity<List < Certificate>>
+     */
     @RequestMapping(value = "/list/name/part", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<Certificate>> getCertificatesByPartName(HttpServletRequest request) {
         String name = request.getParameter("name");
@@ -51,6 +70,12 @@ public class CertificateTagController {
         }
     }
 
+    /**
+     * getCertificatesByNameAsc, RequestMethod.GET
+     * receives requests with /list/name mapping
+     *
+     * @return ResponseEntity<List < Certificate>>
+     */
     @RequestMapping(value = "/list/name", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<Certificate>> getCertificatesByNameAsc() {
         try {

@@ -3,6 +3,12 @@ package com.epam.esm.entity;
 import java.io.Serializable;
 import java.util.Objects;
 
+/**
+ * Tag entity can be serialized
+ * Contains of:
+ * int id
+ * String name
+ */
 public class Tag implements Serializable {
     private int id;
     private String name;

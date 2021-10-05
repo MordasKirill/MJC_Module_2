@@ -7,6 +7,18 @@ import com.fasterxml.jackson.annotation.JsonSetter;
 import java.io.Serializable;
 import java.util.Objects;
 
+/**
+ * Certificate entity can be serialized
+ * Contains of:
+ * int id;
+ * String name;
+ * String description;
+ * double price;
+ * int duration;
+ * String createDate;
+ * String lastUpdateDate;
+ * String tagName;
+ */
 public class Certificate implements Serializable {
     private int id;
     private String name;

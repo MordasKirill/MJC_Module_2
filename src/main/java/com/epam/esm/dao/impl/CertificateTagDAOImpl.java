@@ -1,6 +1,5 @@
 package com.epam.esm.dao.impl;
 
-import com.epam.esm.dao.CRUDOperationsDAO;
 import com.epam.esm.dao.CertificateTagDAO;
 import com.epam.esm.dao.DAOException;
 import com.epam.esm.dao.connection.ConnectionPool;

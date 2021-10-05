@@ -18,6 +18,11 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * CertificateController
+ * Spring rest controller
+ * receives requests with /certificate mapping
+ */
 @ComponentScan("com.epam.esm.config")
 @RestController
 @RequestMapping("/certificate")
@@ -32,6 +37,13 @@ public class CertificateController {
         this.certificateService = certificateService;
     }
 
+    /**
+     * createCertificate RequestMethod.POST
+     * receives requests with /new mapping
+     *
+     * @param request request from client
+     * @return ResponseEntity<List < Certificate>>
+     */
     @RequestMapping(value = "/new", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<Certificate>> createCertificate(HttpServletRequest request) {
         String name = request.getParameter("name");
@@ -49,6 +61,12 @@ public class CertificateController {
         }
     }
 
+    /**
+     * getCertificates RequestMethod.GET
+     * receives requests with /list mapping
+     *
+     * @return ResponseEntity<List < Certificate>>
+     */
     @RequestMapping(value = "/list", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<Certificate>> getCertificates() throws IOException, ServletException {
         try {
@@ -59,6 +77,13 @@ public class CertificateController {
         }
     }
 
+    /**
+     * deleteCertificate , RequestMethod.DELETE
+     * receives requests with /id mapping
+     *
+     * @param request request from client
+     * @return ResponseEntity<List < Certificate>>
+     */
     @RequestMapping(value = "/id", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<Certificate>> deleteCertificate(HttpServletRequest request) {
         int id = Integer.parseInt(request.getParameter("id"));
@@ -71,6 +96,13 @@ public class CertificateController {
         }
     }
 
+    /**
+     * updateCertificate, RequestMethod.PUT
+     * receives requests with /put mapping
+     *
+     * @param request request from client
+     * @return ResponseEntity<List < Certificate>>
+     */
     @RequestMapping(value = "/put", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<Certificate>> updateCertificate(HttpServletRequest request) {
         String name = request.getParameter("name");

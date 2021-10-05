@@ -19,6 +19,11 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * TagController
+ * Spring rest controller
+ * receives requests with /tag mapping
+ */
 @ComponentScan("com.epam.esm.config")
 @RestController
 @RequestMapping("/tag")
@@ -31,6 +36,13 @@ public class TagController {
         this.tagService = tagService;
     }
 
+    /**
+     * createTag, RequestMethod.POST
+     * receives requests with /new mapping
+     *
+     * @param request request from client
+     * @return ResponseEntity<List < Tag>>
+     */
     @PostMapping("/new")
     public ResponseEntity<List<Tag>> createTag(HttpServletRequest request) throws IOException, ServletException {
         String name = request.getParameter("name");
@@ -43,6 +55,12 @@ public class TagController {
         }
     }
 
+    /**
+     * getTags, RequestMethod.GET
+     * receives requests with /list mapping
+     *
+     * @return ResponseEntity<List < Tag>>
+     */
     @RequestMapping(value = "/list", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<Tag>> getTags() throws IOException, ServletException {
         try {
@@ -53,6 +71,13 @@ public class TagController {
         }
     }
 
+    /**
+     * deleteTag, RequestMethod.DELETE
+     * receives requests with /id mapping
+     *
+     * @param request request from client
+     * @return ResponseEntity<List < Tag>>
+     */
     @RequestMapping(value = "/id", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<Tag>> deleteTag(HttpServletRequest request) throws IOException, ServletException {
         int id = Integer.parseInt(request.getParameter("id"));

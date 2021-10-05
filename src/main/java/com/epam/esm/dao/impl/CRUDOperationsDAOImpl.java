@@ -3,16 +3,13 @@ package com.epam.esm.dao.impl;
 import com.epam.esm.dao.CRUDOperationsDAO;
 import com.epam.esm.dao.DAOException;
 import com.epam.esm.dao.connection.ConnectionPool;
-import com.epam.esm.entity.Certificate;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Repository;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 @Repository
