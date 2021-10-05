@@ -7,6 +7,8 @@ import java.util.List;
 
 public interface CertificateTagDAO {
     List<Certificate> getCertificatesByTag(Tag tag) throws DAOException;
+
     List<Certificate> getCertificatesByNamePart(String name) throws DAOException;
-    List<Certificate> getCertificatesByName() throws DAOException;
+
+    List<Certificate> getCertificatesSortedByPrice() throws DAOException;
 }

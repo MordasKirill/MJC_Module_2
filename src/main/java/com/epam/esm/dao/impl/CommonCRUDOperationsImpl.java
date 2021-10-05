@@ -26,8 +26,9 @@ public class CommonCRUDOperationsImpl implements CommonCRUDOperations {
     private static final String COLUMN_CREATE_DATE = "create_date";
     private static final String COLUMN_LAST_UPDATE_DATE = "last_update_date";
     private static final Logger LOG = Logger.getLogger(CommonCRUDOperations.class);
+
     @Override
-    public void executeUpdate(String sqlUpdateStatement, List<Object> params) throws DAOException{
+    public void executeUpdate(String sqlUpdateStatement, List<Object> params) throws DAOException {
         Connection connection = ConnectionPool.connectionPool.retrieve();
         PreparedStatement statement = null;
         try {
@@ -47,18 +48,18 @@ public class CommonCRUDOperationsImpl implements CommonCRUDOperations {
         }
     }
 
-    public List<Certificate> getCertificates(Object object, String sql) throws DAOException{
+    public List<Certificate> getCertificates(Object object, String sql) throws DAOException {
         List<Certificate> certificates = new ArrayList<>();
         Connection connection = ConnectionPool.connectionPool.retrieve();
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
         try {
             preparedStatement = connection.prepareStatement(sql);
-            if (object != null){
+            if (object != null) {
                 preparedStatement.setObject(1, object);
             }
             resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()){
+            while (resultSet.next()) {
                 Certificate certificate = new Certificate();
                 certificate.setId(resultSet.getInt(COLUMN_ID));
                 certificate.setName(resultSet.getString(COLUMN_NAME));
@@ -69,7 +70,7 @@ public class CommonCRUDOperationsImpl implements CommonCRUDOperations {
                 certificate.setLastUpdateDate(resultSet.getString(COLUMN_LAST_UPDATE_DATE));
                 certificates.add(certificate);
             }
-        } catch (SQLException | RuntimeException exc){
+        } catch (SQLException | RuntimeException exc) {
             LOG.log(Level.ERROR, "FAIL DB: Fail to get all certificates.", exc);
             throw new DAOException(exc);
         }

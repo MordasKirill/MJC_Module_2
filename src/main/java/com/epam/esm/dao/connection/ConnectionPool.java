@@ -8,7 +8,7 @@ import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
 public final class ConnectionPool {
-    private static final Logger log = Logger.getLogger(ConnectionPool.class);
+    private static final Logger LOG = Logger.getLogger(ConnectionPool.class);
     public static ConnectionPool connectionPool;
     public static BlockingQueue<Connection> availableConnections;
     public static BlockingQueue<Connection> usedConnections;
@@ -38,7 +38,7 @@ public final class ConnectionPool {
                 newConn = availableConnections.take();
                 availableConnections.remove(newConn);
             } catch (InterruptedException e) {
-                log.log(Level.ERROR, "Error connecting to the data source.", e);
+                LOG.log(Level.ERROR, "Error connecting to the data source.", e);
                 throw new ConnectionPoolException("Error connecting to the data source.", e);
             }
         }
@@ -64,7 +64,7 @@ public final class ConnectionPool {
             st.close();
             con.close();
         } catch (SQLException e) {
-            log.log(Level.ERROR, "Connection or ResultSet or Statement isn't return to the pool.", e);
+            LOG.log(Level.ERROR, "Connection or ResultSet or Statement isn't return to the pool.", e);
             throw new ConnectionPoolException("Connection or ResultSet or Statement isn't return to the pool.", e);
         }
     }
@@ -74,7 +74,7 @@ public final class ConnectionPool {
             rs.close();
             st.close();
         } catch (SQLException e) {
-            log.log(Level.ERROR, "Statement or ResultSet isn't closed.", e);
+            LOG.log(Level.ERROR, "Statement or ResultSet isn't closed.", e);
             throw new ConnectionPoolException("Statement or ResultSet isn't closed.", e);
         }
     }
@@ -83,7 +83,7 @@ public final class ConnectionPool {
         try {
             st.close();
         } catch (SQLException e) {
-            log.log(Level.ERROR, "Statement isn't closed.", e);
+            LOG.log(Level.ERROR, "Statement isn't closed.", e);
             throw new ConnectionPoolException("Statement isn't closed.", e);
         }
     }
@@ -93,7 +93,7 @@ public final class ConnectionPool {
             closeConnectionsQueue(usedConnections);
             closeConnectionsQueue(availableConnections);
         } catch (SQLException e) {
-            log.log(Level.ERROR, "Error closing the connection.", e);
+            LOG.log(Level.ERROR, "Error closing the connection.", e);
             throw new ConnectionPoolException("Error closing the connection.", e);
         }
     }
@@ -121,7 +121,7 @@ public final class ConnectionPool {
                 availableConnections.add(pooledConnection);
             }
         } catch (Exception e) {
-            log.log(Level.ERROR, "Driver error.", e);
+            LOG.log(Level.ERROR, "Driver error.", e);
             throw new ConnectionPoolException("Driver error.", e);
         }
         return conn;

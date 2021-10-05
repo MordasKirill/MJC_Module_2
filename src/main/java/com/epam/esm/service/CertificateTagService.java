@@ -7,6 +7,8 @@ import java.util.List;
 
 public interface CertificateTagService {
     List<Certificate> getCertificatesByTag(Tag tag) throws ServiceException;
+
     List<Certificate> getCertificatesByNamePart(String name) throws ServiceException;
-    List<Certificate> getCertificatesByName() throws ServiceException;
+
+    List<Certificate> getCertificatesSortedByPrice() throws ServiceException;
 }

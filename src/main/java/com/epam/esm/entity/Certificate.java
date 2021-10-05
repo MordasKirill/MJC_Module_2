@@ -15,17 +15,17 @@ public class Certificate implements Serializable {
     private int duration;
     private String createDate;
     private String lastUpdateDate;
-    private String tag;
+    private String tagName;
 
-    public Certificate(){
+    public Certificate() {
 
     }
 
-    public Certificate(int id){
+    public Certificate(int id) {
         this.id = id;
     }
 
-    public Certificate (String name, double price, String description, int id){
+    public Certificate(String name, double price, String description, int id) {
         this.name = name;
         this.price = price;
         this.description = description;
@@ -33,8 +33,8 @@ public class Certificate implements Serializable {
     }
 
     @JsonCreator
-    public Certificate (String name, double price,
-                        int duration, String createDate, String lastUpdateDate, String description){
+    public Certificate(String name, double price,
+                       int duration, String createDate, String lastUpdateDate, String description) {
         this.name = name;
         this.price = price;
         this.duration = duration;
@@ -44,8 +44,8 @@ public class Certificate implements Serializable {
     }
 
     @JsonCreator
-    public Certificate (int id, String name, double price,
-                        int duration, String createDate, String lastUpdateDate, String description){
+    public Certificate(int id, String name, double price,
+                       int duration, String createDate, String lastUpdateDate, String description) {
         this.id = id;
         this.name = name;
         this.price = price;
@@ -54,6 +54,7 @@ public class Certificate implements Serializable {
         this.lastUpdateDate = lastUpdateDate;
         this.description = description;
     }
+
     @JsonGetter("id")
     public int getId() {
         return id;
@@ -63,10 +64,12 @@ public class Certificate implements Serializable {
     public void setId(int id) {
         this.id = id;
     }
+
     @JsonGetter("name")
     public String getName() {
         return name;
     }
+
     @JsonSetter("name")
     public void setName(String name) {
         this.name = name;
@@ -76,6 +79,7 @@ public class Certificate implements Serializable {
     public String getDescription() {
         return description;
     }
+
     @JsonSetter("description")
     public void setDescription(String description) {
         this.description = description;
@@ -85,6 +89,7 @@ public class Certificate implements Serializable {
     public double getPrice() {
         return price;
     }
+
     @JsonSetter("price")
     public void setPrice(double price) {
         this.price = price;
@@ -94,6 +99,7 @@ public class Certificate implements Serializable {
     public int getDuration() {
         return duration;
     }
+
     @JsonSetter("duration")
     public void setDuration(int duration) {
         this.duration = duration;
@@ -103,6 +109,7 @@ public class Certificate implements Serializable {
     public String getCreateDate() {
         return createDate;
     }
+
     @JsonSetter("createDate")
     public void setCreateDate(String createDate) {
         this.createDate = createDate;
@@ -118,12 +125,12 @@ public class Certificate implements Serializable {
         this.lastUpdateDate = lastUpdateDate;
     }
 
-    public String getTag() {
-        return tag;
+    public String getTagName() {
+        return tagName;
     }
 
-    public void setTag(String tag) {
-        this.tag = tag;
+    public void setTagName(String tagName) {
+        this.tagName = tagName;
     }
 
     @Override

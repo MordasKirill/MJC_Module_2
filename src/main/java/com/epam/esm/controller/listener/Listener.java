@@ -6,7 +6,6 @@ import org.apache.log4j.Logger;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
-import java.util.Locale;
 
 public class Listener implements ServletContextListener {
     private static final Logger LOG = Logger.getLogger(Listener.class);

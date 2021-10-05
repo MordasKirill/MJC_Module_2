@@ -11,7 +11,8 @@ import java.util.List;
 
 public class CertificateTagServiceImpl implements CertificateTagService {
     private CertificateTagDAOImpl certificateTagDAO;
-    public CertificateTagServiceImpl(CertificateTagDAOImpl certificateTagDAO){
+
+    public CertificateTagServiceImpl(CertificateTagDAOImpl certificateTagDAO) {
         this.certificateTagDAO = certificateTagDAO;
     }
 
@@ -34,9 +35,9 @@ public class CertificateTagServiceImpl implements CertificateTagService {
     }
 
     @Override
-    public List<Certificate> getCertificatesByName() throws ServiceException {
+    public List<Certificate> getCertificatesSortedByPrice() throws ServiceException {
         try {
-            return certificateTagDAO.getCertificatesByName();
+            return certificateTagDAO.getCertificatesSortedByPrice();
         } catch (DAOException e) {
             throw new ServiceException("Fail to get certificates  by name.", e);
         }

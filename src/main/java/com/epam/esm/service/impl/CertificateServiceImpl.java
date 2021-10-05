@@ -16,30 +16,45 @@ import java.util.TimeZone;
 @Service
 public class CertificateServiceImpl implements CertificateService {
     private CertificatesDAOImpl certificatesDAO;
-    public CertificateServiceImpl(CertificatesDAOImpl certificatesDAO){
+
+    public CertificateServiceImpl(CertificatesDAOImpl certificatesDAO) {
         this.certificatesDAO = certificatesDAO;
     }
 
     @Override
-    public void createCertificates(Certificate certificate) throws ServiceException{
+    public void createCertificates(Certificate certificate) throws ServiceException {
         try {
-            certificatesDAO.createCertificates(certificate);
+            if (certificate.getName() != null ||
+                    certificate.getDescription() != null ||
+                    certificate.getPrice() != 0 ||
+                    certificate.getDuration() != 0 ||
+                    certificate.getCreateDate() != null ||
+                    certificate.getLastUpdateDate() != null) {
+
+                certificatesDAO.createCertificates(certificate);
+            } else {
+                throw new ServiceException("CreateCertificate fail due to null value of params.");
+            }
         } catch (DAOException e) {
             throw new ServiceException("CreateCertificate fail", e);
         }
     }
 
     @Override
-    public void deleteCertificates(Certificate certificate) throws ServiceException{
+    public void deleteCertificates(Certificate certificate) throws ServiceException {
         try {
-            certificatesDAO.deleteCertificates(certificate);
+            if (certificate.getId() != 0) {
+                certificatesDAO.deleteCertificates(certificate);
+            } else {
+                throw new ServiceException("CreateCertificate fail due to null value of params.");
+            }
         } catch (DAOException e) {
             throw new ServiceException("DeleteCertificate fail", e);
         }
     }
 
     @Override
-    public void updateCertificates(Certificate certificate) throws ServiceException{
+    public void updateCertificates(Certificate certificate) throws ServiceException {
         try {
             certificatesDAO.updateCertificates(certificate);
         } catch (DAOException e) {
@@ -50,7 +65,7 @@ public class CertificateServiceImpl implements CertificateService {
     @Override
     public String getCurrentDate(String pattern) {
         TimeZone tz = TimeZone.getTimeZone("UTC");
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+        DateFormat df = new SimpleDateFormat(pattern);
         df.setTimeZone(tz);
         return df.format(new Date());
     }

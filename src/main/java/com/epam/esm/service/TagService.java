@@ -6,6 +6,8 @@ import java.util.List;
 
 public interface TagService {
     void createTag(Tag tag) throws ServiceException;
+
     void deleteTag(Tag tag) throws ServiceException;
+
     List<Tag> getTags() throws ServiceException;
 }

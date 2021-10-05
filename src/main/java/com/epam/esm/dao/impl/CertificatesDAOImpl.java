@@ -22,7 +22,6 @@ public class CertificatesDAOImpl implements CertificateDAO {
     private static final String CREATE_CERTIFICATE = "insert into certificate (name, description, price, duration, create_date, last_update_date) values (?,?,?,?,?,?)";
     private static final String UPDATE_CERTIFICATE = "update certificate set name = ?, price = ?, description = ? where id = ?";
     private static final String SELECT_FROM_CERTIFICATE = "select id, name, description, price, duration, create_date, last_update_date from certificate where id>0";
-    //private static final String SELECT_FROM_CERTIFICATE_TAG = "select Certificate.id, Certificate.name, Certificate.description, Certificate.price, Certificate.duration, Certificate.create_date, Certificate.last_update_date from certificate, tag where Tag.name=?";
     private static final String COLUMN_ID = "id";
     private static final String COLUMN_NAME = "name";
     private static final String COLUMN_DESCRIPTION = "description";
@@ -31,12 +30,14 @@ public class CertificatesDAOImpl implements CertificateDAO {
     private static final String COLUMN_CREATE_DATE = "create_date";
     private static final String COLUMN_LAST_UPDATE_DATE = "last_update_date";
     private static final Logger LOG = Logger.getLogger(CertificatesDAOImpl.class);
-    private CommonCRUDOperationsImpl commonCRUDOperations;
-    public CertificatesDAOImpl(CommonCRUDOperationsImpl commonCRUDOperations){
+    private CRUDOperationsDAOImpl commonCRUDOperations;
+
+    public CertificatesDAOImpl(CRUDOperationsDAOImpl commonCRUDOperations) {
         this.commonCRUDOperations = commonCRUDOperations;
     }
+
     @Override
-    public List<Certificate> getCertificates() throws DAOException{
+    public List<Certificate> getCertificates() throws DAOException {
         List<Certificate> certificates = new ArrayList<>();
         Connection connection = ConnectionPool.connectionPool.retrieve();
         PreparedStatement preparedStatement = null;
@@ -44,7 +45,7 @@ public class CertificatesDAOImpl implements CertificateDAO {
         try {
             preparedStatement = connection.prepareStatement(SELECT_FROM_CERTIFICATE);
             resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()){
+            while (resultSet.next()) {
                 Certificate certificate = new Certificate();
                 certificate.setId(resultSet.getInt(COLUMN_ID));
                 certificate.setName(resultSet.getString(COLUMN_NAME));
@@ -55,7 +56,7 @@ public class CertificatesDAOImpl implements CertificateDAO {
                 certificate.setLastUpdateDate(resultSet.getString(COLUMN_LAST_UPDATE_DATE));
                 certificates.add(certificate);
             }
-        } catch (SQLException | RuntimeException exc){
+        } catch (SQLException | RuntimeException exc) {
             LOG.log(Level.ERROR, "FAIL DB: Fail to get all tags.", exc);
             throw new DAOException(exc);
         }
@@ -63,7 +64,7 @@ public class CertificatesDAOImpl implements CertificateDAO {
     }
 
     @Override
-    public void createCertificates(Certificate certificate) throws DAOException{
+    public void createCertificates(Certificate certificate) throws DAOException {
         List<Object> paramList = new LinkedList<>();
         paramList.add(certificate.getName());
         paramList.add(certificate.getDescription());
@@ -82,7 +83,7 @@ public class CertificatesDAOImpl implements CertificateDAO {
     }
 
     @Override
-    public void updateCertificates(Certificate certificate) throws DAOException{
+    public void updateCertificates(Certificate certificate) throws DAOException {
         List<Object> paramList = new LinkedList<>();
         paramList.add(certificate.getName());
         paramList.add(certificate.getPrice());

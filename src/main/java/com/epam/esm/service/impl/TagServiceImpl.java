@@ -13,12 +13,12 @@ import java.util.List;
 public class TagServiceImpl implements TagService {
     private TagDAOImpl tagDAO;
 
-    public TagServiceImpl(TagDAOImpl tagDAO){
+    public TagServiceImpl(TagDAOImpl tagDAO) {
         this.tagDAO = tagDAO;
     }
 
     @Override
-    public void createTag(Tag tag) throws ServiceException{
+    public void createTag(Tag tag) throws ServiceException {
         try {
             tagDAO.createTag(tag);
         } catch (DAOException e) {
@@ -27,7 +27,7 @@ public class TagServiceImpl implements TagService {
     }
 
     @Override
-    public void deleteTag(Tag tag) throws ServiceException{
+    public void deleteTag(Tag tag) throws ServiceException {
         try {
             tagDAO.deleteTag(tag);
         } catch (DAOException e) {
@@ -36,7 +36,7 @@ public class TagServiceImpl implements TagService {
     }
 
     @Override
-    public List<Tag> getTags() throws ServiceException{
+    public List<Tag> getTags() throws ServiceException {
         try {
             return tagDAO.getTags();
         } catch (DAOException e) {
