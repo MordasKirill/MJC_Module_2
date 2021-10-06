@@ -30,10 +30,10 @@ public class CertificatesDAOImpl implements CertificateDAO {
     private static final String COLUMN_CREATE_DATE = "create_date";
     private static final String COLUMN_LAST_UPDATE_DATE = "last_update_date";
     private static final Logger LOG = Logger.getLogger(CertificatesDAOImpl.class);
-    private CRUDOperationsDAOImpl commonCRUDOperations;
+    private CRUDOperationsDAOImpl crudOperationsDAO;
 
     public CertificatesDAOImpl(CRUDOperationsDAOImpl commonCRUDOperations) {
-        this.commonCRUDOperations = commonCRUDOperations;
+        this.crudOperationsDAO = commonCRUDOperations;
     }
 
     @Override
@@ -72,14 +72,14 @@ public class CertificatesDAOImpl implements CertificateDAO {
         paramList.add(certificate.getDuration());
         paramList.add(certificate.getCreateDate());
         paramList.add(certificate.getLastUpdateDate());
-        commonCRUDOperations.executeUpdate(CREATE_CERTIFICATE, paramList);
+        crudOperationsDAO.executeUpdate(CREATE_CERTIFICATE, paramList);
     }
 
     @Override
     public void deleteCertificates(Certificate certificate) throws DAOException {
         List<Object> paramList = new LinkedList<>();
         paramList.add(certificate.getId());
-        commonCRUDOperations.executeUpdate(DELETE_FROM_CERTIFICATE, paramList);
+        crudOperationsDAO.executeUpdate(DELETE_FROM_CERTIFICATE, paramList);
     }
 
     @Override
@@ -89,6 +89,6 @@ public class CertificatesDAOImpl implements CertificateDAO {
         paramList.add(certificate.getPrice());
         paramList.add(certificate.getDescription());
         paramList.add(certificate.getId());
-        commonCRUDOperations.executeUpdate(UPDATE_CERTIFICATE, paramList);
+        crudOperationsDAO.executeUpdate(UPDATE_CERTIFICATE, paramList);
     }
 }

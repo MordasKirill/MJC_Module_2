@@ -13,9 +13,6 @@ import javax.servlet.ServletContextListener;
  * dispose connection poll when contextDestroyed
  */
 public class Listener implements ServletContextListener {
-    /**
-     *
-     */
     private static final Logger LOG = Logger.getLogger(Listener.class);
 
     /**

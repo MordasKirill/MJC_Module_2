@@ -7,7 +7,7 @@ import org.mockito.Mockito;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-class agServiceImplTest {
+class TagServiceImplTest {
     private static final Tag tag = new Tag(1, "testName");
 
     @Test

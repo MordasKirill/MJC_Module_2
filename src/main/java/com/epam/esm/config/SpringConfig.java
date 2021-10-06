@@ -9,13 +9,19 @@ import com.epam.esm.service.impl.CertificateTagServiceImpl;
 import com.epam.esm.service.impl.TagServiceImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
+
+import javax.sql.DataSource;
 
 /**
  * class SpringConfig
  * used to build a configuration for
  * spring context
  */
+
 @Configuration
+
 public class SpringConfig {
     @Bean
     public CRUDOperationsDAOImpl getCertificateCRUDOperations() {
@@ -51,6 +57,4 @@ public class SpringConfig {
     public CertificateTagServiceImpl getCertificateTagServiceImpl() {
         return new CertificateTagServiceImpl(getCertificateTagDAOImpl());
     }
-
-
 }

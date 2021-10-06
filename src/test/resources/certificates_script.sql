@@ -1,4 +1,4 @@
-create table gift_certificate
+create table certificate
 (
     id               INTEGER PRIMARY KEY AUTO_INCREMENT,
     name             varchar(45)  null,
@@ -22,7 +22,7 @@ create table gift_certificate_tag
     tag_id              int not null,
     primary key (gift_certificate_id, tag_id),
     constraint fk_gift_certificate_has_tag_gift_certificate
-        foreign key (gift_certificate_id) references gift_certificate (id),
+        foreign key (gift_certificate_id) references certificate (id),
     constraint fk_gift_certificate_has_tag_tag1
         foreign key (tag_id) references tag (id)
 );
@@ -33,7 +33,7 @@ create index fk_gift_certificate_has_tag_gift_certificate_idx
 create index fk_gift_certificate_has_tag_tag1_idx
     on gift_certificate_tag (tag_id);
 
-INSERT INTO gift_certificate
+INSERT INTO certificate
 (id,
  name,
  price,
