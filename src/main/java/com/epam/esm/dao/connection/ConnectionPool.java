@@ -19,13 +19,13 @@ public final class ConnectionPool {
     private int initConnCnt;
 
     public ConnectionPool() {
-        DBResourceManager dbResourceManager = DBResourceManager.getInstance();
-        this.driver = dbResourceManager.getValue(DBParameter.DB_DRIVER);
-        this.url = dbResourceManager.getValue(DBParameter.DB_URL);
-        this.userName = dbResourceManager.getValue(DBParameter.DB_USER);
-        this.password = dbResourceManager.getValue(DBParameter.DB_PASSWORD);
+
+        this.driver = DBResourceManager.dbResourceManager.properties.getProperty(DBParameter.DB_DRIVER);
+        this.url = DBResourceManager.dbResourceManager.properties.getProperty(DBParameter.DB_URL);
+        this.userName = DBResourceManager.dbResourceManager.properties.getProperty(DBParameter.DB_USER);
+        this.password = DBResourceManager.dbResourceManager.properties.getProperty(DBParameter.DB_PASSWORD);
         try {
-            this.initConnCnt = Integer.parseInt(dbResourceManager.getValue(DBParameter.DB_POLL_SIZE));
+            this.initConnCnt = Integer.parseInt(DBResourceManager.dbResourceManager.properties.getProperty(DBParameter.DB_POLL_SIZE));
         } catch (NumberFormatException e) {
             initConnCnt = 5;
         }

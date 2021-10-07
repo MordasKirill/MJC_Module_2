@@ -1,6 +1,7 @@
 package com.epam.esm.controller.listener;
 
 import com.epam.esm.dao.connection.ConnectionPool;
+import com.epam.esm.dao.connection.DBResourceManager;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 
@@ -23,6 +24,8 @@ public class Listener implements ServletContextListener {
     @Override
     public void contextInitialized(ServletContextEvent servletContextEvent) {
         LOG.log(Level.INFO, "ServletContextListener was created!");
+        DBResourceManager.dbResourceManager = new DBResourceManager();
+        DBResourceManager.dbResourceManager.loadProperties("src/main/resources/db.properties");
         ConnectionPool.connectionPool = new ConnectionPool();
     }
 

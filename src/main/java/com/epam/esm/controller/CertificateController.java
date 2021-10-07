@@ -25,7 +25,7 @@ import java.util.List;
  */
 @ComponentScan("com.epam.esm.config")
 @RestController
-@RequestMapping("/certificate")
+
 public class CertificateController {
 
     private static final Logger LOG = Logger.getLogger(CertificateController.class);
@@ -44,7 +44,7 @@ public class CertificateController {
      * @param request request from client
      * @return ResponseEntity<List < Certificate>>
      */
-    @RequestMapping(value = "/new", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/certificate/new", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<Certificate>> createCertificate(HttpServletRequest request) {
         String name = request.getParameter("name");
         double price = Double.parseDouble(request.getParameter("price"));
@@ -67,7 +67,7 @@ public class CertificateController {
      *
      * @return ResponseEntity<List < Certificate>>
      */
-    @RequestMapping(value = "/list", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/certificate/list", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<Certificate>> getCertificates() throws IOException, ServletException {
         try {
             return new ResponseEntity<>(certificateService.getCertificates(), HttpStatus.OK);
@@ -84,7 +84,7 @@ public class CertificateController {
      * @param request request from client
      * @return ResponseEntity<List < Certificate>>
      */
-    @RequestMapping(value = "/id", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/certificate/id", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<Certificate>> deleteCertificate(HttpServletRequest request) {
         int id = Integer.parseInt(request.getParameter("id"));
         try {
@@ -103,7 +103,7 @@ public class CertificateController {
      * @param request request from client
      * @return ResponseEntity<List < Certificate>>
      */
-    @RequestMapping(value = "/put", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/certificate/put", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<Certificate>> updateCertificate(HttpServletRequest request) {
         String name = request.getParameter("name");
         double price = Double.parseDouble(request.getParameter("price"));

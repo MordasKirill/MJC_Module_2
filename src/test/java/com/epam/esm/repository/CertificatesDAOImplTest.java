@@ -2,6 +2,7 @@ package com.epam.esm.repository;
 
 import com.epam.esm.dao.DAOException;
 import com.epam.esm.dao.connection.ConnectionPool;
+import com.epam.esm.dao.connection.DBResourceManager;
 import com.epam.esm.dao.impl.CRUDOperationsDAOImpl;
 import com.epam.esm.dao.impl.CertificatesDAOImpl;
 import com.epam.esm.entity.Certificate;
@@ -48,9 +49,12 @@ class CertificatesDAOImplTest {
 
     @BeforeAll
     static void setConnectionPool() throws Exception {
+        DBResourceManager.dbResourceManager = new DBResourceManager();
+        DBResourceManager.dbResourceManager.loadProperties("src/test/resources/test.properties");
         ConnectionPool.connectionPool = new ConnectionPool();
         Class.forName(JDBC_DRIVER);
         connection = DriverManager.getConnection(DB_URL, USER, PASS);
+
 
         RunScript.execute(connection, new FileReader(new File("src/test/resources/certificates_script.sql").getAbsolutePath()));
     }
