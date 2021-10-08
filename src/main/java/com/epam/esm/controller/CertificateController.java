@@ -3,9 +3,11 @@ package com.epam.esm.controller;
 import com.epam.esm.entity.Certificate;
 import com.epam.esm.service.ServiceException;
 import com.epam.esm.service.impl.CertificateServiceImpl;
+import com.sun.deploy.net.HttpResponse;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -13,8 +15,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
@@ -37,6 +41,11 @@ public class CertificateController {
         this.certificateService = certificateService;
     }
 
+    @RequestMapping(value = "/", method = RequestMethod.GET)
+    public void defaultController(HttpServletResponse response, HttpServletRequest request) throws ServletException, IOException {
+        RequestDispatcher requestDispatcher = request.getRequestDispatcher("/index.jsp");
+        requestDispatcher.forward(request, response);
+    }
     /**
      * createCertificate RequestMethod.POST
      * receives requests with /new mapping
@@ -114,7 +123,7 @@ public class CertificateController {
             return new ResponseEntity<>(certificateService.getCertificates(), HttpStatus.OK);
         } catch (ServiceException e) {
             LOG.log(Level.ERROR, "FAIL DB: Fail to get all certificates.", e);
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.internalServerError().build();
         }
     }
 }

@@ -5,17 +5,15 @@ import com.epam.esm.dao.impl.TagDAOImpl;
 import com.epam.esm.entity.Tag;
 import com.epam.esm.service.ServiceException;
 import com.epam.esm.service.TagService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 public class TagServiceImpl implements TagService {
+    @Autowired
     private TagDAOImpl tagDAO;
-
-    public TagServiceImpl(TagDAOImpl tagDAO) {
-        this.tagDAO = tagDAO;
-    }
 
     @Override
     public void createTag(Tag tag) throws ServiceException {

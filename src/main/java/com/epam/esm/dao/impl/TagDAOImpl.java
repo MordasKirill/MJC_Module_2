@@ -6,6 +6,7 @@ import com.epam.esm.dao.connection.ConnectionPool;
 import com.epam.esm.entity.Tag;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.sql.Connection;
@@ -24,11 +25,8 @@ public class TagDAOImpl implements TagDAO {
     private static final String COLUMN_ID = "id";
     private static final String COLUMN_NAME = "name";
     private static final Logger LOG = Logger.getLogger(TagDAOImpl.class);
+    @Autowired
     private CRUDOperationsDAOImpl commonCRUDOperations;
-
-    public TagDAOImpl(CRUDOperationsDAOImpl commonCRUDOperations) {
-        this.commonCRUDOperations = commonCRUDOperations;
-    }
 
     @Override
     public List<Tag> getTags() throws DAOException {

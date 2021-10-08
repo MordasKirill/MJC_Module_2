@@ -30,22 +30,22 @@ public class SpringConfig {
 
     @Bean
     public TagDAOImpl getTagDAOImpl() {
-        return new TagDAOImpl(getCertificateCRUDOperations());
+        return new TagDAOImpl();
     }
 
     @Bean
     public TagServiceImpl getTagServiceImpl() {
-        return new TagServiceImpl(getTagDAOImpl());
+        return new TagServiceImpl();
     }
 
     @Bean
     public CertificatesDAOImpl getCertificatesDAOImpl() {
-        return new CertificatesDAOImpl(getCertificateCRUDOperations());
+        return new CertificatesDAOImpl();
     }
 
     @Bean
     public CertificateServiceImpl getCertificateServiceImpl() {
-        return new CertificateServiceImpl(getCertificatesDAOImpl());
+        return new CertificateServiceImpl();
     }
 
     @Bean
@@ -55,6 +55,6 @@ public class SpringConfig {
 
     @Bean
     public CertificateTagServiceImpl getCertificateTagServiceImpl() {
-        return new CertificateTagServiceImpl(getCertificateTagDAOImpl());
+        return new CertificateTagServiceImpl();
     }
 }

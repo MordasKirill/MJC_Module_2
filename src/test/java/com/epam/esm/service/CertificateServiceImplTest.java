@@ -21,10 +21,8 @@ class CertificateServiceImplTest {
     private static final String patternHhMm = "yyyy-MM-dd'T'HH:mm'Z'";
     private static final Certificate certificate = new Certificate("test", 0.0, 0, "0.0", "0", "stuff");
 
-    @Mock
-    CertificatesDAOImpl certificatesDAO;
     @InjectMocks
-    CertificateServiceImpl service = new CertificateServiceImpl(certificatesDAO);
+    CertificateServiceImpl service = new CertificateServiceImpl();
 
     @BeforeAll
     static void setUp() {

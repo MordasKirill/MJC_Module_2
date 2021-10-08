@@ -33,7 +33,7 @@ class CRUDOperationsDAOImplTest {
     @Mock
     private CRUDOperationsDAOImpl crudOperationsDAO = new CRUDOperationsDAOImpl();
     @InjectMocks
-    CertificatesDAOImpl certificatesDAO = new CertificatesDAOImpl(crudOperationsDAO);
+    CertificatesDAOImpl certificatesDAO = new CertificatesDAOImpl();
 
     @BeforeAll
     static void setConnectionPool() throws Exception {

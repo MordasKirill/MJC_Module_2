@@ -6,6 +6,7 @@ import com.epam.esm.dao.connection.ConnectionPool;
 import com.epam.esm.entity.Certificate;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.sql.Connection;
@@ -22,6 +23,7 @@ public class CertificatesDAOImpl implements CertificateDAO {
     private static final String CREATE_CERTIFICATE = "insert into certificate (name, description, price, duration, create_date, last_update_date) values (?,?,?,?,?,?)";
     private static final String UPDATE_CERTIFICATE = "update certificate set name = ?, price = ?, description = ? where id = ?";
     private static final String SELECT_FROM_CERTIFICATE = "select id, name, description, price, duration, create_date, last_update_date from certificate where id>0";
+    private static final String SELECT = "select certificate.*, group_concat(tag.name) from certificate join certificate_has_tag on certificate_has_tag.cerf_id = certificate.id join tag on tag.id = certificate_has_tag.tag_id group by certificate.id";
     private static final String COLUMN_ID = "id";
     private static final String COLUMN_NAME = "name";
     private static final String COLUMN_DESCRIPTION = "description";
@@ -30,11 +32,9 @@ public class CertificatesDAOImpl implements CertificateDAO {
     private static final String COLUMN_CREATE_DATE = "create_date";
     private static final String COLUMN_LAST_UPDATE_DATE = "last_update_date";
     private static final Logger LOG = Logger.getLogger(CertificatesDAOImpl.class);
-    private CRUDOperationsDAOImpl crudOperationsDAO;
 
-    public CertificatesDAOImpl(CRUDOperationsDAOImpl commonCRUDOperations) {
-        this.crudOperationsDAO = commonCRUDOperations;
-    }
+    @Autowired
+    private CRUDOperationsDAOImpl crudOperationsDAO = new CRUDOperationsDAOImpl();
 
     @Override
     public List<Certificate> getCertificates() throws DAOException {
@@ -43,7 +43,7 @@ public class CertificatesDAOImpl implements CertificateDAO {
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
         try {
-            preparedStatement = connection.prepareStatement(SELECT_FROM_CERTIFICATE);
+            preparedStatement = connection.prepareStatement(SELECT);
             resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 Certificate certificate = new Certificate();
@@ -54,10 +54,11 @@ public class CertificatesDAOImpl implements CertificateDAO {
                 certificate.setDuration(resultSet.getInt(COLUMN_DURATION));
                 certificate.setCreateDate(resultSet.getString(COLUMN_CREATE_DATE));
                 certificate.setLastUpdateDate(resultSet.getString(COLUMN_LAST_UPDATE_DATE));
+                certificate.setTagName(resultSet.getString(8));
                 certificates.add(certificate);
             }
         } catch (SQLException | RuntimeException exc) {
-            LOG.log(Level.ERROR, "FAIL DB: Fail to get all tags.", exc);
+            LOG.log(Level.ERROR, "FAIL DB: Fail to get all certificates.", exc);
             throw new DAOException(exc);
         }
         return certificates;

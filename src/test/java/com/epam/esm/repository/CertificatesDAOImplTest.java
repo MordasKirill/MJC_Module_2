@@ -27,6 +27,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class CertificatesDAOImplTest {
     private static final String SELECT_FROM_GIFT_CERTIFICATE = "select * from certificate";
+    private static final String INSERT_INTO = "insert into certificate_has_tag (cerf_id, tag_id) values (6,2)";
     private static final String JDBC_DRIVER = "org.h2.Driver";
     private static final String DB_URL = "jdbc:h2:~/test";
     private static final String USER = "sa";
@@ -41,10 +42,8 @@ class CertificatesDAOImplTest {
     private static Connection connection = null;
     private static PreparedStatement preparedStatement = null;
 
-    @Mock
-    private CRUDOperationsDAOImpl crudOperationsDAO = new CRUDOperationsDAOImpl();
     @InjectMocks
-    CertificatesDAOImpl certificatesDAO = new CertificatesDAOImpl(crudOperationsDAO);
+    CertificatesDAOImpl certificatesDAO = new CertificatesDAOImpl();
 
 
     @BeforeAll
@@ -54,8 +53,6 @@ class CertificatesDAOImplTest {
         ConnectionPool.connectionPool = new ConnectionPool();
         Class.forName(JDBC_DRIVER);
         connection = DriverManager.getConnection(DB_URL, USER, PASS);
-
-
         RunScript.execute(connection, new FileReader(new File("src/test/resources/certificates_script.sql").getAbsolutePath()));
     }
 
@@ -67,6 +64,8 @@ class CertificatesDAOImplTest {
     @Test
     void createCertificates() throws Exception {
         certificatesDAO.createCertificates(new Certificate("It's a test", 11.20, 6, "2021-10-04", "2021-10-06", "It's a description"));
+        preparedStatement = connection.prepareStatement(INSERT_INTO);
+        preparedStatement.executeUpdate();
         assertEquals(6, certificatesDAO.getCertificates().size());
     }
 

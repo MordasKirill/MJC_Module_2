@@ -17,8 +17,8 @@ import java.util.List;
 
 public class CertificateTagDAOImpl implements CertificateTagDAO {
     private static final String SELECT_FROM_CERTIFICATE_TAG = "select * from certificate_has_tag left join certificate on (certificate.id = cerf_id) where certificate_has_tag.tag_id = ?";
-    private static final String SELECT_FROM_CERTIFICATE_LIKE = "select * from certificate where name like ?";
-    private static final String SELECT_FROM_CERTIFICATE_WHERE_ASC = "select * from certificate order by price asc, name desc";
+    private static final String SELECT_FROM_CERTIFICATE_LIKE = "select certificate.*, group_concat(tag.name) from certificate join certificate_has_tag on certificate_has_tag.cerf_id = certificate.id join tag on tag.id = certificate_has_tag.tag_id where certificate.name like ?";
+    private static final String SELECT_FROM_CERTIFICATE_WHERE_ASC = "select certificate.*, group_concat(tag.name) from certificate join certificate_has_tag on certificate_has_tag.cerf_id = certificate.id join tag on tag.id = certificate_has_tag.tag_id group by certificate.id order by certificate.price";
     private static final String COLUMN_ID = "id";
     private static final String COLUMN_NAME = "name";
     private static final String COLUMN_DESCRIPTION = "description";
@@ -73,6 +73,9 @@ public class CertificateTagDAOImpl implements CertificateTagDAO {
                 certificate.setDuration(resultSet.getInt(COLUMN_DURATION));
                 certificate.setCreateDate(resultSet.getString(COLUMN_CREATE_DATE));
                 certificate.setLastUpdateDate(resultSet.getString(COLUMN_LAST_UPDATE_DATE));
+                if (resultSet.getString(8) != null) {
+                    certificate.setTagName(resultSet.getString(8));
+                }
                 certificates.add(certificate);
             }
         } catch (SQLException | RuntimeException exc) {
