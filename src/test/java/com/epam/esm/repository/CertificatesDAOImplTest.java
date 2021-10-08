@@ -3,7 +3,6 @@ package com.epam.esm.repository;
 import com.epam.esm.dao.DAOException;
 import com.epam.esm.dao.connection.ConnectionPool;
 import com.epam.esm.dao.connection.DBResourceManager;
-import com.epam.esm.dao.impl.CRUDOperationsDAOImpl;
 import com.epam.esm.dao.impl.CertificatesDAOImpl;
 import com.epam.esm.entity.Certificate;
 import org.h2.tools.RunScript;
@@ -11,7 +10,6 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
-import org.mockito.Mock;
 
 import java.io.File;
 import java.io.FileReader;
@@ -44,7 +42,6 @@ class CertificatesDAOImplTest {
 
     @InjectMocks
     CertificatesDAOImpl certificatesDAO = new CertificatesDAOImpl();
-
 
     @BeforeAll
     static void setConnectionPool() throws Exception {

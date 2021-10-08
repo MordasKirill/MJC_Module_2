@@ -3,11 +3,9 @@ package com.epam.esm.controller;
 import com.epam.esm.entity.Certificate;
 import com.epam.esm.service.ServiceException;
 import com.epam.esm.service.impl.CertificateServiceImpl;
-import com.sun.deploy.net.HttpResponse;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -41,11 +39,6 @@ public class CertificateController {
         this.certificateService = certificateService;
     }
 
-    @RequestMapping(value = "/", method = RequestMethod.GET)
-    public void defaultController(HttpServletResponse response, HttpServletRequest request) throws ServletException, IOException {
-        RequestDispatcher requestDispatcher = request.getRequestDispatcher("/index.jsp");
-        requestDispatcher.forward(request, response);
-    }
     /**
      * createCertificate RequestMethod.POST
      * receives requests with /new mapping

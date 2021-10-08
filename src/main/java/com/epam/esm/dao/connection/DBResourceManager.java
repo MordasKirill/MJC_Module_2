@@ -11,12 +11,18 @@ import java.util.ResourceBundle;
 
 public class DBResourceManager {
 
+    private static final Logger LOGGER = Logger.getLogger(DBResourceManager.class);
+    private final static DBResourceManager instance = new DBResourceManager();
     public static DBResourceManager dbResourceManager;
+    private final ResourceBundle bundle = ResourceBundle.getBundle("test");
     public FileInputStream fileInputStream;
     public Properties properties = new Properties();
-    private static final Logger LOGGER = Logger.getLogger(DBResourceManager.class);
 
-    public void loadProperties(String path){
+    public static DBResourceManager getInstance() {
+        return instance;
+    }
+
+    public void loadProperties(String path) {
         try {
             fileInputStream = new FileInputStream(new File(path).getAbsolutePath());
             properties.load(fileInputStream);
@@ -24,15 +30,6 @@ public class DBResourceManager {
             LOGGER.log(Level.ERROR, "Could not load property file!");
         }
     }
-
-    private final static DBResourceManager instance = new DBResourceManager();
-
-    private final ResourceBundle bundle = ResourceBundle.getBundle("test");
-
-    public static DBResourceManager getInstance() {
-        return instance;
-    }
-
 
     public String getValue(String key) {
         return bundle.getString(key);
