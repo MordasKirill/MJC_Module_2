@@ -28,7 +28,6 @@ public class Listener implements ServletContextListener {
         DBResourceManager.dbResourceManager.loadProperties("src/main/resources/db.properties");
         ConnectionPool.connectionPool = new ConnectionPool();
     }
-
     /**
      * dispose connection poll when contextDestroyed
      *

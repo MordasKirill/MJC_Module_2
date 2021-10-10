@@ -6,13 +6,15 @@ import com.epam.esm.entity.Certificate;
 import com.epam.esm.entity.Tag;
 import com.epam.esm.service.CertificateTagService;
 import com.epam.esm.service.ServiceException;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
 public class CertificateTagServiceImpl implements CertificateTagService {
-    @Autowired
     private CertificateTagDAOImpl certificateTagDAO;
+
+    public CertificateTagServiceImpl(CertificateTagDAOImpl certificateTagDAO) {
+        this.certificateTagDAO = certificateTagDAO;
+    }
 
     @Override
     public List<Certificate> getCertificatesByTag(Tag tag) throws ServiceException {

@@ -5,7 +5,6 @@ import com.epam.esm.dao.impl.CertificatesDAOImpl;
 import com.epam.esm.entity.Certificate;
 import com.epam.esm.service.CertificateService;
 import com.epam.esm.service.ServiceException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.text.DateFormat;
@@ -16,8 +15,11 @@ import java.util.TimeZone;
 
 @Service
 public class CertificateServiceImpl implements CertificateService {
-    @Autowired
     private CertificatesDAOImpl certificatesDAO;
+
+    public CertificateServiceImpl(CertificatesDAOImpl certificatesDAO) {
+        this.certificatesDAO = certificatesDAO;
+    }
 
     @Override
     public void createCertificates(Certificate certificate) throws ServiceException {

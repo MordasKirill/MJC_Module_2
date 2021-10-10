@@ -29,10 +29,11 @@ class CRUDOperationsDAOImplTest {
     private static final String USER = "sa";
     private static final String PASS = "";
     private static Connection connection = null;
-    @InjectMocks
-    CertificatesDAOImpl certificatesDAO = new CertificatesDAOImpl();
     @Mock
     private CRUDOperationsDAOImpl crudOperationsDAO = new CRUDOperationsDAOImpl();
+    @InjectMocks
+    CertificatesDAOImpl certificatesDAO = new CertificatesDAOImpl(crudOperationsDAO);
+
 
     @BeforeAll
     static void setConnectionPool() throws Exception {

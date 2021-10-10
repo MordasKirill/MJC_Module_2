@@ -1,10 +1,12 @@
 package com.epam.esm.service;
 
+import com.epam.esm.dao.impl.CertificatesDAOImpl;
 import com.epam.esm.entity.Certificate;
 import com.epam.esm.service.impl.CertificateServiceImpl;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 
 import java.text.DateFormat;
@@ -19,8 +21,11 @@ class CertificateServiceImplTest {
     private static final String patternHhMm = "yyyy-MM-dd'T'HH:mm'Z'";
     private static final Certificate certificate = new Certificate("test", 0.0, 0, "0.0", "0", "stuff");
 
+    @Mock
+    CertificatesDAOImpl certificatesDAO;
     @InjectMocks
-    CertificateServiceImpl service = new CertificateServiceImpl();
+    CertificateServiceImpl service = new CertificateServiceImpl(certificatesDAO);
+
 
     @BeforeAll
     static void setUp() {
@@ -72,6 +77,7 @@ class CertificateServiceImplTest {
     void getCurrentDate() {
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm'Z'");
         dateFormat.setTimeZone(TimeZone.getTimeZone("UTF+3"));
+        System.out.println(new Date());
         boolean actual = dateFormat.format(new Date()).equals(service.getCurrentDate(patternHhMm));
         assertTrue(actual);
     }

@@ -6,7 +6,6 @@ import com.epam.esm.dao.connection.ConnectionPool;
 import com.epam.esm.entity.Certificate;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.sql.Connection;
@@ -33,8 +32,11 @@ public class CertificatesDAOImpl implements CertificateDAO {
     private static final String COLUMN_LAST_UPDATE_DATE = "last_update_date";
     private static final Logger LOG = Logger.getLogger(CertificatesDAOImpl.class);
 
-    @Autowired
-    private CRUDOperationsDAOImpl crudOperationsDAO = new CRUDOperationsDAOImpl();
+    private CRUDOperationsDAOImpl crudOperationsDAO;
+
+    public CertificatesDAOImpl(CRUDOperationsDAOImpl commonCRUDOperations) {
+        this.crudOperationsDAO = commonCRUDOperations;
+    }
 
     @Override
     public List<Certificate> getCertificates() throws DAOException {
