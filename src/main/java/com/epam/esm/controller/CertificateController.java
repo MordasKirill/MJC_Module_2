@@ -25,7 +25,6 @@ import java.util.List;
  */
 @ComponentScan("com.epam.esm.config")
 @RestController
-
 public class CertificateController {
 
     private static final Logger LOG = Logger.getLogger(CertificateController.class);
@@ -45,7 +44,7 @@ public class CertificateController {
      * @return ResponseEntity<List < Certificate>>
      */
     @RequestMapping(value = "/certificate/new", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<Certificate>> createCertificate(HttpServletRequest request) {
+    public ResponseEntity<?> createCertificate(HttpServletRequest request) {
         String name = request.getParameter("name");
         double price = Double.parseDouble(request.getParameter("price"));
         int duration = Integer.parseInt(request.getParameter("duration"));
@@ -57,7 +56,7 @@ public class CertificateController {
             return new ResponseEntity<>(certificateService.getCertificates(), HttpStatus.OK);
         } catch (ServiceException e) {
             LOG.log(Level.ERROR, "FAIL DB: Fail to create certificate.", e);
-            return ResponseEntity.notFound().build();
+            return new ResponseEntity<>("Fail to create certificate createCertificate", HttpStatus.CONFLICT);
         }
     }
 
@@ -68,12 +67,12 @@ public class CertificateController {
      * @return ResponseEntity<List < Certificate>>
      */
     @RequestMapping(value = "/certificate/list", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<Certificate>> getCertificates() throws IOException, ServletException {
+    public ResponseEntity<?> getCertificates() throws IOException, ServletException {
         try {
             return new ResponseEntity<>(certificateService.getCertificates(), HttpStatus.OK);
         } catch (ServiceException e) {
             LOG.log(Level.ERROR, "FAIL DB: Fail to get all certificates.", e);
-            return ResponseEntity.notFound().build();
+            return new ResponseEntity<>("Fail to get certificates getCertificates", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -85,14 +84,14 @@ public class CertificateController {
      * @return ResponseEntity<List < Certificate>>
      */
     @RequestMapping(value = "/certificate/id", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<Certificate>> deleteCertificate(HttpServletRequest request) {
+    public ResponseEntity<?> deleteCertificate(HttpServletRequest request) {
         int id = Integer.parseInt(request.getParameter("id"));
         try {
             certificateService.deleteCertificates(new Certificate(id));
             return new ResponseEntity<>(certificateService.getCertificates(), HttpStatus.OK);
         } catch (ServiceException e) {
             LOG.log(Level.ERROR, "FAIL DB: Fail to get all certificates.", e);
-            return ResponseEntity.notFound().build();
+            return new ResponseEntity<>("Fail to delete certificate field deleteCertificate", HttpStatus.NOT_FOUND);
         }
     }
 
@@ -104,7 +103,7 @@ public class CertificateController {
      * @return ResponseEntity<List < Certificate>>
      */
     @RequestMapping(value = "/certificate/put", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<Certificate>> updateCertificate(HttpServletRequest request) {
+    public ResponseEntity<?> updateCertificate(HttpServletRequest request) {
         String name = request.getParameter("name");
         double price = Double.parseDouble(request.getParameter("price"));
         String description = request.getParameter("description");
@@ -114,7 +113,7 @@ public class CertificateController {
             return new ResponseEntity<>(certificateService.getCertificates(), HttpStatus.OK);
         } catch (ServiceException e) {
             LOG.log(Level.ERROR, "FAIL DB: Fail to get all certificates.", e);
-            return ResponseEntity.internalServerError().build();
+            return new ResponseEntity<>("Fail to update certificate field updateCertificate", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }

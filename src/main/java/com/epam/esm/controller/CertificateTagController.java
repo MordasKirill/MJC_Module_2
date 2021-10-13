@@ -42,14 +42,13 @@ public class CertificateTagController {
      * @return ResponseEntity<List < Certificate>>
      */
     @RequestMapping(value = "/list/tag", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<Certificate>> getCertificatesByTag(HttpServletRequest request) {
+    public ResponseEntity<?> getCertificatesByTag(HttpServletRequest request) {
         int tagId = Integer.parseInt(request.getParameter("tagId"));
         try {
             return new ResponseEntity<>(certificateService.getCertificatesByTag(new Tag(tagId)), HttpStatus.OK);
         } catch (ServiceException e) {
             LOG.log(Level.ERROR, "FAIL DB: Fail to get all certificates.", e);
-            return ResponseEntity.notFound().build();
-        }
+            return new ResponseEntity<>("Fail to get certificates by tag getCertificatesByTag", HttpStatus.NOT_FOUND);        }
     }
 
     /**
@@ -60,13 +59,13 @@ public class CertificateTagController {
      * @return ResponseEntity<List < Certificate>>
      */
     @RequestMapping(value = "/list/name/part", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<Certificate>> getCertificatesByPartName(HttpServletRequest request) {
+    public ResponseEntity<?> getCertificatesByPartName(HttpServletRequest request) {
         String name = request.getParameter("name");
         try {
             return new ResponseEntity<>(certificateService.getCertificatesByNamePart(name), HttpStatus.OK);
         } catch (ServiceException e) {
             LOG.log(Level.ERROR, "FAIL DB: Fail to get all certificates.", e);
-            return ResponseEntity.notFound().build();
+            return new ResponseEntity<>("Fail to get certificates by name part getCertificatesByPartName", HttpStatus.NOT_FOUND);
         }
     }
 
@@ -77,12 +76,12 @@ public class CertificateTagController {
      * @return ResponseEntity<List < Certificate>>
      */
     @RequestMapping(value = "/list/name", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<Certificate>> getCertificatesByNameAsc() {
+    public ResponseEntity<?> getCertificatesByNameAsc() {
         try {
             return new ResponseEntity<>(certificateService.getCertificatesSortedByPrice(), HttpStatus.OK);
         } catch (ServiceException e) {
             LOG.log(Level.ERROR, "FAIL DB: Fail to get all certificates.", e);
-            return ResponseEntity.notFound().build();
+            return new ResponseEntity<>("Fail to get certificates by name asc getCertificatesByNameAsc", HttpStatus.NOT_FOUND);
         }
     }
 }

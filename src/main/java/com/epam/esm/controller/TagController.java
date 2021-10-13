@@ -44,14 +44,14 @@ public class TagController {
      * @return ResponseEntity<List < Tag>>
      */
     @PostMapping("/new")
-    public ResponseEntity<List<Tag>> createTag(HttpServletRequest request) throws IOException, ServletException {
+    public ResponseEntity<?> createTag(HttpServletRequest request) throws IOException, ServletException {
         String name = request.getParameter("name");
         try {
             tagService.createTag(new Tag(name));
             return new ResponseEntity<>(tagService.getTags(), HttpStatus.OK);
         } catch (ServiceException e) {
             LOG.log(Level.ERROR, "FAIL DB: Fail to create tag.", e);
-            return ResponseEntity.notFound().build();
+            return new ResponseEntity<>("Fail to createTag", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -62,12 +62,12 @@ public class TagController {
      * @return ResponseEntity<List < Tag>>
      */
     @RequestMapping(value = "/list", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<Tag>> getTags() throws IOException, ServletException {
+    public ResponseEntity<?> getTags() throws IOException, ServletException {
         try {
             return new ResponseEntity<>(tagService.getTags(), HttpStatus.OK);
         } catch (ServiceException e) {
             LOG.log(Level.ERROR, "FAIL DB: Fail to get all tags.", e);
-            return ResponseEntity.notFound().build();
+            return new ResponseEntity<>("Fail to getTags", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -79,14 +79,14 @@ public class TagController {
      * @return ResponseEntity<List < Tag>>
      */
     @RequestMapping(value = "/id", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<Tag>> deleteTag(HttpServletRequest request) throws IOException, ServletException {
+    public ResponseEntity<?> deleteTag(HttpServletRequest request) throws IOException, ServletException {
         int id = Integer.parseInt(request.getParameter("id"));
         try {
             tagService.deleteTag(new Tag(id));
             return new ResponseEntity<>(tagService.getTags(), HttpStatus.OK);
         } catch (ServiceException e) {
             LOG.log(Level.ERROR, "FAIL DB: Fail to delete tag.", e);
-            return ResponseEntity.notFound().build();
+            return new ResponseEntity<>("Fail to deleteTag", HttpStatus.NOT_FOUND);
         }
     }
 }

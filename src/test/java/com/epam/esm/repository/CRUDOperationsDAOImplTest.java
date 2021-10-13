@@ -11,6 +11,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.springframework.test.context.ActiveProfiles;
 
 import java.io.File;
 import java.io.FileReader;
@@ -21,6 +22,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+@ActiveProfiles("test")
 class CRUDOperationsDAOImplTest {
 
     private static final String DELETE_FROM_CERTIFICATE = "delete from certificate where id=?";
@@ -29,11 +31,11 @@ class CRUDOperationsDAOImplTest {
     private static final String USER = "sa";
     private static final String PASS = "";
     private static Connection connection = null;
+
     @Mock
     private CRUDOperationsDAOImpl crudOperationsDAO = new CRUDOperationsDAOImpl();
     @InjectMocks
     CertificatesDAOImpl certificatesDAO = new CertificatesDAOImpl(crudOperationsDAO);
-
 
     @BeforeAll
     static void setConnectionPool() throws Exception {
@@ -42,7 +44,6 @@ class CRUDOperationsDAOImplTest {
         ConnectionPool.connectionPool = new ConnectionPool();
         Class.forName(JDBC_DRIVER);
         connection = DriverManager.getConnection(DB_URL, USER, PASS);
-
         RunScript.execute(connection, new FileReader(new File("src/test/resources/certificates_script.sql").getAbsolutePath()));
     }
 
