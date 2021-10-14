@@ -15,6 +15,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 
 @Repository
 public class CertificatesDAOImpl implements CertificateDAO {
@@ -32,7 +33,7 @@ public class CertificatesDAOImpl implements CertificateDAO {
     private static final String COLUMN_LAST_UPDATE_DATE = "last_update_date";
     private static final Logger LOG = Logger.getLogger(CertificatesDAOImpl.class);
 
-    private CRUDOperationsDAOImpl crudOperationsDAO;
+    private final CRUDOperationsDAOImpl crudOperationsDAO;
 
     public CertificatesDAOImpl(CRUDOperationsDAOImpl commonCRUDOperations) {
         this.crudOperationsDAO = commonCRUDOperations;
@@ -41,10 +42,11 @@ public class CertificatesDAOImpl implements CertificateDAO {
     @Override
     public List<Certificate> getCertificates() throws DAOException {
         List<Certificate> certificates = new ArrayList<>();
-        Connection connection = ConnectionPool.connectionPool.retrieve();
         PreparedStatement preparedStatement = null;
+        Connection connection = null;
         ResultSet resultSet = null;
         try {
+            connection = ConnectionPool.pooledDataSource.getConnection();
             preparedStatement = connection.prepareStatement(SELECT);
             resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
@@ -62,6 +64,12 @@ public class CertificatesDAOImpl implements CertificateDAO {
         } catch (SQLException | RuntimeException exc) {
             LOG.log(Level.ERROR, "FAIL DB: Fail to get all certificates.", exc);
             throw new DAOException(exc);
+        } finally {
+            try {
+                Objects.requireNonNull(connection).close();
+            } catch (SQLException e) {
+                LOG.log(Level.ERROR, "FAIL DB: Fail to close connection.", e);
+            }
         }
         return certificates;
     }

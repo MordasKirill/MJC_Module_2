@@ -22,10 +22,9 @@ public final class ConnectionPool {
         this.userName = DBResourceManager.dbResourceManager.properties.getProperty(DBParameter.DB_USER);
         this.password = DBResourceManager.dbResourceManager.properties.getProperty(DBParameter.DB_PASSWORD);
         this.initConnCnt = Integer.parseInt(DBResourceManager.dbResourceManager.properties.getProperty(DBParameter.DB_POLL_SIZE));
-        initPool();
     }
 
-    private void initPool() throws ConnectionPoolException {
+    public void initPool() throws ConnectionPoolException {
         try {
             pooledDataSource.setDriverClass(driver);
             pooledDataSource.setJdbcUrl(url);

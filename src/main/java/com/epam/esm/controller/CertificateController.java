@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
-import java.util.List;
 
 /**
  * CertificateController
@@ -30,7 +29,7 @@ public class CertificateController {
     private static final Logger LOG = Logger.getLogger(CertificateController.class);
     private static final String PATTERN_HH_MM = "yyyy-MM-dd'T'HH:mm'Z'";
     private static final String PATTERN_HH_MM_SS = "yyyy-MM-dd'T'HH:mm:ss'Z'";
-    private CertificateServiceImpl certificateService;
+    private final CertificateServiceImpl certificateService;
 
     public CertificateController(CertificateServiceImpl certificateService) {
         this.certificateService = certificateService;

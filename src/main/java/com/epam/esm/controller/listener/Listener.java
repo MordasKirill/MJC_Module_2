@@ -28,6 +28,8 @@ public class Listener implements ServletContextListener {
         DBResourceManager.dbResourceManager = new DBResourceManager();
         DBResourceManager.dbResourceManager.loadProperties("C:\\Users\\Kirill\\IdeaProjects\\MJC_2\\src\\main\\resources\\db.properties");
         ConnectionPool.connectionPool = new ConnectionPool();
+        ConnectionPool.connectionPool.initPool();
+        LOG.log(Level.INFO, "Pool was created.");
     }
 
     /**
@@ -37,7 +39,8 @@ public class Listener implements ServletContextListener {
      */
     @Override
     public void contextDestroyed(ServletContextEvent servletContextEvent) {
-        LOG.log(Level.INFO, "ServletContextListener was destroyed!");
         ConnectionPool.pooledDataSource.close();
+        LOG.log(Level.INFO, "Pool was destroyed.");
+        LOG.log(Level.INFO, "ServletContextListener was destroyed!");
     }
 }
