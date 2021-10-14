@@ -11,6 +11,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Objects;
 
 @Repository
 public class CRUDOperationsDAOImpl implements CRUDOperationsDAO {
@@ -18,9 +19,10 @@ public class CRUDOperationsDAOImpl implements CRUDOperationsDAO {
 
     @Override
     public void executeUpdate(String sqlUpdateStatement, List<Object> params) throws DAOException {
-        Connection connection = ConnectionPool.connectionPool.retrieve();
+        Connection connection = null;
         PreparedStatement statement = null;
         try {
+            connection = ConnectionPool.pooledDataSource.getConnection();
             statement = connection.prepareStatement(sqlUpdateStatement);
             for (Object param : params) {
                 statement.setObject(params.indexOf(param) + 1, param);
@@ -31,9 +33,11 @@ public class CRUDOperationsDAOImpl implements CRUDOperationsDAO {
             LOG.log(Level.ERROR, "FAIL DB: Fail to write DB.", exc);
             throw new DAOException(exc);
         } finally {
-            ConnectionPool.connectionPool.putBack(connection);
-            assert statement != null;
-            ConnectionPool.connectionPool.closeConnection(statement);
+            try {
+                Objects.requireNonNull(connection).close();
+            } catch (SQLException e) {
+                LOG.log(Level.ERROR, "FAIL DB: Fail to close connection.", e);
+            }
         }
     }
 }

@@ -14,6 +14,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class CertificateTagDAOImpl implements CertificateTagDAO {
     private static final String SELECT_FROM_CERTIFICATE_TAG = "select * from certificate_has_tag left join certificate on (certificate.id = cerf_id) where certificate_has_tag.tag_id = ?";
@@ -55,10 +56,11 @@ public class CertificateTagDAOImpl implements CertificateTagDAO {
 
     public List<Certificate> getCertificates(Object object, String sql) throws DAOException {
         List<Certificate> certificates = new ArrayList<>();
-        Connection connection = ConnectionPool.connectionPool.retrieve();
+        Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
         try {
+            connection = ConnectionPool.pooledDataSource.getConnection();
             preparedStatement = connection.prepareStatement(sql);
             if (object != null) {
                 preparedStatement.setObject(1, object);
@@ -81,6 +83,12 @@ public class CertificateTagDAOImpl implements CertificateTagDAO {
         } catch (SQLException | RuntimeException exc) {
             LOG.log(Level.ERROR, "FAIL DB: Fail to get all certificates.", exc);
             throw new DAOException(exc);
+        } finally {
+            try {
+                Objects.requireNonNull(connection).close();
+            } catch (SQLException e) {
+                LOG.log(Level.ERROR, "FAIL DB: Fail to close connection.", e);
+            }
         }
         return certificates;
     }

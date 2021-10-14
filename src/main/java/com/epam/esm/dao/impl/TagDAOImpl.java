@@ -15,6 +15,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 
 @Repository
 public class TagDAOImpl implements TagDAO {
@@ -24,7 +25,7 @@ public class TagDAOImpl implements TagDAO {
     private static final String COLUMN_ID = "id";
     private static final String COLUMN_NAME = "name";
     private static final Logger LOG = Logger.getLogger(TagDAOImpl.class);
-    private CRUDOperationsDAOImpl commonCRUDOperations;
+    private final CRUDOperationsDAOImpl commonCRUDOperations;
 
     public TagDAOImpl(CRUDOperationsDAOImpl commonCRUDOperations) {
         this.commonCRUDOperations = commonCRUDOperations;
@@ -33,10 +34,11 @@ public class TagDAOImpl implements TagDAO {
     @Override
     public List<Tag> getTags() throws DAOException {
         List<Tag> tags = new ArrayList<>();
-        Connection connection = ConnectionPool.connectionPool.retrieve();
+        Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
         try {
+            connection = ConnectionPool.pooledDataSource.getConnection();
             preparedStatement = connection.prepareStatement(SELECT_ID_NAME_FROM_TAG);
             resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
@@ -48,6 +50,12 @@ public class TagDAOImpl implements TagDAO {
         } catch (SQLException | RuntimeException exc) {
             LOG.log(Level.ERROR, "FAIL DB: Fail to get all tags.", exc);
             throw new DAOException(exc);
+        } finally {
+            try {
+                Objects.requireNonNull(connection).close();
+            } catch (SQLException e) {
+                LOG.log(Level.ERROR, "FAIL DB: Fail to close connection.", e);
+            }
         }
         return tags;
     }

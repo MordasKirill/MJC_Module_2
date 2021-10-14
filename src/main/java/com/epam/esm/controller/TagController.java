@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
-import java.util.List;
 
 /**
  * TagController
@@ -30,7 +29,7 @@ import java.util.List;
 public class TagController {
 
     private static final Logger LOG = Logger.getLogger(TagController.class);
-    private TagServiceImpl tagService;
+    private final TagServiceImpl tagService;
 
     public TagController(TagServiceImpl tagService) {
         this.tagService = tagService;

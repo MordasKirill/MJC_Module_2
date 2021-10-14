@@ -13,6 +13,7 @@ import javax.servlet.ServletContextListener;
  * set up a connection pool when contextInitialized
  * dispose connection poll when contextDestroyed
  */
+
 public class Listener implements ServletContextListener {
     private static final Logger LOG = Logger.getLogger(Listener.class);
 
@@ -25,9 +26,10 @@ public class Listener implements ServletContextListener {
     public void contextInitialized(ServletContextEvent servletContextEvent) {
         LOG.log(Level.INFO, "ServletContextListener was created!");
         DBResourceManager.dbResourceManager = new DBResourceManager();
-        DBResourceManager.dbResourceManager.loadProperties("src/main/resources/db.properties");
+        DBResourceManager.dbResourceManager.loadProperties("C:\\Users\\Kirill\\IdeaProjects\\MJC_2\\src\\main\\resources\\db.properties");
         ConnectionPool.connectionPool = new ConnectionPool();
     }
+
     /**
      * dispose connection poll when contextDestroyed
      *
@@ -36,6 +38,6 @@ public class Listener implements ServletContextListener {
     @Override
     public void contextDestroyed(ServletContextEvent servletContextEvent) {
         LOG.log(Level.INFO, "ServletContextListener was destroyed!");
-        ConnectionPool.connectionPool.dispose();
+        ConnectionPool.pooledDataSource.close();
     }
 }

@@ -15,7 +15,7 @@ import java.util.TimeZone;
 
 @Service
 public class CertificateServiceImpl implements CertificateService {
-    private CertificatesDAOImpl certificatesDAO;
+    private final CertificatesDAOImpl certificatesDAO;
 
     public CertificateServiceImpl(CertificatesDAOImpl certificatesDAO) {
         this.certificatesDAO = certificatesDAO;
@@ -24,11 +24,11 @@ public class CertificateServiceImpl implements CertificateService {
     @Override
     public void createCertificates(Certificate certificate) throws ServiceException {
         try {
-            if (certificate.getName() != null ||
-                    certificate.getDescription() != null ||
-                    certificate.getPrice() != 0 ||
-                    certificate.getDuration() != 0 ||
-                    certificate.getCreateDate() != null ||
+            if (certificate.getName() != null &&
+                    certificate.getDescription() != null &&
+                    certificate.getPrice() != 0 &&
+                    certificate.getDuration() != 0 &&
+                    certificate.getCreateDate() != null &&
                     certificate.getLastUpdateDate() != null) {
 
                 certificatesDAO.createCertificates(certificate);
@@ -46,7 +46,7 @@ public class CertificateServiceImpl implements CertificateService {
             if (certificate.getId() != 0) {
                 certificatesDAO.deleteCertificates(certificate);
             } else {
-                throw new ServiceException("CreateCertificate fail due to null value of params.");
+                throw new ServiceException("DeleteCertificate fail due to null value of params.");
             }
         } catch (DAOException e) {
             throw new ServiceException("DeleteCertificate fail", e);

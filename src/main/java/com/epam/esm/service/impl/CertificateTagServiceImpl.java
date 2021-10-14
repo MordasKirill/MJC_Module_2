@@ -10,7 +10,7 @@ import com.epam.esm.service.ServiceException;
 import java.util.List;
 
 public class CertificateTagServiceImpl implements CertificateTagService {
-    private CertificateTagDAOImpl certificateTagDAO;
+    private final CertificateTagDAOImpl certificateTagDAO;
 
     public CertificateTagServiceImpl(CertificateTagDAOImpl certificateTagDAO) {
         this.certificateTagDAO = certificateTagDAO;
