@@ -1,5 +1,7 @@
 package com.epam.esm.service;
 
+import com.epam.esm.dao.DAOException;
+import com.epam.esm.dao.impl.TagDAOImpl;
 import com.epam.esm.entity.Tag;
 import com.epam.esm.service.impl.TagServiceImpl;
 import org.junit.jupiter.api.Test;
@@ -9,46 +11,46 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class TagServiceImplTest {
     private static final Tag tag = new Tag(1, "testName");
+    private static final TagDAOImpl tagDAO = Mockito.mock(TagDAOImpl.class);
+    private static final TagServiceImpl tagService = new TagServiceImpl(tagDAO);
 
     @Test
-    void createTag() throws ServiceException {
-        TagServiceImpl tagService = Mockito.mock(TagServiceImpl.class);
+    void createTag() throws ServiceException, DAOException {
         tagService.createTag(tag);
-        Mockito.verify(tagService).createTag(tag);
+        Mockito.verify(tagDAO).createTag(tag);
     }
 
     @Test
-    void createTagExc() throws ServiceException {
-        TagServiceImpl tagService = Mockito.mock(TagServiceImpl.class);
-        Mockito.doThrow(new ServiceException()).when(tagService).createTag(tag);
+    void createTagExc() throws DAOException {
+        Mockito.doThrow(new DAOException()).when(tagDAO).createTag(tag);
         assertThrows(ServiceException.class, () -> tagService.createTag(tag), "Expected ServiceException");
     }
 
     @Test
-    void deleteTag() throws ServiceException {
-        TagServiceImpl tagService = Mockito.mock(TagServiceImpl.class);
+    void deleteTag() throws ServiceException, DAOException {
+        TagDAOImpl tagDAO = Mockito.mock(TagDAOImpl.class);
+        TagServiceImpl tagService = new TagServiceImpl(tagDAO);
         tagService.deleteTag(tag);
-        Mockito.verify(tagService).deleteTag(tag);
+        Mockito.verify(tagDAO).deleteTag(tag);
     }
 
     @Test
-    void deleteTagExc() throws ServiceException {
-        TagServiceImpl tagService = Mockito.mock(TagServiceImpl.class);
-        Mockito.doThrow(new ServiceException()).when(tagService).deleteTag(tag);
+    void deleteTagExc() throws DAOException {
+        Mockito.doThrow(new DAOException()).when(tagDAO).deleteTag(tag);
         assertThrows(ServiceException.class, () -> tagService.deleteTag(tag), "Expected ServiceException");
     }
 
     @Test
-    void getTags() throws ServiceException {
-        TagServiceImpl tagService = Mockito.mock(TagServiceImpl.class);
+    void getTags() throws ServiceException, DAOException {
+        TagDAOImpl tagDAO = Mockito.mock(TagDAOImpl.class);
+        TagServiceImpl tagService = new TagServiceImpl(tagDAO);
         tagService.getTags();
-        Mockito.verify(tagService).getTags();
+        Mockito.verify(tagDAO).getTags();
     }
 
     @Test
-    void getTagsExc() throws ServiceException {
-        TagServiceImpl tagService = Mockito.mock(TagServiceImpl.class);
-        Mockito.doThrow(new ServiceException()).when(tagService).getTags();
+    void getTagsExc() throws DAOException {
+        Mockito.doThrow(new DAOException()).when(tagDAO).getTags();
         assertThrows(ServiceException.class, tagService::getTags, "Expected ServiceException");
     }
 }
