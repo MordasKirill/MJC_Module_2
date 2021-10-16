@@ -26,7 +26,7 @@ public class Listener implements ServletContextListener {
     public void contextInitialized(ServletContextEvent servletContextEvent) {
         LOG.log(Level.INFO, "ServletContextListener was created!");
         DBResourceManager.dbResourceManager = new DBResourceManager();
-        DBResourceManager.dbResourceManager.loadProperties("C:\\Users\\Kirill\\Desktop\\MJC_2_multimodule\\web\\src\\main\\resources\\db.properties");
+        DBResourceManager.dbResourceManager.loadProperties("db.properties");
         ConnectionPool.connectionPool = new ConnectionPool();
         ConnectionPool.connectionPool.initPool();
         LOG.log(Level.INFO, "Pool was created.");

@@ -37,7 +37,7 @@ class CRUDOperationsDAOImplTest {
     @BeforeAll
     static void setConnectionPool() throws Exception {
         DBResourceManager.dbResourceManager = new DBResourceManager();
-        DBResourceManager.dbResourceManager.loadProperties("src/test/resources/test.properties");
+        DBResourceManager.dbResourceManager.loadProperties("test.properties");
         ConnectionPool.connectionPool = new ConnectionPool();
         ConnectionPool.connectionPool.initPool();
         Class.forName(JDBC_DRIVER);
