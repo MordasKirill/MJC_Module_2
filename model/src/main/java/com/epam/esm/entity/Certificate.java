@@ -44,6 +44,14 @@ public class Certificate implements Serializable {
         this.id = id;
     }
 
+    public Certificate(String name, double price, String description, String tagName, int duration) {
+        this.name = name;
+        this.price = price;
+        this.description = description;
+        this.tagName = tagName;
+        this.duration = duration;
+    }
+
     @JsonCreator
     public Certificate(String name, double price,
                        int duration, String createDate, String lastUpdateDate, String description) {

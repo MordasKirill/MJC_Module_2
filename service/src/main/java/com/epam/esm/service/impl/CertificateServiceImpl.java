@@ -7,11 +7,7 @@ import com.epam.esm.service.CertificateService;
 import com.epam.esm.service.ServiceException;
 import org.springframework.stereotype.Service;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
-import java.util.TimeZone;
 
 @Service
 public class CertificateServiceImpl implements CertificateService {
@@ -27,10 +23,7 @@ public class CertificateServiceImpl implements CertificateService {
             if (certificate.getName() != null &&
                     certificate.getDescription() != null &&
                     certificate.getPrice() != 0 &&
-                    certificate.getDuration() != 0 &&
-                    certificate.getCreateDate() != null &&
-                    certificate.getLastUpdateDate() != null) {
-
+                    certificate.getDuration() != 0) {
                 certificatesDAO.createCertificates(certificate);
             } else {
                 throw new ServiceException("CreateCertificate fail due to null value of params.");
@@ -60,14 +53,6 @@ public class CertificateServiceImpl implements CertificateService {
         } catch (DAOException e) {
             throw new ServiceException("UpdateCertificate fail", e);
         }
-    }
-
-    @Override
-    public String getCurrentDate(String pattern) {
-        TimeZone tz = TimeZone.getTimeZone("UTC");
-        DateFormat df = new SimpleDateFormat(pattern);
-        df.setTimeZone(tz);
-        return df.format(new Date());
     }
 
     @Override

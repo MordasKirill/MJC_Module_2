@@ -27,8 +27,6 @@ import java.io.IOException;
 public class CertificateController {
 
     private static final Logger LOG = Logger.getLogger(CertificateController.class);
-    private static final String PATTERN_HH_MM = "yyyy-MM-dd'T'HH:mm'Z'";
-    private static final String PATTERN_HH_MM_SS = "yyyy-MM-dd'T'HH:mm:ss'Z'";
     private final CertificateServiceImpl certificateService;
 
     public CertificateController(CertificateServiceImpl certificateService) {
@@ -48,10 +46,9 @@ public class CertificateController {
         double price = Double.parseDouble(request.getParameter("price"));
         int duration = Integer.parseInt(request.getParameter("duration"));
         String description = request.getParameter("description");
-        String currentDate = certificateService.getCurrentDate(PATTERN_HH_MM);
-        String lastUpdateDate = certificateService.getCurrentDate(PATTERN_HH_MM_SS);
+        String tagName = request.getParameter("tagName");
         try {
-            certificateService.createCertificates(new Certificate(name, price, duration, currentDate, lastUpdateDate, description));
+            certificateService.createCertificates(new Certificate(name, price, description, tagName, duration));
             return new ResponseEntity<>(certificateService.getCertificates(), HttpStatus.OK);
         } catch (ServiceException e) {
             LOG.log(Level.ERROR, "FAIL DB: Fail to create certificate.", e);
@@ -66,7 +63,7 @@ public class CertificateController {
      * @return ResponseEntity<List < Certificate>>
      */
     @RequestMapping(value = "/certificate/list", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> getCertificates() throws IOException, ServletException {
+    public ResponseEntity<?> getCertificates() {
         try {
             return new ResponseEntity<>(certificateService.getCertificates(), HttpStatus.OK);
         } catch (ServiceException e) {

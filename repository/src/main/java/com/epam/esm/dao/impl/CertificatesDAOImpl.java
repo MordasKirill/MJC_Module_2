@@ -20,9 +20,8 @@ import java.util.Objects;
 @Repository
 public class CertificatesDAOImpl implements CertificateDAO {
     private static final String DELETE_FROM_CERTIFICATE = "delete from certificate where id=?";
-    private static final String CREATE_CERTIFICATE = "insert into certificate (name, description, price, duration, create_date, last_update_date) values (?,?,?,?,?,?)";
+    private static final String CALLABLE_STATEMENT = "{call createCertificate(?,?,?,?,?)}";
     private static final String UPDATE_CERTIFICATE = "update certificate set name = ?, price = ?, description = ? where id = ?";
-    private static final String SELECT_FROM_CERTIFICATE = "select id, name, description, price, duration, create_date, last_update_date from certificate where id>0";
     private static final String SELECT = "select certificate.*, group_concat(tag.name) from certificate join certificate_has_tag on certificate_has_tag.cerf_id = certificate.id join tag on tag.id = certificate_has_tag.tag_id group by certificate.id";
     private static final String COLUMN_ID = "id";
     private static final String COLUMN_NAME = "name";
@@ -78,12 +77,11 @@ public class CertificatesDAOImpl implements CertificateDAO {
     public void createCertificates(Certificate certificate) throws DAOException {
         List<Object> paramList = new LinkedList<>();
         paramList.add(certificate.getName());
-        paramList.add(certificate.getDescription());
         paramList.add(certificate.getPrice());
         paramList.add(certificate.getDuration());
-        paramList.add(certificate.getCreateDate());
-        paramList.add(certificate.getLastUpdateDate());
-        crudOperationsDAO.executeUpdate(CREATE_CERTIFICATE, paramList);
+        paramList.add(certificate.getDescription());
+        paramList.add(certificate.getTagName());
+        crudOperationsDAO.executeCallable(CALLABLE_STATEMENT, paramList);
     }
 
     @Override

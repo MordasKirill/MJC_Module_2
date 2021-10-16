@@ -26,11 +26,6 @@ public interface CertificateService {
      */
     void updateCertificates(Certificate certificate) throws ServiceException;
 
-    /**
-     * @param pattern current date pattern
-     * @return String current date value
-     */
-    String getCurrentDate(String pattern);
 
     /**
      * @return List with Certificate entity's

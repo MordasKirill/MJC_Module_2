@@ -80,15 +80,6 @@ class CertificateServiceImplTest {
     }
 
     @Test
-    void getCurrentDate() {
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm'Z'");
-        dateFormat.setTimeZone(TimeZone.getTimeZone("UTF+3"));
-        System.out.println(new Date());
-        boolean actual = dateFormat.format(new Date()).equals(service.getCurrentDate(patternHhMm));
-        assertTrue(actual);
-    }
-
-    @Test
     void getCertificates() throws ServiceException, DAOException {
         CertificatesDAOImpl certificatesDAO = Mockito.mock(CertificatesDAOImpl.class);
         CertificateServiceImpl certificateService = new CertificateServiceImpl(certificatesDAO);
