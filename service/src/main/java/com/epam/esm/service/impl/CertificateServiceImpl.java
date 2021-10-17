@@ -18,7 +18,7 @@ public class CertificateServiceImpl implements CertificateService {
     }
 
     @Override
-    public void createCertificates(Certificate certificate) throws ServiceException {
+    public void createCertificate(Certificate certificate) throws ServiceException {
         try {
             if (certificate.getName() != null &&
                     certificate.getDescription() != null &&
@@ -34,7 +34,7 @@ public class CertificateServiceImpl implements CertificateService {
     }
 
     @Override
-    public void deleteCertificates(Certificate certificate) throws ServiceException {
+    public void deleteCertificate(Certificate certificate) throws ServiceException {
         try {
             if (certificate.getId() != 0) {
                 certificatesDAO.deleteCertificates(certificate);
@@ -47,7 +47,7 @@ public class CertificateServiceImpl implements CertificateService {
     }
 
     @Override
-    public void updateCertificates(Certificate certificate) throws ServiceException {
+    public void updateCertificate(Certificate certificate) throws ServiceException {
         try {
             certificatesDAO.updateCertificates(certificate);
         } catch (DAOException e) {

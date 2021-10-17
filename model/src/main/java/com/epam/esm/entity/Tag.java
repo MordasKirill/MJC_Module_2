@@ -1,5 +1,8 @@
 package com.epam.esm.entity;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -25,7 +28,8 @@ public class Tag implements Serializable {
         this.name = name;
     }
 
-    public Tag(int id, String name) {
+    @JsonCreator
+    public Tag(@JsonProperty("id") int id, @JsonProperty("name") String name) {
         this.id = id;
         this.name = name;
     }

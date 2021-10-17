@@ -2,6 +2,7 @@ package com.epam.esm.entity;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSetter;
 
 import java.io.Serializable;
@@ -30,14 +31,14 @@ public class Certificate implements Serializable {
     private String tagName;
 
     public Certificate() {
-
     }
 
     public Certificate(int id) {
         this.id = id;
     }
 
-    public Certificate(String name, double price, String description, int id) {
+    public Certificate(@JsonProperty("name") String name, @JsonProperty("price") double price,
+                       @JsonProperty("description") String description, @JsonProperty("id") int id) {
         this.name = name;
         this.price = price;
         this.description = description;
@@ -53,6 +54,17 @@ public class Certificate implements Serializable {
     }
 
     @JsonCreator
+    public Certificate(@JsonProperty("name") String name, @JsonProperty("price") double price,
+                       @JsonProperty("description") String description, @JsonProperty("id") int id,
+                       @JsonProperty("tagName") String tagName, @JsonProperty("duration") int duration) {
+        this.name = name;
+        this.price = price;
+        this.description = description;
+        this.id = id;
+        this.tagName = tagName;
+        this.duration = duration;
+    }
+
     public Certificate(String name, double price,
                        int duration, String createDate, String lastUpdateDate, String description) {
         this.name = name;
@@ -63,7 +75,6 @@ public class Certificate implements Serializable {
         this.description = description;
     }
 
-    @JsonCreator
     public Certificate(int id, String name, double price,
                        int duration, String createDate, String lastUpdateDate, String description) {
         this.id = id;

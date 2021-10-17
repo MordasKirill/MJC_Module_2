@@ -5,6 +5,7 @@ import java.util.List;
 public interface CRUDOperationsDAO {
     /**
      * Methode for executing sql statement
+     *
      * @param sqlUpdateStatement sql statement
      * @param params             to do operation with DB
      * @throws DAOException exception in DAO layer
@@ -13,6 +14,7 @@ public interface CRUDOperationsDAO {
 
     /**
      * Methode for executing stored procedure
+     *
      * @param sqlUpdateStatement sql statement
      * @param params             to do operation with DB
      * @throws DAOException exception in DAO layer

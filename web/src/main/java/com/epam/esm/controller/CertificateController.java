@@ -9,13 +9,12 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
 
 /**
  * CertificateController
@@ -37,19 +36,13 @@ public class CertificateController {
      * createCertificate RequestMethod.POST
      * receives requests with /new mapping
      *
-     * @param request request from client
      * @return ResponseEntity<List < Certificate>>
      */
-    @RequestMapping(value = "/certificate/new", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> createCertificate(HttpServletRequest request) {
-        String name = request.getParameter("name");
-        double price = Double.parseDouble(request.getParameter("price"));
-        int duration = Integer.parseInt(request.getParameter("duration"));
-        String description = request.getParameter("description");
-        String tagName = request.getParameter("tagName");
+    @RequestMapping(value = "/certificate/", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> createCertificate(@RequestBody Certificate certificate) {
         try {
-            certificateService.createCertificates(new Certificate(name, price, description, tagName, duration));
-            return new ResponseEntity<>(certificateService.getCertificates(), HttpStatus.OK);
+            certificateService.createCertificate(new Certificate(certificate.getName(), certificate.getPrice(), certificate.getDescription(), certificate.getTagName(), certificate.getDuration()));
+            return new ResponseEntity<>("Certificate created.", HttpStatus.OK);
         } catch (ServiceException e) {
             LOG.log(Level.ERROR, "FAIL DB: Fail to create certificate.", e);
             return new ResponseEntity<>("Fail to create certificate createCertificate", HttpStatus.CONFLICT);
@@ -62,7 +55,7 @@ public class CertificateController {
      *
      * @return ResponseEntity<List < Certificate>>
      */
-    @RequestMapping(value = "/certificate/list", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/certificate/", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> getCertificates() {
         try {
             return new ResponseEntity<>(certificateService.getCertificates(), HttpStatus.OK);
@@ -79,12 +72,12 @@ public class CertificateController {
      * @param request request from client
      * @return ResponseEntity<List < Certificate>>
      */
-    @RequestMapping(value = "/certificate/id", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/certificate/", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> deleteCertificate(HttpServletRequest request) {
         int id = Integer.parseInt(request.getParameter("id"));
         try {
-            certificateService.deleteCertificates(new Certificate(id));
-            return new ResponseEntity<>(certificateService.getCertificates(), HttpStatus.OK);
+            certificateService.deleteCertificate(new Certificate(id));
+            return new ResponseEntity<>("Certificate with id: " + id + " deleted.", HttpStatus.OK);
         } catch (ServiceException e) {
             LOG.log(Level.ERROR, "FAIL DB: Fail to get all certificates.", e);
             return new ResponseEntity<>("Fail to delete certificate field deleteCertificate", HttpStatus.NOT_FOUND);
@@ -95,18 +88,13 @@ public class CertificateController {
      * updateCertificate, RequestMethod.PUT
      * receives requests with /put mapping
      *
-     * @param request request from client
      * @return ResponseEntity<List < Certificate>>
      */
-    @RequestMapping(value = "/certificate/put", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> updateCertificate(HttpServletRequest request) {
-        String name = request.getParameter("name");
-        double price = Double.parseDouble(request.getParameter("price"));
-        String description = request.getParameter("description");
-        int id = Integer.parseInt(request.getParameter("id"));
+    @RequestMapping(value = "/certificate/", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> updateCertificate(@RequestBody Certificate certificate) {
         try {
-            certificateService.updateCertificates(new Certificate(name, price, description, id));
-            return new ResponseEntity<>(certificateService.getCertificates(), HttpStatus.OK);
+            certificateService.updateCertificate(new Certificate(certificate.getName(), certificate.getPrice(), certificate.getDescription(), certificate.getId()));
+            return new ResponseEntity<>("Certificate updated.", HttpStatus.OK);
         } catch (ServiceException e) {
             LOG.log(Level.ERROR, "FAIL DB: Fail to get all certificates.", e);
             return new ResponseEntity<>("Fail to update certificate field updateCertificate", HttpStatus.INTERNAL_SERVER_ERROR);

@@ -9,7 +9,7 @@ public interface CertificateService {
      * @param certificate entity used to create Certificate
      * @throws ServiceException exception in Service layer
      */
-    void createCertificates(Certificate certificate) throws ServiceException;
+    void createCertificate(Certificate certificate) throws ServiceException;
 
     /**
      * * @param certificate entity used to delete Certificate
@@ -17,14 +17,14 @@ public interface CertificateService {
      *
      * @throws ServiceException exception in Service layer
      */
-    void deleteCertificates(Certificate certificate) throws ServiceException;
+    void deleteCertificate(Certificate certificate) throws ServiceException;
 
     /**
      * @param certificate entity used to update Certificate
      *                    update info of chosen certificate
      * @throws ServiceException exception in Service layer
      */
-    void updateCertificates(Certificate certificate) throws ServiceException;
+    void updateCertificate(Certificate certificate) throws ServiceException;
 
 
     /**

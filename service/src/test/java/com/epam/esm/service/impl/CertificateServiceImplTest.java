@@ -9,13 +9,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.TimeZone;
-
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class CertificateServiceImplTest {
     private static final String patternHhMm = "yyyy-MM-dd'T'HH:mm'Z'";
@@ -33,50 +27,50 @@ class CertificateServiceImplTest {
     void createCertificatesOk() throws ServiceException, DAOException {
         CertificatesDAOImpl certificatesDAO = Mockito.mock(CertificatesDAOImpl.class);
         CertificateServiceImpl certificateService = new CertificateServiceImpl(certificatesDAO);
-        certificateService.createCertificates(validCertificate);
+        certificateService.createCertificate(validCertificate);
         Mockito.verify(certificatesDAO).createCertificates(validCertificate);
     }
 
     @Test
     void createCertificatesNotValidParam() {
-        assertThrows(ServiceException.class, () -> service.createCertificates(notValidCertificate), "CreateCertificate fail due to null value of params.");
+        assertThrows(ServiceException.class, () -> service.createCertificate(notValidCertificate), "CreateCertificate fail due to null value of params.");
     }
 
     @Test
     void createCertificatesExc() throws DAOException {
         Mockito.doThrow(new DAOException()).when(certificatesDAO).createCertificates(validCertificate);
-        assertThrows(ServiceException.class, () -> certificateService.createCertificates(validCertificate), "CreateCertificate fail due to null value of params.");
+        assertThrows(ServiceException.class, () -> certificateService.createCertificate(validCertificate), "CreateCertificate fail due to null value of params.");
     }
 
     @Test
     void deleteCertificates() throws Exception {
         CertificatesDAOImpl certificatesDAO = Mockito.mock(CertificatesDAOImpl.class);
         CertificateServiceImpl certificateService = new CertificateServiceImpl(certificatesDAO);
-        certificateService.deleteCertificates(validCertificate);
+        certificateService.deleteCertificate(validCertificate);
         Mockito.verify(certificatesDAO).deleteCertificates(validCertificate);
     }
 
     @Test
     void deleteCertificatesExc() throws DAOException {
         Mockito.doThrow(new DAOException()).when(certificatesDAO).deleteCertificates(validCertificate);
-        assertThrows(ServiceException.class, () -> certificateService.deleteCertificates(validCertificate), "CreateCertificate fail due to null value of params.");
+        assertThrows(ServiceException.class, () -> certificateService.deleteCertificate(validCertificate), "CreateCertificate fail due to null value of params.");
     }
 
     @Test
     void deleteCertificatesNotValidParam() {
-        assertThrows(ServiceException.class, () -> service.deleteCertificates(notValidCertificate), "DeleteCertificate fail due to null value of params.");
+        assertThrows(ServiceException.class, () -> service.deleteCertificate(notValidCertificate), "DeleteCertificate fail due to null value of params.");
     }
 
     @Test
     void updateCertificates() throws Exception {
-        certificateService.updateCertificates(validCertificate);
+        certificateService.updateCertificate(validCertificate);
         Mockito.verify(certificatesDAO).updateCertificates(validCertificate);
     }
 
     @Test
     void updateCertificatesExc() throws DAOException {
         Mockito.doThrow(new DAOException()).when(certificatesDAO).updateCertificates(validCertificate);
-        assertThrows(ServiceException.class, () -> certificateService.updateCertificates(validCertificate), "UpdateCertificate fail");
+        assertThrows(ServiceException.class, () -> certificateService.updateCertificate(validCertificate), "UpdateCertificate fail");
     }
 
     @Test
