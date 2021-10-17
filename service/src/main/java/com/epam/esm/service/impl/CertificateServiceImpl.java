@@ -8,6 +8,7 @@ import com.epam.esm.service.ServiceException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CertificateServiceImpl implements CertificateService {
@@ -20,8 +21,8 @@ public class CertificateServiceImpl implements CertificateService {
     @Override
     public void createCertificate(Certificate certificate) throws ServiceException {
         try {
-            if (certificate.getName() != null &&
-                    certificate.getDescription() != null &&
+            if (Optional.ofNullable(certificate.getName()).isPresent() &&
+                    Optional.ofNullable(certificate.getDescription()).isPresent() &&
                     certificate.getPrice() != 0 &&
                     certificate.getDuration() != 0) {
                 certificatesDAO.createCertificates(certificate);
