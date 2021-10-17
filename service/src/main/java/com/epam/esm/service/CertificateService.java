@@ -32,4 +32,11 @@ public interface CertificateService {
      * @throws ServiceException exception in Service layer
      */
     List<Certificate> getCertificates() throws ServiceException;
+
+    /**
+     * @param id id to be checked
+     * @return true/false is exists
+     * @throws ServiceException exception in Service layer
+     */
+    boolean isCertificateExist(int id) throws ServiceException;
 }

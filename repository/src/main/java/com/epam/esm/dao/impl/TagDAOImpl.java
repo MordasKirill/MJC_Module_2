@@ -20,15 +20,16 @@ import java.util.Objects;
 @Repository
 public class TagDAOImpl implements TagDAO {
     private static final String SELECT_ID_NAME_FROM_TAG = "select id, name from tag where id>0";
+    private static final String SELECT_TAG = "select name from tag where id = ?";
     private static final String DELETE_FROM_TAG = "delete from tag where id=?";
     private static final String CREATE_TAG = "insert into tag (id, name) values (?,?)";
     private static final String COLUMN_ID = "id";
     private static final String COLUMN_NAME = "name";
     private static final Logger LOG = Logger.getLogger(TagDAOImpl.class);
-    private final CRUDOperationsDAOImpl commonCRUDOperations;
+    private final CRUDOperationsDAOImpl crudOperationsDAO;
 
     public TagDAOImpl(CRUDOperationsDAOImpl commonCRUDOperations) {
-        this.commonCRUDOperations = commonCRUDOperations;
+        this.crudOperationsDAO = commonCRUDOperations;
     }
 
     @Override
@@ -65,13 +66,18 @@ public class TagDAOImpl implements TagDAO {
         List<Object> paramList = new LinkedList<>();
         paramList.add(tag.getId());
         paramList.add(tag.getName());
-        commonCRUDOperations.executeUpdate(CREATE_TAG, paramList);
+        crudOperationsDAO.executeUpdate(CREATE_TAG, paramList);
     }
 
     @Override
     public void deleteTag(Tag tag) throws DAOException {
         List<Object> paramList = new LinkedList<>();
         paramList.add(tag.getId());
-        commonCRUDOperations.executeUpdate(DELETE_FROM_TAG, paramList);
+        crudOperationsDAO.executeUpdate(DELETE_FROM_TAG, paramList);
+    }
+
+    @Override
+    public boolean isTagExist(int id) throws DAOException {
+        return crudOperationsDAO.isExists(id, SELECT_TAG);
     }
 }

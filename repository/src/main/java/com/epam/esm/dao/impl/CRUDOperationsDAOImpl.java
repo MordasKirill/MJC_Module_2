@@ -7,10 +7,7 @@ import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Repository;
 
-import java.sql.CallableStatement;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.List;
 import java.util.Objects;
 
@@ -55,6 +52,29 @@ public class CRUDOperationsDAOImpl implements CRUDOperationsDAO {
             LOG.info("SUCCESS DB: Update executed.");
         } catch (SQLException exc) {
             LOG.log(Level.ERROR, "FAIL DB: Fail to write DB.", exc);
+            throw new DAOException(exc);
+        } finally {
+            try {
+                Objects.requireNonNull(connection).close();
+            } catch (SQLException e) {
+                LOG.log(Level.ERROR, "FAIL DB: Fail to close connection.", e);
+            }
+        }
+    }
+
+    public boolean isExists(int id, String sqlUpdateStatement) throws DAOException {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        try {
+            connection = ConnectionPool.pooledDataSource.getConnection();
+            statement = connection.prepareStatement(sqlUpdateStatement);
+            statement.setInt(1, id);
+            resultSet = statement.executeQuery();
+            LOG.info("SUCCESS DB: Query executed.");
+            return resultSet.next();
+        } catch (SQLException exc) {
+            LOG.log(Level.ERROR, "FAIL DB: Fail to read DB.", exc);
             throw new DAOException(exc);
         } finally {
             try {

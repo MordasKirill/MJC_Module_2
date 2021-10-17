@@ -22,4 +22,11 @@ public interface TagService {
      * @throws ServiceException exception in Service layer
      */
     List<Tag> getTags() throws ServiceException;
+
+    /**
+     * @param id id to be checked
+     * @return true/false is exists
+     * @throws ServiceException exception in Service layer
+     */
+    boolean isTagExist(int id) throws ServiceException;
 }

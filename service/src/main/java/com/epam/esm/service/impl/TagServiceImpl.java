@@ -43,4 +43,13 @@ public class TagServiceImpl implements TagService {
             throw new ServiceException("GetTags fail.", e);
         }
     }
+
+    @Override
+    public boolean isTagExist(int id) throws ServiceException {
+        try {
+            return tagDAO.isTagExist(id);
+        } catch (DAOException e) {
+            throw new ServiceException("Check certificate fail", e);
+        }
+    }
 }

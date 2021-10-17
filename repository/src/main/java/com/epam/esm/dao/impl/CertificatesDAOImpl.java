@@ -23,6 +23,7 @@ public class CertificatesDAOImpl implements CertificateDAO {
     private static final String CALLABLE_STATEMENT = "{call createCertificate(?,?,?,?,?)}";
     private static final String UPDATE_CERTIFICATE = "update certificate set name = ?, price = ?, description = ? where id = ?";
     private static final String SELECT = "select certificate.*, group_concat(tag.name) from certificate join certificate_has_tag on certificate_has_tag.cerf_id = certificate.id join tag on tag.id = certificate_has_tag.tag_id group by certificate.id";
+    private static final String SELECT_CERTIFICATE = "select name from certificate where id = ?";
     private static final String COLUMN_ID = "id";
     private static final String COLUMN_NAME = "name";
     private static final String COLUMN_DESCRIPTION = "description";
@@ -99,5 +100,10 @@ public class CertificatesDAOImpl implements CertificateDAO {
         paramList.add(certificate.getDescription());
         paramList.add(certificate.getId());
         crudOperationsDAO.executeUpdate(UPDATE_CERTIFICATE, paramList);
+    }
+
+    @Override
+    public boolean isCertificateExist(int id) throws DAOException {
+        return crudOperationsDAO.isExists(id, SELECT_CERTIFICATE);
     }
 }

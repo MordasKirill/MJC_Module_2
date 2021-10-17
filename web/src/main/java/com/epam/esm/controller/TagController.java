@@ -9,12 +9,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
-
-import javax.servlet.http.HttpServletRequest;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * TagController
@@ -70,15 +65,19 @@ public class TagController {
      * deleteTag, RequestMethod.DELETE
      * receives requests with /id mapping
      *
-     * @param request request from client
      * @return ResponseEntity<List < Tag>>
      */
     @RequestMapping(value = "/", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> deleteTag(HttpServletRequest request) {
-        int id = Integer.parseInt(request.getParameter("id"));
+    public ResponseEntity<?> deleteTag(@RequestParam int id) {
         try {
-            tagService.deleteTag(new Tag(id));
-            return new ResponseEntity<>("Tag with id: " + id + " deleted.", HttpStatus.OK);
+            ResponseEntity<?> responseEntity;
+            if (tagService.isTagExist(id)) {
+                tagService.deleteTag(new Tag(id));
+                responseEntity = new ResponseEntity<>("Tag with id: " + id + " deleted.", HttpStatus.OK);
+            } else {
+                responseEntity = new ResponseEntity<>("Cant find tag with id:" + id, HttpStatus.BAD_REQUEST);
+            }
+            return responseEntity;
         } catch (ServiceException e) {
             LOG.log(Level.ERROR, "FAIL DB: Fail to delete tag.", e);
             return new ResponseEntity<>("Fail to deleteTag", HttpStatus.NOT_FOUND);

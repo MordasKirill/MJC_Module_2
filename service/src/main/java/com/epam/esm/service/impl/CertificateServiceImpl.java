@@ -64,4 +64,13 @@ public class CertificateServiceImpl implements CertificateService {
             throw new ServiceException("GetCertificates fail", e);
         }
     }
+
+    @Override
+    public boolean isCertificateExist(int id) throws ServiceException {
+        try {
+            return certificatesDAO.isCertificateExist(id);
+        } catch (DAOException e) {
+            throw new ServiceException("Check certificate fail", e);
+        }
+    }
 }

@@ -62,14 +62,6 @@ class CertificatesDAOImplTest {
     }
 
     @Test
-    void createCertificates() throws Exception {
-        certificatesDAO.createCertificates(new Certificate("It's a test", 11.20, 6, "2021-10-04", "2021-10-06", "It's a description"));
-        preparedStatement = connection.prepareStatement(INSERT_INTO);
-        preparedStatement.executeUpdate();
-        Assertions.assertEquals(6, certificatesDAO.getCertificates().size());
-    }
-
-    @Test
     void getCertificates() throws Exception {
         preparedStatement = connection.prepareStatement(SELECT_FROM_GIFT_CERTIFICATE);
         ResultSet resultSet = preparedStatement.executeQuery();

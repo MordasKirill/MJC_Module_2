@@ -9,12 +9,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
-
-import javax.servlet.http.HttpServletRequest;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * CertificateController
@@ -69,15 +64,19 @@ public class CertificateController {
      * deleteCertificate , RequestMethod.DELETE
      * receives requests with /id mapping
      *
-     * @param request request from client
      * @return ResponseEntity<List < Certificate>>
      */
     @RequestMapping(value = "/certificate/", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> deleteCertificate(HttpServletRequest request) {
-        int id = Integer.parseInt(request.getParameter("id"));
+    public ResponseEntity<?> deleteCertificate(@RequestParam int id) {
         try {
-            certificateService.deleteCertificate(new Certificate(id));
-            return new ResponseEntity<>("Certificate with id: " + id + " deleted.", HttpStatus.OK);
+            ResponseEntity<?> responseEntity;
+            if (certificateService.isCertificateExist(id)) {
+                certificateService.deleteCertificate(new Certificate(id));
+                responseEntity = new ResponseEntity<>("Certificate with id: " + id + " deleted.", HttpStatus.OK);
+            } else {
+                responseEntity = new ResponseEntity<>("Cant find certificate with id:" + id, HttpStatus.BAD_REQUEST);
+            }
+            return responseEntity;
         } catch (ServiceException e) {
             LOG.log(Level.ERROR, "FAIL DB: Fail to get all certificates.", e);
             return new ResponseEntity<>("Fail to delete certificate field deleteCertificate", HttpStatus.NOT_FOUND);
@@ -93,8 +92,14 @@ public class CertificateController {
     @RequestMapping(value = "/certificate/", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> updateCertificate(@RequestBody Certificate certificate) {
         try {
-            certificateService.updateCertificate(new Certificate(certificate.getName(), certificate.getPrice(), certificate.getDescription(), certificate.getId()));
-            return new ResponseEntity<>("Certificate updated.", HttpStatus.OK);
+            ResponseEntity<?> responseEntity;
+            if (certificateService.isCertificateExist(certificate.getId())) {
+                certificateService.updateCertificate(new Certificate(certificate.getName(), certificate.getPrice(), certificate.getDescription(), certificate.getId()));
+                responseEntity = new ResponseEntity<>("Certificate with id: " + certificate.getId() + " updated.", HttpStatus.OK);
+            } else {
+                responseEntity = new ResponseEntity<>("Cant find certificate with id:" + certificate.getId(), HttpStatus.BAD_REQUEST);
+            }
+            return responseEntity;
         } catch (ServiceException e) {
             LOG.log(Level.ERROR, "FAIL DB: Fail to get all certificates.", e);
             return new ResponseEntity<>("Fail to update certificate field updateCertificate", HttpStatus.INTERNAL_SERVER_ERROR);
