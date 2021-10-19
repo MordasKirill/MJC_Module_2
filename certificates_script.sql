@@ -1,18 +1,18 @@
 create table gift_certificate
 (
-    id               int          not null
+    id               int not null
         primary key,
-    name             varchar(45)  null,
-    price            double       null,
-    duration         int          null,
-    create_date      varchar(45)  null,
-    last_update_date varchar(45)  null,
+    name             varchar(45) null,
+    price            double null,
+    duration         int null,
+    create_date      varchar(45) null,
+    last_update_date varchar(45) null,
     description      varchar(100) null
 );
 
 create table tag
 (
-    id   int         not null
+    id   int not null
         primary key,
     name varchar(45) null
 );
