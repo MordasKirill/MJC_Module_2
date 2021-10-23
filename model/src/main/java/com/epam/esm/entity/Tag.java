@@ -3,6 +3,7 @@ package com.epam.esm.entity;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -14,6 +15,7 @@ import java.util.Objects;
  */
 public class Tag implements Serializable {
     private int id;
+    @Size(max = 45, min = 1)
     private String name;
 
     public Tag() {

@@ -17,7 +17,7 @@ public interface CertificateService {
      *
      * @throws ServiceException exception in Service layer
      */
-    void deleteCertificate(Certificate certificate) throws ServiceException;
+    void deleteCertificate(int id) throws ServiceException;
 
     /**
      * @param certificate entity used to update Certificate
@@ -32,6 +32,12 @@ public interface CertificateService {
      * @throws ServiceException exception in Service layer
      */
     List<Certificate> getCertificates() throws ServiceException;
+
+    /**
+     * @return Single certificate with Certificate entity's
+     * @throws ServiceException exception in Service layer
+     */
+    Certificate getCertificate(int id) throws ServiceException;
 
     /**
      * @param id id to be checked

@@ -6,22 +6,28 @@ import java.util.List;
 
 public interface TagService {
     /**
-     * @param tag to create new tag
+     * @param name to create new tag
      * @throws ServiceException exception in Service layer
      */
-    void createTag(Tag tag) throws ServiceException;
+    void createTag(String name) throws ServiceException;
 
     /**
-     * @param tag to delete chosen tag
+     * @param id to delete chosen tag
      * @throws ServiceException exception in Service layer
      */
-    void deleteTag(Tag tag) throws ServiceException;
+    void deleteTag(int id) throws ServiceException;
 
     /**
      * @return List of tag entity's
      * @throws ServiceException exception in Service layer
      */
     List<Tag> getTags() throws ServiceException;
+
+    /**
+     * @return List of tag entity's
+     * @throws ServiceException exception in Service layer
+     */
+    Tag getTag(int id) throws ServiceException;
 
     /**
      * @param id id to be checked
