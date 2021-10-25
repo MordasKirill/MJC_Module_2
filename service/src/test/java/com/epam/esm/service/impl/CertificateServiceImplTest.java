@@ -5,16 +5,22 @@ import com.epam.esm.dao.impl.CertificatesDAOImpl;
 import com.epam.esm.entity.Certificate;
 import com.epam.esm.service.ServiceException;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-
+@ExtendWith(MockitoExtension.class)
 class CertificateServiceImplTest {
     private static final Certificate notValidCertificate = new Certificate("test", 0.0, 0, null, null, null);
     private static final Certificate validCertificate = new Certificate(1, "test", 1.0, 2, "gege", "gegr", "geg");
-    private final CertificatesDAOImpl certificatesDAO = Mockito.mock(CertificatesDAOImpl.class);
-    private final CertificateServiceImpl certificateService = new CertificateServiceImpl(certificatesDAO);
+    @Mock
+    private CertificatesDAOImpl certificatesDAO;
+    @InjectMocks
+    private CertificateServiceImpl certificateService;
 
     @Test
     void createCertificatesOk() throws ServiceException, DAOException {

@@ -5,14 +5,21 @@ import com.epam.esm.dao.impl.CertificateTagDAOImpl;
 import com.epam.esm.entity.Tag;
 import com.epam.esm.service.ServiceException;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+@ExtendWith(MockitoExtension.class)
 class CertificateTagServiceImplTest {
     private static final Tag tag = new Tag("tagName");
-    private final CertificateTagDAOImpl certificateTagDAO = Mockito.mock(CertificateTagDAOImpl.class);
-    private final CertificateTagServiceImpl certificateTagService = new CertificateTagServiceImpl(certificateTagDAO);
+    @Mock
+    private CertificateTagDAOImpl certificateTagDAO;
+    @InjectMocks
+    private CertificateTagServiceImpl certificateTagService;
 
     @Test
     void getCertificatesByTag() throws DAOException, ServiceException {
@@ -40,13 +47,17 @@ class CertificateTagServiceImplTest {
 
     @Test
     void getCertificatesSortedByPrice() throws DAOException, ServiceException {
-        certificateTagService.getCertificatesSortedByPrice();
-        Mockito.verify(certificateTagDAO).getCertificatesSortedByPrice();
+        String param = "name";
+        String direction = "asc";
+        certificateTagService.getCertificatesSorted(param, direction);
+        Mockito.verify(certificateTagDAO).getCertificatesSorted(param, direction);
     }
 
     @Test
     void getCertificatesSortedByPriceExc() throws DAOException {
-        Mockito.doThrow(new DAOException()).when(certificateTagDAO).getCertificatesSortedByPrice();
-        assertThrows(ServiceException.class, certificateTagService::getCertificatesSortedByPrice, "Expected ServiceException");
+        String param = "name";
+        String direction = "asc";
+        Mockito.doThrow(new DAOException()).when(certificateTagDAO).getCertificatesSorted(param, direction);
+        assertThrows(ServiceException.class, () -> certificateTagService.getCertificatesSorted(param, direction), "Expected ServiceException");
     }
 }

@@ -8,6 +8,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * RowMapper for certificate
+ * used to put result set value
+ * to object fields correctly
+ */
 public class CertificateMapper implements RowMapper<Certificate> {
     private static final String COLUMN_ID = "id";
     private static final String COLUMN_NAME = "name";
@@ -17,6 +22,12 @@ public class CertificateMapper implements RowMapper<Certificate> {
     private static final String COLUMN_CREATE_DATE = "create_date";
     private static final String COLUMN_LAST_UPDATE_DATE = "last_update_date";
 
+    /**
+     * @param rs     ResultSet value
+     * @param rowNum number of rows
+     * @return business object Certificate
+     * @throws SQLException in case of unforeseen ex
+     */
     @Override
     public Certificate mapRow(ResultSet rs, int rowNum) throws SQLException {
         Certificate certificate = new Certificate();

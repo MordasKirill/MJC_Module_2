@@ -4,6 +4,10 @@ import org.springframework.http.HttpStatus;
 
 import java.util.List;
 
+/**
+ * ResultUtil an object to build an informative
+ * exception message
+ */
 public class ResultUtil {
     private String errorMsg;
     private String debugMsg;
@@ -15,9 +19,15 @@ public class ResultUtil {
         this.debugMsg = debugMsh;
     }
 
-    public ResultUtil(String errorMsg, List<String> errors) {
+    public ResultUtil(String errorMsg, List<String> errors, HttpStatus status) {
         this.errorMsg = errorMsg;
         this.errors = errors;
+    }
+
+    public ResultUtil(String errorMsg, String debugMsh, HttpStatus status) {
+        this.errorMsg = errorMsg;
+        this.debugMsg = debugMsh;
+        this.status = status;
     }
 
     public String getErrorMsg() {

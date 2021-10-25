@@ -39,11 +39,11 @@ public class CertificateTagServiceImpl implements CertificateTagService {
     }
 
     @Override
-    public List<Certificate> getCertificatesSortedByPrice() throws ServiceException {
+    public List<Certificate> getCertificatesSorted(String sortParam, String direction) throws ServiceException {
         try {
-            return certificateTagDAO.getCertificatesSortedByPrice();
+            return certificateTagDAO.getCertificatesSorted(sortParam, direction);
         } catch (DAOException e) {
-            throw new ServiceException("Fail to get certificates  by name.", e);
+            throw new ServiceException(e);
         }
     }
 }

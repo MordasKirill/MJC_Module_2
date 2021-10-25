@@ -4,8 +4,9 @@ import com.epam.esm.dao.CertificateTagDAO;
 import com.epam.esm.dao.DAOException;
 import com.epam.esm.dao.impl.mappers.CertificateTagMapper;
 import com.epam.esm.entity.Certificate;
-import com.mchange.v2.c3p0.ComboPooledDataSource;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.BadSqlGrammarException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -13,11 +14,16 @@ import java.util.List;
 
 @Repository
 public class CertificateTagDAOImpl implements CertificateTagDAO {
-    private static final String SELECT_FROM_CERTIFICATE_TAG = "select * from certificate_has_tag left join certificate on (certificate.id = cerf_id) where certificate_has_tag.tag_id = ?";
-    private static final String SELECT_FROM_CERTIFICATE_LIKE = "select certificate.*, group_concat(tag.name) from certificate join certificate_has_tag on certificate_has_tag.cerf_id = certificate.id join tag on tag.id = certificate_has_tag.tag_id where certificate.name like ?";
-    private static final String SELECT_FROM_CERTIFICATE_WHERE_ASC = "select certificate.*, group_concat(tag.name) from certificate join certificate_has_tag on certificate_has_tag.cerf_id = certificate.id join tag on tag.id = certificate_has_tag.tag_id group by certificate.id order by certificate.name asc, certificate.price desc";
+    private static final String SELECT_FROM_CERTIFICATE_TAG = "select certificate.*, group_concat(tag.name) from certificate join certificate_has_tag on certificate_has_tag.cerf_id = certificate.id join tag on tag.id = certificate_has_tag.tag_id where certificate_has_tag.tag_id = ? group by certificate.id ";
+    private static final String SELECT_FROM_CERTIFICATE_LIKE = "select certificate.*, group_concat(tag.name) from certificate join certificate_has_tag on certificate_has_tag.cerf_id = certificate.id join tag on tag.id = certificate_has_tag.tag_id where certificate.name like ? group by certificate.id ";
+    private static final String SELECT_FROM_CERTIFICATE_WHERE_ASC = "select certificate.*, group_concat(tag.name) from gift_certificates.certificate join certificate_has_tag on certificate_has_tag.cerf_id = certificate.id join tag on tag.id = certificate_has_tag.tag_id group by certificate.id";
+    private static final Logger LOG = Logger.getLogger(CertificateTagDAOImpl.class);
+    private final JdbcTemplate jdbcTemplate;
+
     @Autowired
-    private JdbcTemplate jdbcTemplate;
+    public CertificateTagDAOImpl(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
 
     @Override
     public List<Certificate> getCertificatesByTag(int id) throws DAOException {
@@ -29,7 +35,12 @@ public class CertificateTagDAOImpl implements CertificateTagDAO {
         return jdbcTemplate.query(SELECT_FROM_CERTIFICATE_LIKE, new CertificateTagMapper(), name);
     }
 
-    public List<Certificate> getCertificatesSortedByPrice() throws DAOException {
-        return jdbcTemplate.query(SELECT_FROM_CERTIFICATE_WHERE_ASC, new CertificateTagMapper());
+    public List<Certificate> getCertificatesSorted(String sortParam, String direction) throws DAOException {
+        String orderBy = SELECT_FROM_CERTIFICATE_WHERE_ASC + " order by %s %s";
+        try {
+            return jdbcTemplate.query(String.format(orderBy, sortParam, direction), new CertificateTagMapper());
+        } catch (BadSqlGrammarException e) {
+            throw new DAOException(e.getMostSpecificCause().toString());
+        }
     }
 }

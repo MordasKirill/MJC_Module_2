@@ -21,8 +21,12 @@ public class TagDAOImpl implements TagDAO {
     private static final String DELETE_FROM_TAG = "delete from tag where id=?";
     private static final String CREATE_TAG = "insert into tag (name) values (?)";
     private static final Logger LOG = Logger.getLogger(TagDAOImpl.class);
+    private final JdbcTemplate jdbcTemplate;
+
     @Autowired
-    private JdbcTemplate jdbcTemplate;
+    public TagDAOImpl(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
 
     @Override
     public List<Tag> getTags() throws DAOException {

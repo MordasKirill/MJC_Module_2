@@ -6,7 +6,6 @@ import com.epam.esm.dao.TagDAO;
 import com.epam.esm.dao.impl.mappers.CertificateMapper;
 import com.epam.esm.dao.impl.mappers.TagMapper;
 import com.epam.esm.entity.Certificate;
-import com.mchange.v2.c3p0.ComboPooledDataSource;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -27,10 +26,14 @@ public class CertificatesDAOImpl implements CertificateDAO {
     private static final String INSERT_INTO_CERTIFICATE = "insert into certificate (name, description, price, duration, create_date, last_update_date) VALUES (?, ?, ?, ?, NOW(), NOW())";
     private static final String INSERT_INTO_CERTIFICATE_HAS_TAG = "insert into certificate_has_tag (cerf_id, tag_id) VALUES ((select max(id) from certificate), (select tag.id from tag where tag.name = ?))";
     private static final Logger LOG = Logger.getLogger(CertificatesDAOImpl.class);
+    private final TagDAO tagDAO;
+    private final JdbcTemplate jdbcTemplate;
+
     @Autowired
-    private TagDAO tagDAO;
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
+    public CertificatesDAOImpl(TagDAO tagDAO, JdbcTemplate jdbcTemplate) {
+        this.tagDAO = tagDAO;
+        this.jdbcTemplate = jdbcTemplate;
+    }
 
     @Override
     public List<Certificate> getCertificates() throws DAOException {

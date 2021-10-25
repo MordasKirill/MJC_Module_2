@@ -5,7 +5,14 @@ import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
+/**
+ * RowMapper for certificateTag
+ * used to put result set value
+ * to object fields correctly
+ */
 public class CertificateTagMapper implements RowMapper<Certificate> {
     private static final String COLUMN_ID = "id";
     private static final String COLUMN_NAME = "name";
@@ -15,6 +22,12 @@ public class CertificateTagMapper implements RowMapper<Certificate> {
     private static final String COLUMN_CREATE_DATE = "create_date";
     private static final String COLUMN_LAST_UPDATE_DATE = "last_update_date";
 
+    /**
+     * @param rs     ResultSet value
+     * @param rowNum number of rows
+     * @return business object Certificate
+     * @throws SQLException in case of unforeseen ex
+     */
     @Override
     public Certificate mapRow(ResultSet rs, int rowNum) throws SQLException {
         Certificate certificate = new Certificate();
@@ -25,6 +38,9 @@ public class CertificateTagMapper implements RowMapper<Certificate> {
         certificate.setDuration(rs.getInt(COLUMN_DURATION));
         certificate.setCreateDate(rs.getString(COLUMN_CREATE_DATE));
         certificate.setLastUpdateDate(rs.getString(COLUMN_LAST_UPDATE_DATE));
+        List<String> tagList = new ArrayList<>();
+        tagList.add(rs.getString(8));
+        certificate.setTagName(tagList);
         return certificate;
     }
 }

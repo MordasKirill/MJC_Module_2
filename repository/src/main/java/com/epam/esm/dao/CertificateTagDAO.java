@@ -23,5 +23,5 @@ public interface CertificateTagDAO {
      * @return List with Certificate entity's
      * @throws DAOException exception in DAO layer
      */
-    List<Certificate> getCertificatesSortedByPrice() throws DAOException;
+    List<Certificate> getCertificatesSorted(String sortParam, String direction) throws DAOException;
 }

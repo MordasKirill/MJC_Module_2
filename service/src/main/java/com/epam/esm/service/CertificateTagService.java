@@ -23,5 +23,5 @@ public interface CertificateTagService {
      * @return List with Certificate entity's
      * @throws ServiceException exception in Service layer
      */
-    List<Certificate> getCertificatesSortedByPrice() throws ServiceException;
+    List<Certificate> getCertificatesSorted(String sortParam, String direction) throws ServiceException;
 }

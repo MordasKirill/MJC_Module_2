@@ -40,7 +40,7 @@ class CertificatesDAOImplTest {
     }
 
     @Test
-    void createCertificate() {
+    void createCertificate() throws DAOException {
         List<String> tagList = new ArrayList<>();
         tagList.add("food");
         Certificate certificate = new Certificate("hello!", 11.20, "desc", tagList, 5);
@@ -49,8 +49,13 @@ class CertificatesDAOImplTest {
     }
 
     @Test
-    void getCertificates() {
+    void getCertificates() throws DAOException {
         Assertions.assertEquals(5, certificatesDAO.getCertificates().size());
+    }
+
+    @Test
+    void getCertificate() throws DAOException {
+        Assertions.assertNotNull(certificatesDAO.getCertificate(5));
     }
 
     @Test

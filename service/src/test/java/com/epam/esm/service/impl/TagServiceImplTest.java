@@ -5,14 +5,21 @@ import com.epam.esm.dao.impl.TagDAOImpl;
 import com.epam.esm.entity.Tag;
 import com.epam.esm.service.ServiceException;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+@ExtendWith(MockitoExtension.class)
 class TagServiceImplTest {
     private static final Tag tag = new Tag(1, "testName");
-    private final TagDAOImpl tagDAO = Mockito.mock(TagDAOImpl.class);
-    private final TagServiceImpl tagService = new TagServiceImpl(tagDAO);
+    @Mock
+    private TagDAOImpl tagDAO;
+    @InjectMocks
+    private TagServiceImpl tagService;
 
     @Test
     void createTag() throws ServiceException, DAOException {
