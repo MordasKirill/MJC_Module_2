@@ -39,7 +39,7 @@ public class CertificateController {
      */
     @RequestMapping(value = "/", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> createCertificate(@RequestBody @Validated Certificate certificate) throws ServiceException {
-        certificateService.createCertificate(new Certificate(certificate.getName(), certificate.getPrice(), certificate.getDescription(), certificate.getTagName(), certificate.getDuration()));
+        certificateService.createCertificate(certificate);
         return new ResponseEntity<>("Certificate created.", HttpStatus.OK);
     }
 
@@ -62,13 +62,7 @@ public class CertificateController {
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> getCertificate(@PathVariable Optional<Integer> id) throws ServiceException {
-        ResponseEntity<?> responseEntity;
-        if (id.isPresent() && certificateService.isCertificateExist(id.get())) {
-            responseEntity = new ResponseEntity<>(certificateService.getCertificate(id.get()), HttpStatus.OK);
-        } else {
-            responseEntity = new ResponseEntity<>("Cant find certificate with id:" + id, HttpStatus.BAD_REQUEST);
-        }
-        return responseEntity;
+        return new ResponseEntity<>(certificateService.getCertificate(id.get()), HttpStatus.OK);
     }
 
     /**
@@ -79,14 +73,8 @@ public class CertificateController {
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> deleteCertificate(@PathVariable Optional<Integer> id) throws ServiceException {
-        ResponseEntity<?> responseEntity;
-        if (id.isPresent() && certificateService.isCertificateExist(id.get())) {
-            certificateService.deleteCertificate(id.get());
-            responseEntity = new ResponseEntity<>("Certificate with id: " + id.get() + " deleted.", HttpStatus.OK);
-        } else {
-            responseEntity = new ResponseEntity<>("Cant find certificate with id:" + id, HttpStatus.BAD_REQUEST);
-        }
-        return responseEntity;
+        certificateService.deleteCertificate(id.get());
+        return new ResponseEntity<>("Certificate with id: " + id.get() + " deleted.", HttpStatus.OK);
     }
 
     /**
@@ -97,13 +85,7 @@ public class CertificateController {
      */
     @RequestMapping(value = {"/", "/{id}"}, method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> updateCertificate(@PathVariable Optional<Integer> id, @RequestBody @Validated Certificate certificate) throws ServiceException {
-        ResponseEntity<?> responseEntity;
-        if (id.isPresent() && certificateService.isCertificateExist(id.get())) {
-            certificateService.updateCertificate(new Certificate(certificate.getName(), certificate.getPrice(), certificate.getDescription(), id.get(), certificate.getTagName(), certificate.getDuration()));
-            responseEntity = new ResponseEntity<>("Certificate with id: " + id.get() + " updated.", HttpStatus.OK);
-        } else {
-            responseEntity = new ResponseEntity<>("Cant find certificate with id:" + id, HttpStatus.BAD_REQUEST);
-        }
-        return responseEntity;
+        certificateService.updateCertificate(id.get(), certificate);
+        return new ResponseEntity<>("Certificate with id: " + id.get() + " updated.", HttpStatus.OK);
     }
 }

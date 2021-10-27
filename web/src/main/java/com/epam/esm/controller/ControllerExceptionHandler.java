@@ -37,8 +37,8 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
      */
     @ExceptionHandler(ServiceException.class)
     protected ResponseEntity<Object> handleEntityNotFoundEx(ServiceException ex) {
-        ResultUtil resultUtil = new ResultUtil("Something went wrong.", ex.getMessage(), HttpStatus.BAD_REQUEST);
-        return new ResponseEntity<>(resultUtil, HttpStatus.BAD_REQUEST);
+        ErrorResponse errorResponse = new ErrorResponse("Something went wrong.", ex.getMessage(), HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 
     /**
@@ -49,8 +49,8 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
      */
     @ExceptionHandler(TypeMismatchException.class)
     protected ResponseEntity<Object> handleTypeMismatchException(ConstraintViolationException exception) {
-        ResultUtil resultUtil = new ResultUtil("TypeMismatchException", exception.getCause().toString());
-        return new ResponseEntity<>(resultUtil, HttpStatus.BAD_REQUEST);
+        ErrorResponse errorResponse = new ErrorResponse("TypeMismatchException", exception.getCause().toString());
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 
     /**
@@ -63,8 +63,8 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
     @Override
     protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex,
                                                                   HttpHeaders headers, HttpStatus status, WebRequest request) {
-        ResultUtil resultUtil = new ResultUtil("Malformed JSON Request", ex.getMessage());
-        return new ResponseEntity<>(resultUtil, status);
+        ErrorResponse errorResponse = new ErrorResponse("Malformed JSON Request", ex.getMessage());
+        return new ResponseEntity<>(errorResponse, status);
     }
 
     /**
@@ -82,12 +82,12 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
                 .stream()
                 .map(DefaultMessageSourceResolvable::getDefaultMessage)
                 .collect(Collectors.toList());
-        ResultUtil resultUtil;
-        resultUtil = new ResultUtil("Method Argument Not Valid", errors, HttpStatus.BAD_REQUEST);
+        ErrorResponse errorResponse;
+        errorResponse = new ErrorResponse("Method Argument Not Valid", errors, HttpStatus.BAD_REQUEST);
         if (errors.size() == 0) {
-            resultUtil = new ResultUtil("Method Argument Not Valid", HttpStatus.BAD_REQUEST.toString());
+            errorResponse = new ErrorResponse("Method Argument Not Valid", HttpStatus.BAD_REQUEST.toString());
         }
-        return new ResponseEntity<>(resultUtil, status);
+        return new ResponseEntity<>(errorResponse, status);
     }
 
     /**

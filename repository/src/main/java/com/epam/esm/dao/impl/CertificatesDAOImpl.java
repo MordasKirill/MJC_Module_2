@@ -41,7 +41,7 @@ public class CertificatesDAOImpl implements CertificateDAO {
     }
 
     @Override
-    public Certificate getCertificate(int id) throws DAOException {
+    public Certificate getCertificate(Integer id) throws DAOException {
         return jdbcTemplate.queryForObject(SELECT_SINGLE_CERTIFICATE, new CertificateMapper(), id);
     }
 
@@ -58,7 +58,7 @@ public class CertificatesDAOImpl implements CertificateDAO {
     }
 
     @Override
-    public void deleteCertificates(int id) throws DAOException {
+    public void deleteCertificates(Integer id) throws DAOException {
         jdbcTemplate.update(DELETE_FROM_CERTIFICATE, id);
     }
 
@@ -68,7 +68,7 @@ public class CertificatesDAOImpl implements CertificateDAO {
     }
 
     @Override
-    public boolean isCertificateExist(int id) throws DAOException {
+    public boolean isCertificateExist(Integer id) throws DAOException {
         try {
             return Optional.ofNullable(jdbcTemplate.queryForObject(SELECT_CERTIFICATE, new TagMapper(), id)).isPresent();
         } catch (EmptyResultDataAccessException e) {

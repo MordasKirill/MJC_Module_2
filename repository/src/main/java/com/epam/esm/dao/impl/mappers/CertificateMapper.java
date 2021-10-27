@@ -5,7 +5,7 @@ import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -38,8 +38,7 @@ public class CertificateMapper implements RowMapper<Certificate> {
         certificate.setDuration(rs.getInt(COLUMN_DURATION));
         certificate.setCreateDate(rs.getString(COLUMN_CREATE_DATE));
         certificate.setLastUpdateDate(rs.getString(COLUMN_LAST_UPDATE_DATE));
-        List<String> tagList = new ArrayList<>();
-        tagList.add(rs.getString(8));
+        List<String> tagList = Arrays.asList((rs.getString(8)).trim().split(","));
         certificate.setTagName(tagList);
         return certificate;
     }

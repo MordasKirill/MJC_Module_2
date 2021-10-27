@@ -16,9 +16,9 @@ import java.beans.PropertyVetoException;
 public class CommonConfig {
 
     @Autowired(required = false)
-    ConfigProd config;
+    private ConfigProd config;
     @Autowired(required = false)
-    ConfigDev configDev;
+    private ConfigDev configDev;
 
     @Bean
     @Profile("prod")

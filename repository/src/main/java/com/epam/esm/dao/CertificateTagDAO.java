@@ -10,7 +10,7 @@ public interface CertificateTagDAO {
      * @return List with Certificate entity's
      * @throws DAOException exception in DAO layer
      */
-    List<Certificate> getCertificatesByTag(int id) throws DAOException;
+    List<Certificate> getCertificatesByTag(Integer id) throws DAOException;
 
     /**
      * @param name to get certificates by name

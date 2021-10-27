@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class TagServiceImpl implements TagService {
@@ -29,9 +30,13 @@ public class TagServiceImpl implements TagService {
     }
 
     @Override
-    public void deleteTag(int id) throws ServiceException {
+    public void deleteTag(Integer id) throws ServiceException {
         try {
-            tagDAO.deleteTag(id);
+            if (!Optional.ofNullable(id).isPresent() || !isTagExist(id)) {
+                throw new ServiceException("Cant find tag with id:" + id);
+            } else {
+                tagDAO.deleteTag(id);
+            }
         } catch (DAOException e) {
             throw new ServiceException("DeleteTag fail.", e);
         }
@@ -47,16 +52,20 @@ public class TagServiceImpl implements TagService {
     }
 
     @Override
-    public Tag getTag(int id) throws ServiceException {
+    public Tag getTag(Integer id) throws ServiceException {
         try {
-            return tagDAO.getTag(id);
+            if (!Optional.ofNullable(id).isPresent() && !isTagExist(id)) {
+                throw new ServiceException("Cant find tag with id:" + id);
+            } else {
+                return tagDAO.getTag(id);
+            }
         } catch (DAOException e) {
             throw new ServiceException("GetTags fail.", e);
         }
     }
 
     @Override
-    public boolean isTagExist(int id) throws ServiceException {
+    public boolean isTagExist(Integer id) throws ServiceException {
         try {
             return tagDAO.isTagExist(id);
         } catch (DAOException e) {

@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 @ExtendWith(MockitoExtension.class)
 class CertificateServiceImplTest {
     private static final Certificate notValidCertificate = new Certificate("test", 0.0, 0, null, null, null);
-    private static final Certificate validCertificate = new Certificate(1, "test", 1.0, 2, "gege", "gegr", "geg");
+    private static final Certificate validCertificate = new Certificate(5, "test", 1.0, 2, "gege", "gegr", "geg");
     @Mock
     private CertificatesDAOImpl certificatesDAO;
     @InjectMocks
@@ -41,12 +41,14 @@ class CertificateServiceImplTest {
 
     @Test
     void deleteCertificates() throws Exception {
-        certificateService.deleteCertificate(validCertificate.getId());
+        Mockito.when(certificateService.isCertificateExist(validCertificate.getId())).thenReturn(true);
+        certificateService.deleteCertificate(5);
         Mockito.verify(certificatesDAO).deleteCertificates(validCertificate.getId());
     }
 
     @Test
-    void deleteCertificatesExc() throws DAOException {
+    void deleteCertificatesExc() throws DAOException, ServiceException {
+        Mockito.when(certificateService.isCertificateExist(validCertificate.getId())).thenReturn(true);
         Mockito.doThrow(new DAOException()).when(certificatesDAO).deleteCertificates(validCertificate.getId());
         assertThrows(ServiceException.class, () -> certificateService.deleteCertificate(validCertificate.getId()), "CreateCertificate fail due to null value of params.");
     }
@@ -58,14 +60,16 @@ class CertificateServiceImplTest {
 
     @Test
     void updateCertificates() throws Exception {
-        certificateService.updateCertificate(validCertificate);
+        Mockito.when(certificateService.isCertificateExist(validCertificate.getId())).thenReturn(true);
+        certificateService.updateCertificate(5, validCertificate);
         Mockito.verify(certificatesDAO).updateCertificates(validCertificate);
     }
 
     @Test
-    void updateCertificatesExc() throws DAOException {
+    void updateCertificatesExc() throws DAOException, ServiceException {
+        Mockito.when(certificateService.isCertificateExist(validCertificate.getId())).thenReturn(true);
         Mockito.doThrow(new DAOException()).when(certificatesDAO).updateCertificates(validCertificate);
-        assertThrows(ServiceException.class, () -> certificateService.updateCertificate(validCertificate), "UpdateCertificate fail");
+        assertThrows(ServiceException.class, () -> certificateService.updateCertificate(5, validCertificate), "UpdateCertificate fail");
     }
 
     @Test
@@ -76,6 +80,7 @@ class CertificateServiceImplTest {
 
     @Test
     void getCertificate() throws ServiceException, DAOException {
+        Mockito.when(certificateService.isCertificateExist(validCertificate.getId())).thenReturn(true);
         certificateService.getCertificate(validCertificate.getId());
         Mockito.verify(certificatesDAO).getCertificate(validCertificate.getId());
     }
@@ -87,7 +92,8 @@ class CertificateServiceImplTest {
     }
 
     @Test
-    void getCertificateExc() throws DAOException {
+    void getCertificateExc() throws DAOException, ServiceException {
+        Mockito.when(certificateService.isCertificateExist(validCertificate.getId())).thenReturn(true);
         Mockito.doThrow(new DAOException()).when(certificatesDAO).getCertificate(validCertificate.getId());
         assertThrows(ServiceException.class, () -> certificateService.getCertificate(validCertificate.getId()), "UpdateCertificate fail");
     }

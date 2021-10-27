@@ -15,7 +15,7 @@ public interface CertificateDAO {
      * @return Single certificate with Certificate entity's
      * @throws DAOException exception in DAO layer
      */
-    Certificate getCertificate(int id) throws DAOException;
+    Certificate getCertificate(Integer id) throws DAOException;
 
     /**
      * @param certificate entity used to create Certificate
@@ -29,7 +29,7 @@ public interface CertificateDAO {
      *
      * @throws DAOException exception in DAO layer
      */
-    void deleteCertificates(int id) throws DAOException;
+    void deleteCertificates(Integer id) throws DAOException;
 
     /**
      * @param certificate entity used to update Certificate
@@ -43,5 +43,5 @@ public interface CertificateDAO {
      * @return true/false is exists
      * @throws DAOException exception in DAO layer
      */
-    boolean isCertificateExist(int id) throws DAOException;
+    boolean isCertificateExist(Integer id) throws DAOException;
 }

@@ -15,7 +15,9 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @ExtendWith(MockitoExtension.class)
 class CertificateTagServiceImplTest {
-    private static final Tag tag = new Tag("tagName");
+    private static final Tag tag = new Tag(5, "tagName");
+    @Mock
+    private TagServiceImpl tagService;
     @Mock
     private CertificateTagDAOImpl certificateTagDAO;
     @InjectMocks
@@ -23,12 +25,14 @@ class CertificateTagServiceImplTest {
 
     @Test
     void getCertificatesByTag() throws DAOException, ServiceException {
+        Mockito.when(tagService.isTagExist(tag.getId())).thenReturn(true);
         certificateTagService.getCertificatesByTag(tag.getId());
         Mockito.verify(certificateTagDAO).getCertificatesByTag(tag.getId());
     }
 
     @Test
-    void getCertificatesByTagExc() throws DAOException {
+    void getCertificatesByTagExc() throws DAOException, ServiceException {
+        Mockito.when(tagService.isTagExist(tag.getId())).thenReturn(true);
         Mockito.doThrow(new DAOException()).when(certificateTagDAO).getCertificatesByTag(tag.getId());
         assertThrows(ServiceException.class, () -> certificateTagService.getCertificatesByTag(tag.getId()), "Expected ServiceException");
     }

@@ -6,11 +6,11 @@ import java.util.List;
 
 public interface CertificateTagService {
     /**
-     * @param tag to get certificates by tag
+     * @param id to get certificates by tag id
      * @return List with Certificate entity's
      * @throws ServiceException exception in Service layer
      */
-    List<Certificate> getCertificatesByTag(int id) throws ServiceException;
+    List<Certificate> getCertificatesByTag(Integer id) throws ServiceException;
 
     /**
      * @param name to get certificates by name
