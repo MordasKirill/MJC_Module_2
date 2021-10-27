@@ -11,6 +11,9 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import java.beans.PropertyVetoException;
 
+/**
+ * configuration class for profile "prod"
+ */
 @ComponentScan("com.epam.esm")
 @Configuration
 @EnableTransactionManagement

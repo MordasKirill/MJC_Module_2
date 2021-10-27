@@ -9,6 +9,10 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import java.beans.PropertyVetoException;
 
+/**
+ * common configuration for
+ * spring context
+ */
 @ComponentScan("com.epam.esm")
 @Configuration
 @EnableTransactionManagement
