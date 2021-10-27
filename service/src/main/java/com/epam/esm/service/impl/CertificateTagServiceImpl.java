@@ -28,9 +28,8 @@ public class CertificateTagServiceImpl implements CertificateTagService {
         try {
             if (!Optional.ofNullable(id).isPresent() || !tagService.isTagExist(id)) {
                 throw new ServiceException("Cant find tag with id:" + id);
-            } else {
-                return certificateTagDAO.getCertificatesByTag(id);
             }
+            return certificateTagDAO.getCertificatesByTag(id);
         } catch (DAOException e) {
             throw new ServiceException("Fail to get certificates  by tag.", e);
         }

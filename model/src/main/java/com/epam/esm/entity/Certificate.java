@@ -35,7 +35,7 @@ public class Certificate implements Serializable {
     private Integer duration;
     private String createDate;
     private String lastUpdateDate;
-    private List<String> tagName;
+    private List<String> tagNames;
 
     public Certificate() {
     }
@@ -52,23 +52,23 @@ public class Certificate implements Serializable {
         this.id = id;
     }
 
-    public Certificate(String name, Double price, String description, List<String> tagName, Integer duration) {
+    public Certificate(String name, Double price, String description, List<String> tagNames, Integer duration) {
         this.name = name;
         this.price = price;
         this.description = description;
-        this.tagName = tagName;
+        this.tagNames = tagNames;
         this.duration = duration;
     }
 
     @JsonCreator
     public Certificate(@JsonProperty("name") String name, @JsonProperty("price") Double price,
                        @JsonProperty("description") String description, @JsonProperty("id") Integer id,
-                       @JsonProperty("tagName") List<String> tagName, @JsonProperty("duration") Integer duration) {
+                       @JsonProperty("tagName") List<String> tagNames, @JsonProperty("duration") Integer duration) {
         this.name = name;
         this.price = price;
         this.description = description;
         this.id = id;
-        this.tagName = tagName;
+        this.tagNames = tagNames;
         this.duration = duration;
     }
 
@@ -163,12 +163,12 @@ public class Certificate implements Serializable {
         this.lastUpdateDate = lastUpdateDate;
     }
 
-    public List<String> getTagName() {
-        return tagName;
+    public List<String> getTagNames() {
+        return tagNames;
     }
 
-    public void setTagName(List<String> tagName) {
-        this.tagName = tagName;
+    public void setTagNames(List<String> tagNames) {
+        this.tagNames = tagNames;
     }
 
     @Override

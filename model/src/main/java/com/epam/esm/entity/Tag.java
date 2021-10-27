@@ -34,7 +34,7 @@ public class Tag implements Serializable {
         this.name = name;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
@@ -50,13 +50,13 @@ public class Tag implements Serializable {
         this.name = name;
     }
 
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Tag)) return false;
         Tag tag = (Tag) o;
-        return getId() == tag.getId() &&
-                getName().equals(tag.getName());
+        return getId().equals(tag.getId()) && getName().equals(tag.getName());
     }
 
     @Override

@@ -72,6 +72,6 @@ public class TagController {
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> deleteTag(@PathVariable Optional<Integer> id) throws ServiceException {
         tagService.deleteTag(id.get());
-        return new ResponseEntity<>("Tag with id: " + id.get() + " deleted.", HttpStatus.OK);
+        return new ResponseEntity<>(String.format("Tag with id: %d deleted.", id.get()), HttpStatus.OK);
     }
 }

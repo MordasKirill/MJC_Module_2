@@ -74,7 +74,7 @@ public class CertificateController {
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> deleteCertificate(@PathVariable Optional<Integer> id) throws ServiceException {
         certificateService.deleteCertificate(id.get());
-        return new ResponseEntity<>("Certificate with id: " + id.get() + " deleted.", HttpStatus.OK);
+        return new ResponseEntity<>(String.format("Certificate with id: %d deleted.", id.get()), HttpStatus.OK);
     }
 
     /**
@@ -86,6 +86,6 @@ public class CertificateController {
     @RequestMapping(value = {"/", "/{id}"}, method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> updateCertificate(@PathVariable Optional<Integer> id, @RequestBody @Validated Certificate certificate) throws ServiceException {
         certificateService.updateCertificate(id.get(), certificate);
-        return new ResponseEntity<>("Certificate with id: " + id.get() + " updated.", HttpStatus.OK);
+        return new ResponseEntity<>(String.format("Certificate with id: %d updated.", id.get()), HttpStatus.OK);
     }
 }

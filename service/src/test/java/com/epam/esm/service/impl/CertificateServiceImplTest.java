@@ -62,13 +62,13 @@ class CertificateServiceImplTest {
     void updateCertificates() throws Exception {
         Mockito.when(certificateService.isCertificateExist(validCertificate.getId())).thenReturn(true);
         certificateService.updateCertificate(5, validCertificate);
-        Mockito.verify(certificatesDAO).updateCertificates(validCertificate);
+        Mockito.verify(certificatesDAO).updateCertificates(5, validCertificate);
     }
 
     @Test
     void updateCertificatesExc() throws DAOException, ServiceException {
         Mockito.when(certificateService.isCertificateExist(validCertificate.getId())).thenReturn(true);
-        Mockito.doThrow(new DAOException()).when(certificatesDAO).updateCertificates(validCertificate);
+        Mockito.doThrow(new DAOException()).when(certificatesDAO).updateCertificates(5, validCertificate);
         assertThrows(ServiceException.class, () -> certificateService.updateCertificate(5, validCertificate), "UpdateCertificate fail");
     }
 

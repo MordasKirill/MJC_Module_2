@@ -14,9 +14,11 @@ import java.util.List;
 
 @Repository
 public class CertificateTagDAOImpl implements CertificateTagDAO {
-    private static final String SELECT_FROM_CERTIFICATE_LIKE = "select certificate.*, group_concat(tag.name) from certificate join certificate_has_tag on certificate_has_tag.cerf_id = certificate.id join tag on tag.id = certificate_has_tag.tag_id where %s ";
-    private static final String SELECT_FROM_CERTIFICATE_WHERE_ASC = "select certificate.*, group_concat(tag.name) from gift_certificates.certificate join certificate_has_tag on certificate_has_tag.cerf_id = certificate.id join tag on tag.id = certificate_has_tag.tag_id group by certificate.id";
     private static final Logger LOG = Logger.getLogger(CertificateTagDAOImpl.class);
+    private static final String SELECT_FROM_CERTIFICATE_WHERE = "select certificate.*, group_concat(tag.name) from certificate join certificate_tag on certificate_tag.cerf_id = certificate.id join tag on tag.id = certificate_tag.tag_id where %s ";
+    private static final String TAG_ID_GROUP_BY_CERTIFICATE_ID = "certificate_tag.tag_id = ? group by certificate.id";
+    private static final String SELECT_FROM_CERTIFICATE_WHERE_ASC = "select certificate.*, group_concat(tag.name) from gift_certificates.certificate join certificate_tag on certificate_tag.cerf_id = certificate.id join tag on tag.id = certificate_tag.tag_id group by certificate.id";
+    private static final String NAME_LIKE_GROUP_BY_CERTIFICATE_ID = "certificate.name like ? group by certificate.id";
     private final JdbcTemplate jdbcTemplate;
 
     @Autowired
@@ -26,12 +28,12 @@ public class CertificateTagDAOImpl implements CertificateTagDAO {
 
     @Override
     public List<Certificate> getCertificatesByTag(Integer id) throws DAOException {
-        return jdbcTemplate.query(String.format(SELECT_FROM_CERTIFICATE_LIKE, "certificate_has_tag.tag_id = ? group by certificate.id"), new CertificateMapper(), id);
+        return jdbcTemplate.query(String.format(SELECT_FROM_CERTIFICATE_WHERE, TAG_ID_GROUP_BY_CERTIFICATE_ID), new CertificateMapper(), id);
     }
 
     @Override
     public List<Certificate> getCertificatesByNamePart(String name) throws DAOException {
-        return jdbcTemplate.query(String.format(SELECT_FROM_CERTIFICATE_LIKE, "certificate.name like ? group by certificate.id"), new CertificateMapper(), name);
+        return jdbcTemplate.query(String.format(SELECT_FROM_CERTIFICATE_WHERE, NAME_LIKE_GROUP_BY_CERTIFICATE_ID), new CertificateMapper(), name);
     }
 
     public List<Certificate> getCertificatesSorted(String sortParam, String direction) throws DAOException {

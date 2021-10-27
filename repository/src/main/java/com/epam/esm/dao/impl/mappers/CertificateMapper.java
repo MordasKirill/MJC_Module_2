@@ -39,7 +39,7 @@ public class CertificateMapper implements RowMapper<Certificate> {
         certificate.setCreateDate(rs.getString(COLUMN_CREATE_DATE));
         certificate.setLastUpdateDate(rs.getString(COLUMN_LAST_UPDATE_DATE));
         List<String> tagList = Arrays.asList((rs.getString(8)).trim().split(","));
-        certificate.setTagName(tagList);
+        certificate.setTagNames(tagList);
         return certificate;
     }
 }

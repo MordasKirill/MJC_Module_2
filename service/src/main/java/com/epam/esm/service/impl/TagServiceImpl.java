@@ -34,9 +34,8 @@ public class TagServiceImpl implements TagService {
         try {
             if (!Optional.ofNullable(id).isPresent() || !isTagExist(id)) {
                 throw new ServiceException("Cant find tag with id:" + id);
-            } else {
-                tagDAO.deleteTag(id);
             }
+            tagDAO.deleteTag(id);
         } catch (DAOException e) {
             throw new ServiceException("DeleteTag fail.", e);
         }
@@ -54,11 +53,10 @@ public class TagServiceImpl implements TagService {
     @Override
     public Tag getTag(Integer id) throws ServiceException {
         try {
-            if (!Optional.ofNullable(id).isPresent() && !isTagExist(id)) {
+            if (!Optional.ofNullable(id).isPresent() || !isTagExist(id)) {
                 throw new ServiceException("Cant find tag with id:" + id);
-            } else {
-                return tagDAO.getTag(id);
             }
+            return tagDAO.getTag(id);
         } catch (DAOException e) {
             throw new ServiceException("GetTags fail.", e);
         }

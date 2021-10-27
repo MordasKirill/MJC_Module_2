@@ -3,6 +3,7 @@ package com.epam.esm.controller.config;
 import com.epam.esm.dao.connection.DBParameter;
 import com.epam.esm.dao.connection.DBResourceManager;
 import org.h2.jdbcx.JdbcConnectionPool;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -18,11 +19,13 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @Profile("dev")
 public class ConfigDev {
 
+    @Autowired
+    private DBResourceManager dbResourceManager;
+
     @Bean
     public JdbcConnectionPool getDataSource() {
-        DBResourceManager.dbResourceManager = new DBResourceManager();
-        DBResourceManager.dbResourceManager.loadProperties("test.properties");
-        return JdbcConnectionPool.create(DBResourceManager.dbResourceManager.properties.getProperty(DBParameter.DB_URL), DBResourceManager.dbResourceManager.properties.getProperty(DBParameter.DB_USER),
-                DBResourceManager.dbResourceManager.properties.getProperty(DBParameter.DB_PASSWORD));
+        dbResourceManager.loadProperties("test.properties");
+        return JdbcConnectionPool.create(dbResourceManager.properties.getProperty(DBParameter.DB_URL), dbResourceManager.properties.getProperty(DBParameter.DB_USER),
+                dbResourceManager.properties.getProperty(DBParameter.DB_PASSWORD));
     }
 }

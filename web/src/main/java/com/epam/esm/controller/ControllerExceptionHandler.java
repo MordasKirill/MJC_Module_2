@@ -11,7 +11,6 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
-import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
@@ -36,7 +35,19 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
      * @return a Response Entity with exception detail
      */
     @ExceptionHandler(ServiceException.class)
-    protected ResponseEntity<Object> handleEntityNotFoundEx(ServiceException ex) {
+    protected ResponseEntity<Object> handleServiceException(ServiceException ex) {
+        ErrorResponse errorResponse = new ErrorResponse("Something went wrong.", ex.getMessage(), HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+    }
+
+    /**
+     * ExceptionHandler for RuntimeException
+     *
+     * @param ex exception in runtime
+     * @return a Response Entity with exception detail
+     */
+    @ExceptionHandler(RuntimeException.class)
+    protected ResponseEntity<Object> handleRuntimeException(RuntimeException ex) {
         ErrorResponse errorResponse = new ErrorResponse("Something went wrong.", ex.getMessage(), HttpStatus.BAD_REQUEST);
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
@@ -88,20 +99,5 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
             errorResponse = new ErrorResponse("Method Argument Not Valid", HttpStatus.BAD_REQUEST.toString());
         }
         return new ResponseEntity<>(errorResponse, status);
-    }
-
-    /**
-     * @param ex      NoHandlerFoundException
-     * @param headers HttpHeaders
-     * @param status  HttpStatus
-     * @param request WebRequest
-     * @return a Response Entity with NoHandlerFoundException detail
-     */
-    @Override
-    protected ResponseEntity<Object> handleNoHandlerFoundException(NoHandlerFoundException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
-        Map<String, String> responseBody = new HashMap<>();
-        responseBody.put("path", request.getContextPath());
-        responseBody.put("message", "The URL you have reached is not in service at this time (404).");
-        return new ResponseEntity<>(responseBody, HttpStatus.NOT_FOUND);
     }
 }

@@ -36,7 +36,7 @@ public interface CertificateDAO {
      *                    update info of chosen certificate
      * @throws DAOException exception in DAO layer
      */
-    void updateCertificates(Certificate certificate) throws DAOException;
+    void updateCertificates(Integer id, Certificate certificate) throws DAOException;
 
     /**
      * @param id id to be checked
