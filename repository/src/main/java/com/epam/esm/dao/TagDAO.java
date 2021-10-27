@@ -12,16 +12,22 @@ public interface TagDAO {
     List<Tag> getTags() throws DAOException;
 
     /**
-     * @param tag to create new tag
+     * @return Single tag of tag entity's
      * @throws DAOException exception in DAO layer
      */
-    void createTag(Tag tag) throws DAOException;
+    Tag getTag(int id) throws DAOException;
 
     /**
-     * @param tag to delete chosen tag
+     * @param name to create new tag
      * @throws DAOException exception in DAO layer
      */
-    void deleteTag(Tag tag) throws DAOException;
+    void createTag(String name) throws DAOException;
+
+    /**
+     * @param id to delete chosen tag
+     * @throws DAOException exception in DAO layer
+     */
+    void deleteTag(int id) throws DAOException;
 
     /**
      * @param id id to be checked
@@ -29,4 +35,11 @@ public interface TagDAO {
      * @throws DAOException exception in DAO layer
      */
     boolean isTagExist(int id) throws DAOException;
+
+    /**
+     * @param name id to be checked
+     * @return true/false is exists
+     * @throws DAOException exception in DAO layer
+     */
+    boolean isTagExist(String name) throws DAOException;
 }

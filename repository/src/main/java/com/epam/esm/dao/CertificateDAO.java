@@ -12,10 +12,16 @@ public interface CertificateDAO {
     List<Certificate> getCertificates() throws DAOException;
 
     /**
+     * @return Single certificate with Certificate entity's
+     * @throws DAOException exception in DAO layer
+     */
+    Certificate getCertificate(int id) throws DAOException;
+
+    /**
      * @param certificate entity used to create Certificate
      * @throws DAOException exception in DAO layer
      */
-    void createCertificates(Certificate certificate) throws DAOException;
+    void createCertificate(Certificate certificate) throws DAOException;
 
     /**
      * * @param certificate entity used to delete Certificate
@@ -23,7 +29,7 @@ public interface CertificateDAO {
      *
      * @throws DAOException exception in DAO layer
      */
-    void deleteCertificates(Certificate certificate) throws DAOException;
+    void deleteCertificates(int id) throws DAOException;
 
     /**
      * @param certificate entity used to update Certificate

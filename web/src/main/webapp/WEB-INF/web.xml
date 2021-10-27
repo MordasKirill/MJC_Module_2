@@ -12,7 +12,4 @@
         <servlet-name>dispatcher</servlet-name>
         <url-pattern>/*</url-pattern>
     </servlet-mapping>
-    <listener>
-        <listener-class>com.epam.esm.controller.listener.Listener</listener-class>
-    </listener>
 </web-app>

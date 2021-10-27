@@ -5,7 +5,10 @@ import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSetter;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -22,13 +25,17 @@ import java.util.Objects;
  */
 public class Certificate implements Serializable {
     private int id;
+    @Size(max = 45, min = 1)
     private String name;
+    @Size(max = 45, min = 1)
     private String description;
+    @Min(1)
     private double price;
+    @Min(1)
     private int duration;
     private String createDate;
     private String lastUpdateDate;
-    private String tagName;
+    private List<String> tagName;
 
     public Certificate() {
     }
@@ -37,15 +44,15 @@ public class Certificate implements Serializable {
         this.id = id;
     }
 
-    public Certificate(@JsonProperty("name") String name, @JsonProperty("price") double price,
-                       @JsonProperty("description") String description, @JsonProperty("id") int id) {
+    public Certificate(String name, double price,
+                       String description, int id) {
         this.name = name;
         this.price = price;
         this.description = description;
         this.id = id;
     }
 
-    public Certificate(String name, double price, String description, String tagName, int duration) {
+    public Certificate(String name, double price, String description, List<String> tagName, int duration) {
         this.name = name;
         this.price = price;
         this.description = description;
@@ -56,7 +63,7 @@ public class Certificate implements Serializable {
     @JsonCreator
     public Certificate(@JsonProperty("name") String name, @JsonProperty("price") double price,
                        @JsonProperty("description") String description, @JsonProperty("id") int id,
-                       @JsonProperty("tagName") String tagName, @JsonProperty("duration") int duration) {
+                       @JsonProperty("tagName") List<String> tagName, @JsonProperty("duration") int duration) {
         this.name = name;
         this.price = price;
         this.description = description;
@@ -156,11 +163,11 @@ public class Certificate implements Serializable {
         this.lastUpdateDate = lastUpdateDate;
     }
 
-    public String getTagName() {
+    public List<String> getTagName() {
         return tagName;
     }
 
-    public void setTagName(String tagName) {
+    public void setTagName(List<String> tagName) {
         this.tagName = tagName;
     }
 

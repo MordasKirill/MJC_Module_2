@@ -1,17 +1,16 @@
 package com.epam.esm.dao;
 
 import com.epam.esm.entity.Certificate;
-import com.epam.esm.entity.Tag;
 
 import java.util.List;
 
 public interface CertificateTagDAO {
     /**
-     * @param tag to get certificates by tag
+     * @param id to get certificates by tag id
      * @return List with Certificate entity's
      * @throws DAOException exception in DAO layer
      */
-    List<Certificate> getCertificatesByTag(Tag tag) throws DAOException;
+    List<Certificate> getCertificatesByTag(int id) throws DAOException;
 
     /**
      * @param name to get certificates by name
@@ -24,5 +23,5 @@ public interface CertificateTagDAO {
      * @return List with Certificate entity's
      * @throws DAOException exception in DAO layer
      */
-    List<Certificate> getCertificatesSortedByPrice() throws DAOException;
+    List<Certificate> getCertificatesSorted(String sortParam, String direction) throws DAOException;
 }
