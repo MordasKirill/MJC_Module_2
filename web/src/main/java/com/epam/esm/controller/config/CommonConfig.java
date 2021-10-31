@@ -9,6 +9,10 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import java.beans.PropertyVetoException;
 
+/**
+ * common configuration for
+ * spring context
+ */
 @ComponentScan("com.epam.esm")
 @Configuration
 @EnableTransactionManagement
@@ -16,15 +20,15 @@ import java.beans.PropertyVetoException;
 public class CommonConfig {
 
     @Autowired(required = false)
-    ConfigProd config;
+    private ConfigProd configProd;
     @Autowired(required = false)
-    ConfigDev configDev;
+    private ConfigDev configDev;
 
     @Bean
     @Profile("prod")
     public JdbcTemplate getJdbcTemplateProd() throws PropertyVetoException {
         JdbcTemplate jdbcTemplate = new JdbcTemplate();
-        jdbcTemplate.setDataSource(config.getDataSource());
+        jdbcTemplate.setDataSource(configProd.getDataSource());
         return jdbcTemplate;
     }
 
@@ -32,23 +36,23 @@ public class CommonConfig {
     @Profile("prod")
     public PlatformTransactionManager transactionManager() throws PropertyVetoException {
         DataSourceTransactionManager tm = new DataSourceTransactionManager();
-        tm.setDataSource(config.getDataSource());
+        tm.setDataSource(configProd.getDataSource());
         return tm;
     }
 
     @Bean
     @Profile("dev")
-    public JdbcTemplate getJdbcTemplateDevProd() throws PropertyVetoException {
+    public JdbcTemplate getJdbcTemplateDevProd() {
         JdbcTemplate jdbcTemplate = new JdbcTemplate();
-        jdbcTemplate.setDataSource(config.getDataSource());
+        jdbcTemplate.setDataSource(configDev.getDataSource());
         return jdbcTemplate;
     }
 
     @Bean
     @Profile("dev")
-    public PlatformTransactionManager transactionManagerDev() throws PropertyVetoException {
+    public PlatformTransactionManager transactionManagerDev() {
         DataSourceTransactionManager tm = new DataSourceTransactionManager();
-        tm.setDataSource(config.getDataSource());
+        tm.setDataSource(configDev.getDataSource());
         return tm;
     }
 }

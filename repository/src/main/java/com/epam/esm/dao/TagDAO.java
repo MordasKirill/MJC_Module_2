@@ -15,7 +15,7 @@ public interface TagDAO {
      * @return Single tag of tag entity's
      * @throws DAOException exception in DAO layer
      */
-    Tag getTag(int id) throws DAOException;
+    Tag getTag(Integer id) throws DAOException;
 
     /**
      * @param name to create new tag
@@ -27,14 +27,14 @@ public interface TagDAO {
      * @param id to delete chosen tag
      * @throws DAOException exception in DAO layer
      */
-    void deleteTag(int id) throws DAOException;
+    void deleteTag(Integer id) throws DAOException;
 
     /**
      * @param id id to be checked
      * @return true/false is exists
      * @throws DAOException exception in DAO layer
      */
-    boolean isTagExist(int id) throws DAOException;
+    boolean isTagExist(Integer id) throws DAOException;
 
     /**
      * @param name id to be checked

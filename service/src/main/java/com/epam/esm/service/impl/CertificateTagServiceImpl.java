@@ -9,20 +9,26 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CertificateTagServiceImpl implements CertificateTagService {
 
     private CertificateTagDAOImpl certificateTagDAO;
+    private TagServiceImpl tagService;
 
     @Autowired
-    public CertificateTagServiceImpl(CertificateTagDAOImpl certificateTagDAO) {
+    public CertificateTagServiceImpl(CertificateTagDAOImpl certificateTagDAO, TagServiceImpl tagService) {
         this.certificateTagDAO = certificateTagDAO;
+        this.tagService = tagService;
     }
 
     @Override
-    public List<Certificate> getCertificatesByTag(int id) throws ServiceException {
+    public List<Certificate> getCertificatesByTag(Integer id) throws ServiceException {
         try {
+            if (!Optional.ofNullable(id).isPresent() || !tagService.isTagExist(id)) {
+                throw new ServiceException("Cant find tag with id:" + id);
+            }
             return certificateTagDAO.getCertificatesByTag(id);
         } catch (DAOException e) {
             throw new ServiceException("Fail to get certificates  by tag.", e);

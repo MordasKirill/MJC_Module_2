@@ -66,7 +66,7 @@ class CertificatesDAOImplTest {
 
     @Test
     void updateCertificates() throws DAOException {
-        certificatesDAO.updateCertificates(new Certificate("hello", 0.1, "test description", 5));
+        certificatesDAO.updateCertificates(5, new Certificate("hello", 0.1, "test description", 5));
         Certificate certificate = new Certificate(5, "hello", 0.1, 5, "2021-10-04", "2021-10-04", "test description");
         Assertions.assertTrue(certificatesDAO.getCertificates().contains(certificate));
     }

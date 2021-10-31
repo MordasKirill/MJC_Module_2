@@ -15,7 +15,7 @@ public interface TagService {
      * @param id to delete chosen tag
      * @throws ServiceException exception in Service layer
      */
-    void deleteTag(int id) throws ServiceException;
+    void deleteTag(Integer id) throws ServiceException;
 
     /**
      * @return List of tag entity's
@@ -27,12 +27,12 @@ public interface TagService {
      * @return List of tag entity's
      * @throws ServiceException exception in Service layer
      */
-    Tag getTag(int id) throws ServiceException;
+    Tag getTag(Integer id) throws ServiceException;
 
     /**
      * @param id id to be checked
      * @return true/false is exists
      * @throws ServiceException exception in Service layer
      */
-    boolean isTagExist(int id) throws ServiceException;
+    boolean isTagExist(Integer id) throws ServiceException;
 }

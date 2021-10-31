@@ -3,7 +3,6 @@ package com.epam.esm.controller;
 import com.epam.esm.entity.Tag;
 import com.epam.esm.service.ServiceException;
 import com.epam.esm.service.impl.TagServiceImpl;
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -23,8 +22,6 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/tags")
 public class TagController {
-
-    private static final Logger LOG = Logger.getLogger(TagController.class);
     private final TagServiceImpl tagService;
 
     @Autowired
@@ -63,13 +60,7 @@ public class TagController {
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> getTag(@PathVariable Optional<Integer> id) throws ServiceException {
-        ResponseEntity<?> responseEntity;
-        if (id.isPresent() && tagService.isTagExist(id.get())) {
-            responseEntity = new ResponseEntity<>(tagService.getTag(id.get()), HttpStatus.OK);
-        } else {
-            responseEntity = new ResponseEntity<>("Cant find tag with id:" + id, HttpStatus.BAD_REQUEST);
-        }
-        return responseEntity;
+        return new ResponseEntity<>(tagService.getTag(id.get()), HttpStatus.OK);
     }
 
     /**
@@ -80,14 +71,7 @@ public class TagController {
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> deleteTag(@PathVariable Optional<Integer> id) throws ServiceException {
-
-        ResponseEntity<?> responseEntity;
-        if (id.isPresent() && tagService.isTagExist(id.get())) {
-            tagService.deleteTag(id.get());
-            responseEntity = new ResponseEntity<>("Tag with id: " + id.get() + " deleted.", HttpStatus.OK);
-        } else {
-            responseEntity = new ResponseEntity<>("Cant find tag with id:" + id, HttpStatus.BAD_REQUEST);
-        }
-        return responseEntity;
+        tagService.deleteTag(id.get());
+        return new ResponseEntity<>(String.format("Tag with id: %d deleted.", id.get()), HttpStatus.OK);
     }
 }

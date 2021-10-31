@@ -34,13 +34,15 @@ class TagServiceImplTest {
     }
 
     @Test
-    void deleteTagExc() throws DAOException {
+    void deleteTagExc() throws DAOException, ServiceException {
+        Mockito.when(tagService.isTagExist(tag.getId())).thenReturn(true);
         Mockito.doThrow(new DAOException()).when(tagDAO).deleteTag(tag.getId());
         assertThrows(ServiceException.class, () -> tagService.deleteTag(tag.getId()), "Expected ServiceException");
     }
 
     @Test
     void deleteTag() throws ServiceException, DAOException {
+        Mockito.when(tagService.isTagExist(tag.getId())).thenReturn(true);
         tagService.deleteTag(tag.getId());
         Mockito.verify(tagDAO).deleteTag(tag.getId());
     }

@@ -17,14 +17,14 @@ public interface CertificateService {
      *
      * @throws ServiceException exception in Service layer
      */
-    void deleteCertificate(int id) throws ServiceException;
+    void deleteCertificate(Integer id) throws ServiceException;
 
     /**
      * @param certificate entity used to update Certificate
      *                    update info of chosen certificate
      * @throws ServiceException exception in Service layer
      */
-    void updateCertificate(Certificate certificate) throws ServiceException;
+    void updateCertificate(Integer id, Certificate certificate) throws ServiceException;
 
 
     /**
@@ -37,12 +37,12 @@ public interface CertificateService {
      * @return Single certificate with Certificate entity's
      * @throws ServiceException exception in Service layer
      */
-    Certificate getCertificate(int id) throws ServiceException;
+    Certificate getCertificate(Integer id) throws ServiceException;
 
     /**
      * @param id id to be checked
      * @return true/false is exists
      * @throws ServiceException exception in Service layer
      */
-    boolean isCertificateExist(int id) throws ServiceException;
+    boolean isCertificateExist(Integer id) throws ServiceException;
 }

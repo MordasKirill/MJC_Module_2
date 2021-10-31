@@ -15,12 +15,13 @@ import java.util.Optional;
 
 @Repository
 public class TagDAOImpl implements TagDAO {
+    private static final Logger LOG = Logger.getLogger(TagDAOImpl.class);
+
     private static final String SELECT_ID_NAME_FROM_TAG = "select * from tag";
     private static final String SELECT_ID_NAME_FROM_TAG_WHERE = "select * from tag where id = ?";
     private static final String SELECT_TAG = "select * from tag where name = ?";
     private static final String DELETE_FROM_TAG = "delete from tag where id=?";
     private static final String CREATE_TAG = "insert into tag (name) values (?)";
-    private static final Logger LOG = Logger.getLogger(TagDAOImpl.class);
     private final JdbcTemplate jdbcTemplate;
 
     @Autowired
@@ -33,7 +34,7 @@ public class TagDAOImpl implements TagDAO {
         return jdbcTemplate.query(SELECT_ID_NAME_FROM_TAG, new TagMapper());
     }
 
-    public Tag getTag(int id) throws DAOException {
+    public Tag getTag(Integer id) throws DAOException {
         return jdbcTemplate.queryForObject(SELECT_ID_NAME_FROM_TAG_WHERE, new TagMapper(), id);
     }
 
@@ -43,12 +44,12 @@ public class TagDAOImpl implements TagDAO {
     }
 
     @Override
-    public void deleteTag(int id) throws DAOException {
+    public void deleteTag(Integer id) throws DAOException {
         jdbcTemplate.update(DELETE_FROM_TAG, id);
     }
 
     @Override
-    public boolean isTagExist(int id) throws DAOException {
+    public boolean isTagExist(Integer id) throws DAOException {
         try {
             return Optional.ofNullable(jdbcTemplate.queryForObject(SELECT_ID_NAME_FROM_TAG_WHERE, new TagMapper(), id)).isPresent();
         } catch (EmptyResultDataAccessException e) {

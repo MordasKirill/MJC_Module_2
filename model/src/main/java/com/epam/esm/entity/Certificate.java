@@ -24,56 +24,56 @@ import java.util.Objects;
  * String tagName;
  */
 public class Certificate implements Serializable {
-    private int id;
+    private Integer id;
     @Size(max = 45, min = 1)
     private String name;
     @Size(max = 45, min = 1)
     private String description;
     @Min(1)
-    private double price;
+    private Double price;
     @Min(1)
-    private int duration;
+    private Integer duration;
     private String createDate;
     private String lastUpdateDate;
-    private List<String> tagName;
+    private List<String> tagNames;
 
     public Certificate() {
     }
 
-    public Certificate(int id) {
+    public Certificate(Integer id) {
         this.id = id;
     }
 
-    public Certificate(String name, double price,
-                       String description, int id) {
+    public Certificate(String name, Double price,
+                       String description, Integer id) {
         this.name = name;
         this.price = price;
         this.description = description;
         this.id = id;
     }
 
-    public Certificate(String name, double price, String description, List<String> tagName, int duration) {
+    public Certificate(String name, Double price, String description, List<String> tagNames, Integer duration) {
         this.name = name;
         this.price = price;
         this.description = description;
-        this.tagName = tagName;
+        this.tagNames = tagNames;
         this.duration = duration;
     }
 
     @JsonCreator
-    public Certificate(@JsonProperty("name") String name, @JsonProperty("price") double price,
-                       @JsonProperty("description") String description, @JsonProperty("id") int id,
-                       @JsonProperty("tagName") List<String> tagName, @JsonProperty("duration") int duration) {
+    public Certificate(@JsonProperty("name") String name, @JsonProperty("price") Double price,
+                       @JsonProperty("description") String description, @JsonProperty("id") Integer id,
+                       @JsonProperty("tagName") List<String> tagNames, @JsonProperty("duration") Integer duration) {
         this.name = name;
         this.price = price;
         this.description = description;
         this.id = id;
-        this.tagName = tagName;
+        this.tagNames = tagNames;
         this.duration = duration;
     }
 
-    public Certificate(String name, double price,
-                       int duration, String createDate, String lastUpdateDate, String description) {
+    public Certificate(String name, Double price,
+                       Integer duration, String createDate, String lastUpdateDate, String description) {
         this.name = name;
         this.price = price;
         this.duration = duration;
@@ -82,8 +82,8 @@ public class Certificate implements Serializable {
         this.description = description;
     }
 
-    public Certificate(int id, String name, double price,
-                       int duration, String createDate, String lastUpdateDate, String description) {
+    public Certificate(Integer id, String name, Double price,
+                       Integer duration, String createDate, String lastUpdateDate, String description) {
         this.id = id;
         this.name = name;
         this.price = price;
@@ -94,12 +94,12 @@ public class Certificate implements Serializable {
     }
 
     @JsonGetter("id")
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
     @JsonSetter("id")
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -124,22 +124,22 @@ public class Certificate implements Serializable {
     }
 
     @JsonGetter("price")
-    public double getPrice() {
+    public Double getPrice() {
         return price;
     }
 
     @JsonSetter("price")
-    public void setPrice(double price) {
+    public void setPrice(Double price) {
         this.price = price;
     }
 
     @JsonGetter("duration")
-    public int getDuration() {
+    public Integer getDuration() {
         return duration;
     }
 
     @JsonSetter("duration")
-    public void setDuration(int duration) {
+    public void setDuration(Integer duration) {
         this.duration = duration;
     }
 
@@ -163,12 +163,12 @@ public class Certificate implements Serializable {
         this.lastUpdateDate = lastUpdateDate;
     }
 
-    public List<String> getTagName() {
-        return tagName;
+    public List<String> getTagNames() {
+        return tagNames;
     }
 
-    public void setTagName(List<String> tagName) {
-        this.tagName = tagName;
+    public void setTagNames(List<String> tagNames) {
+        this.tagNames = tagNames;
     }
 
     @Override
@@ -176,9 +176,9 @@ public class Certificate implements Serializable {
         if (this == o) return true;
         if (!(o instanceof Certificate)) return false;
         Certificate that = (Certificate) o;
-        return getId() == that.getId() &&
+        return Objects.equals(getId(), that.getId()) &&
                 Double.compare(that.getPrice(), getPrice()) == 0 &&
-                getDuration() == that.getDuration() &&
+                Objects.equals(getDuration(), that.getDuration()) &&
                 getName().equals(that.getName()) &&
                 getDescription().equals(that.getDescription()) &&
                 getCreateDate().equals(that.getCreateDate()) &&

@@ -14,15 +14,13 @@ import java.util.Objects;
  * String name
  */
 public class Tag implements Serializable {
-    private int id;
+    private Integer id;
     @Size(max = 45, min = 1)
     private String name;
 
-    public Tag() {
+    public Tag() {}
 
-    }
-
-    public Tag(int id) {
+    public Tag(Integer id) {
         this.id = id;
     }
 
@@ -31,16 +29,16 @@ public class Tag implements Serializable {
     }
 
     @JsonCreator
-    public Tag(@JsonProperty("id") int id, @JsonProperty("name") String name) {
+    public Tag(@JsonProperty("id") Integer id, @JsonProperty("name") String name) {
         this.id = id;
         this.name = name;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -52,13 +50,13 @@ public class Tag implements Serializable {
         this.name = name;
     }
 
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Tag)) return false;
         Tag tag = (Tag) o;
-        return getId() == tag.getId() &&
-                getName().equals(tag.getName());
+        return getId().equals(tag.getId()) && getName().equals(tag.getName());
     }
 
     @Override

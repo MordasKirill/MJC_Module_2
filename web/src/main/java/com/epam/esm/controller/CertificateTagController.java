@@ -40,13 +40,7 @@ public class CertificateTagController {
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> getCertificatesByTag(@PathVariable Optional<Integer> id) throws ServiceException {
-        ResponseEntity<?> responseEntity;
-        if (id.isPresent() && tagService.isTagExist(id.get())) {
-            responseEntity = new ResponseEntity<>(certificateService.getCertificatesByTag(id.get()), HttpStatus.OK);
-        } else {
-            responseEntity = new ResponseEntity<>("Cant find tag with id:" + id, HttpStatus.BAD_REQUEST);
-        }
-        return responseEntity;
+        return new ResponseEntity<>(certificateService.getCertificatesByTag(id.get()), HttpStatus.OK);
     }
 
     /**

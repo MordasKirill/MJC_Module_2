@@ -11,7 +11,6 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
-import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
@@ -36,9 +35,21 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
      * @return a Response Entity with exception detail
      */
     @ExceptionHandler(ServiceException.class)
-    protected ResponseEntity<Object> handleEntityNotFoundEx(ServiceException ex) {
-        ResultUtil resultUtil = new ResultUtil("Something went wrong.", ex.getMessage(), HttpStatus.BAD_REQUEST);
-        return new ResponseEntity<>(resultUtil, HttpStatus.BAD_REQUEST);
+    protected ResponseEntity<Object> handleServiceException(ServiceException ex) {
+        ErrorResponse errorResponse = new ErrorResponse("Something went wrong.", ex.getMessage(), HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+    }
+
+    /**
+     * ExceptionHandler for RuntimeException
+     *
+     * @param ex exception in runtime
+     * @return a Response Entity with exception detail
+     */
+    @ExceptionHandler(RuntimeException.class)
+    protected ResponseEntity<Object> handleRuntimeException(RuntimeException ex) {
+        ErrorResponse errorResponse = new ErrorResponse("Something went wrong.", ex.getMessage(), HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 
     /**
@@ -49,8 +60,8 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
      */
     @ExceptionHandler(TypeMismatchException.class)
     protected ResponseEntity<Object> handleTypeMismatchException(ConstraintViolationException exception) {
-        ResultUtil resultUtil = new ResultUtil("TypeMismatchException", exception.getCause().toString());
-        return new ResponseEntity<>(resultUtil, HttpStatus.BAD_REQUEST);
+        ErrorResponse errorResponse = new ErrorResponse("TypeMismatchException", exception.getCause().toString());
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 
     /**
@@ -63,8 +74,8 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
     @Override
     protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex,
                                                                   HttpHeaders headers, HttpStatus status, WebRequest request) {
-        ResultUtil resultUtil = new ResultUtil("Malformed JSON Request", ex.getMessage());
-        return new ResponseEntity<>(resultUtil, status);
+        ErrorResponse errorResponse = new ErrorResponse("Malformed JSON Request", ex.getMessage());
+        return new ResponseEntity<>(errorResponse, status);
     }
 
     /**
@@ -82,26 +93,11 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
                 .stream()
                 .map(DefaultMessageSourceResolvable::getDefaultMessage)
                 .collect(Collectors.toList());
-        ResultUtil resultUtil;
-        resultUtil = new ResultUtil("Method Argument Not Valid", errors, HttpStatus.BAD_REQUEST);
+        ErrorResponse errorResponse;
+        errorResponse = new ErrorResponse("Method Argument Not Valid", errors, HttpStatus.BAD_REQUEST);
         if (errors.size() == 0) {
-            resultUtil = new ResultUtil("Method Argument Not Valid", HttpStatus.BAD_REQUEST.toString());
+            errorResponse = new ErrorResponse("Method Argument Not Valid", HttpStatus.BAD_REQUEST.toString());
         }
-        return new ResponseEntity<>(resultUtil, status);
-    }
-
-    /**
-     * @param ex      NoHandlerFoundException
-     * @param headers HttpHeaders
-     * @param status  HttpStatus
-     * @param request WebRequest
-     * @return a Response Entity with NoHandlerFoundException detail
-     */
-    @Override
-    protected ResponseEntity<Object> handleNoHandlerFoundException(NoHandlerFoundException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
-        Map<String, String> responseBody = new HashMap<>();
-        responseBody.put("path", request.getContextPath());
-        responseBody.put("message", "The URL you have reached is not in service at this time (404).");
-        return new ResponseEntity<>(responseBody, HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(errorResponse, status);
     }
 }

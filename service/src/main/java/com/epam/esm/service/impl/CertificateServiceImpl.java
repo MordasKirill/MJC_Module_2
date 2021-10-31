@@ -8,14 +8,12 @@ import com.epam.esm.service.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class CertificateServiceImpl implements CertificateService {
-
-    private CertificateDAO certificatesDAO;
+    private final CertificateDAO certificatesDAO;
 
     @Autowired
     public CertificateServiceImpl(CertificateDAO certificatesDAO) {
@@ -23,38 +21,43 @@ public class CertificateServiceImpl implements CertificateService {
     }
 
     @Override
-    public void createCertificate(@Valid Certificate certificate) throws ServiceException {
+    public void createCertificate(Certificate certificate) throws ServiceException {
         try {
-            if (Optional.ofNullable(certificate.getName()).isPresent() &&
-                    Optional.ofNullable(certificate.getDescription()).isPresent() &&
-                    certificate.getPrice() != 0 &&
-                    certificate.getDuration() != 0) {
-                certificatesDAO.createCertificate(certificate);
-            } else {
-                throw new ServiceException("CreateCertificate fail due to null value of params.");
+            if (!Optional.ofNullable(certificate.getName()).isPresent() ||
+                    !Optional.ofNullable(certificate.getDescription()).isPresent() ||
+                    !Optional.ofNullable(certificate.getPrice()).isPresent() ||
+                    !Optional.ofNullable(certificate.getDuration()).isPresent()) {
+                throw new ServiceException("CreateCertificate fail due to null value of params. " + certificate);
             }
+            certificatesDAO.createCertificate(certificate);
         } catch (DAOException e) {
             throw new ServiceException("CreateCertificate fail", e);
         }
     }
 
     @Override
-    public void deleteCertificate(int id) throws ServiceException {
+    public void deleteCertificate(Integer id) throws ServiceException {
         try {
-            if (id != 0) {
-                certificatesDAO.deleteCertificates(id);
-            } else {
-                throw new ServiceException("DeleteCertificate fail due to null value of params.");
+            if (!Optional.ofNullable(id).isPresent() || !isCertificateExist(id)) {
+                throw new ServiceException("Cant find certificate with id:" + id);
             }
+            certificatesDAO.deleteCertificates(id);
         } catch (DAOException e) {
             throw new ServiceException("DeleteCertificate fail", e);
         }
     }
 
     @Override
-    public void updateCertificate(Certificate certificate) throws ServiceException {
+    public void updateCertificate(Integer id, Certificate certificate) throws ServiceException {
         try {
-            certificatesDAO.updateCertificates(certificate);
+            if (!Optional.ofNullable(id).isPresent()
+                    || !isCertificateExist(id)
+                    || !Optional.ofNullable(certificate.getName()).isPresent()
+                    || !Optional.ofNullable(certificate.getDescription()).isPresent()
+                    || !Optional.ofNullable(certificate.getPrice()).isPresent()) {
+                throw new ServiceException("Cant find certificate with id:" + id + " or some params are null " + certificate);
+            }
+            certificatesDAO.updateCertificates(id, certificate);
         } catch (DAOException e) {
             throw new ServiceException("UpdateCertificate fail", e);
         }
@@ -70,8 +73,11 @@ public class CertificateServiceImpl implements CertificateService {
     }
 
     @Override
-    public Certificate getCertificate(int id) throws ServiceException {
+    public Certificate getCertificate(Integer id) throws ServiceException {
         try {
+            if (!Optional.ofNullable(id).isPresent() || !isCertificateExist(id)) {
+                throw new ServiceException("Cant find certificate with id:" + id);
+            }
             return certificatesDAO.getCertificate(id);
         } catch (DAOException e) {
             throw new ServiceException("GetCertificate fail", e);
@@ -79,7 +85,7 @@ public class CertificateServiceImpl implements CertificateService {
     }
 
     @Override
-    public boolean isCertificateExist(int id) throws ServiceException {
+    public boolean isCertificateExist(Integer id) throws ServiceException {
         try {
             return certificatesDAO.isCertificateExist(id);
         } catch (DAOException e) {
