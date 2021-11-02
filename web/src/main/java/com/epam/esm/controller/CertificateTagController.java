@@ -49,8 +49,8 @@ public class CertificateTagController {
      *
      * @return ResponseEntity<List < Certificate>>
      */
-    @RequestMapping(value = "/name/{name}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> getCertificatesByPartName(@PathVariable String name) throws ServiceException {
+    @RequestMapping(value = "/name/", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> getCertificatesByPartName(@RequestParam String name) throws ServiceException {
         return new ResponseEntity<>(certificateService.getCertificatesByNamePart(name), HttpStatus.OK);
     }
 
@@ -60,8 +60,8 @@ public class CertificateTagController {
      *
      * @return ResponseEntity<List < Certificate>>
      */
-    @RequestMapping(value = "/sorting/{sortParam}/", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> getCertificatesByNameAsc(@PathVariable String sortParam, @RequestParam(defaultValue = "asc") String direction) throws ServiceException {
+    @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> getCertificatesByNameAsc(@RequestParam(defaultValue ="name") String sortParam, @RequestParam(defaultValue = "asc") String direction) throws ServiceException {
         return new ResponseEntity<>(certificateService.getCertificatesSorted(sortParam, direction), HttpStatus.OK);
     }
 }

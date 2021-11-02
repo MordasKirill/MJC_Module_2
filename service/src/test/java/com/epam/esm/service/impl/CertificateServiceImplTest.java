@@ -11,12 +11,14 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.Date;
+
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @ExtendWith(MockitoExtension.class)
 class CertificateServiceImplTest {
     private static final Certificate notValidCertificate = new Certificate("test", 0.0, 0, null, null, null);
-    private static final Certificate validCertificate = new Certificate(5, "test", 1.0, 2, "gege", "gegr", "geg");
+    private static final Certificate validCertificate = new Certificate(5, "test", 1.0, 2, new Date(), new Date(), "geg");
     @Mock
     private CertificatesDAOImpl certificatesDAO;
     @InjectMocks

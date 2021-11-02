@@ -13,11 +13,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import javax.sql.DataSource;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @ExtendWith(SpringExtension.class)
@@ -27,16 +29,16 @@ class CertificatesDAOImplTest {
     private CertificatesDAOImpl certificatesDAO;
 
     @Autowired
-    private ComboPooledDataSource comboPooledDataSource;
+    private DataSource dataSource;
 
     @BeforeEach
     void bef() throws FileNotFoundException, SQLException {
-        RunScript.execute(comboPooledDataSource.getConnection(), new FileReader(new File("src/test/resources/certificates_script.sql").getAbsolutePath()));
+        RunScript.execute(dataSource.getConnection(), new FileReader(new File("src/test/resources/certificates_script.sql").getAbsolutePath()));
     }
 
     @AfterEach
     void after() throws SQLException, FileNotFoundException {
-        RunScript.execute(comboPooledDataSource.getConnection(), new FileReader(new File("src/test/resources/drop.sql").getAbsolutePath()));
+        RunScript.execute(dataSource.getConnection(), new FileReader(new File("src/test/resources/drop.sql").getAbsolutePath()));
     }
 
     @Test
@@ -67,7 +69,7 @@ class CertificatesDAOImplTest {
     @Test
     void updateCertificates() throws DAOException {
         certificatesDAO.updateCertificates(5, new Certificate("hello", 0.1, "test description", 5));
-        Certificate certificate = new Certificate(5, "hello", 0.1, 5, "2021-10-04", "2021-10-04", "test description");
+        Certificate certificate = new Certificate(5, "hello", 0.1, 5, new Date(), new Date(), "test description");
         Assertions.assertTrue(certificatesDAO.getCertificates().contains(certificate));
     }
 }

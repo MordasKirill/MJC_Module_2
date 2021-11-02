@@ -49,6 +49,7 @@ class TagServiceImplTest {
 
     @Test
     void getTag() throws ServiceException, DAOException {
+        Mockito.when(tagService.isTagExist(tag.getId())).thenReturn(true);
         tagService.getTag(tag.getId());
         Mockito.verify(tagDAO).getTag(tag.getId());
     }
@@ -66,7 +67,8 @@ class TagServiceImplTest {
     }
 
     @Test
-    void getTagExc() throws DAOException {
+    void getTagExc() throws DAOException, ServiceException {
+        Mockito.when(tagService.isTagExist(tag.getId())).thenReturn(true);
         Mockito.doThrow(new DAOException()).when(tagDAO).getTag(tag.getId());
         assertThrows(ServiceException.class, () -> tagService.getTag(tag.getId()), "Expected ServiceException");
     }

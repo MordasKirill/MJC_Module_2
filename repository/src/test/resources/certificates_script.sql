@@ -16,7 +16,7 @@ create table tag
     name varchar(45) null
 );
 
-create table certificate_has_tag
+create table certificate_tag
 (
     cerf_id int not null,
     tag_id  int not null,
@@ -28,10 +28,10 @@ create table certificate_has_tag
 );
 
 create index fk_cerf_has_tag_cerf_idx
-    on certificate_has_tag (cerf_id);
+    on certificate_tag (cerf_id);
 
 create index fk_cerf_has_tag_tag1_idx
-    on certificate_has_tag (tag_id);
+    on certificate_tag (tag_id);
 
 INSERT INTO certificate
 (id,
@@ -52,7 +52,7 @@ values (1, 'cinema'),
        (2, 'fitness'),
        (3, 'food'),
        (4, 'test');
-INSERT INTO certificate_has_tag (cerf_id, tag_id)
+INSERT INTO certificate_tag (cerf_id, tag_id)
 values (1, 1),
        (1, 2),
        (2, 2),

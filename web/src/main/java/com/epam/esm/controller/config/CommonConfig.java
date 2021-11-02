@@ -7,7 +7,7 @@ import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-import java.beans.PropertyVetoException;
+import javax.sql.DataSource;
 
 /**
  * common configuration for
@@ -19,40 +19,19 @@ import java.beans.PropertyVetoException;
 @Import({ConfigDev.class, ConfigProd.class})
 public class CommonConfig {
 
-    @Autowired(required = false)
-    private ConfigProd configProd;
-    @Autowired(required = false)
-    private ConfigDev configDev;
-
+    @Autowired
     @Bean
-    @Profile("prod")
-    public JdbcTemplate getJdbcTemplateProd() throws PropertyVetoException {
+    public JdbcTemplate getJdbcTemplateProd(DataSource dataSource) {
         JdbcTemplate jdbcTemplate = new JdbcTemplate();
-        jdbcTemplate.setDataSource(configProd.getDataSource());
+        jdbcTemplate.setDataSource(dataSource);
         return jdbcTemplate;
     }
 
+    @Autowired
     @Bean
-    @Profile("prod")
-    public PlatformTransactionManager transactionManager() throws PropertyVetoException {
+    public PlatformTransactionManager transactionManager(DataSource dataSource) {
         DataSourceTransactionManager tm = new DataSourceTransactionManager();
-        tm.setDataSource(configProd.getDataSource());
-        return tm;
-    }
-
-    @Bean
-    @Profile("dev")
-    public JdbcTemplate getJdbcTemplateDevProd() {
-        JdbcTemplate jdbcTemplate = new JdbcTemplate();
-        jdbcTemplate.setDataSource(configDev.getDataSource());
-        return jdbcTemplate;
-    }
-
-    @Bean
-    @Profile("dev")
-    public PlatformTransactionManager transactionManagerDev() {
-        DataSourceTransactionManager tm = new DataSourceTransactionManager();
-        tm.setDataSource(configDev.getDataSource());
+        tm.setDataSource(dataSource);
         return tm;
     }
 }

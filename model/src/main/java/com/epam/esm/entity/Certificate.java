@@ -8,6 +8,7 @@ import com.fasterxml.jackson.annotation.JsonSetter;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -33,8 +34,8 @@ public class Certificate implements Serializable {
     private Double price;
     @Min(1)
     private Integer duration;
-    private String createDate;
-    private String lastUpdateDate;
+    private Date createDate;
+    private Date lastUpdateDate;
     private List<String> tagNames;
 
     public Certificate() {
@@ -73,7 +74,7 @@ public class Certificate implements Serializable {
     }
 
     public Certificate(String name, Double price,
-                       Integer duration, String createDate, String lastUpdateDate, String description) {
+                       Integer duration, Date createDate, Date lastUpdateDate, String description) {
         this.name = name;
         this.price = price;
         this.duration = duration;
@@ -83,7 +84,7 @@ public class Certificate implements Serializable {
     }
 
     public Certificate(Integer id, String name, Double price,
-                       Integer duration, String createDate, String lastUpdateDate, String description) {
+                       Integer duration, Date createDate, Date lastUpdateDate, String description) {
         this.id = id;
         this.name = name;
         this.price = price;
@@ -144,22 +145,22 @@ public class Certificate implements Serializable {
     }
 
     @JsonGetter("createDate")
-    public String getCreateDate() {
+    public Date getCreateDate() {
         return createDate;
     }
 
     @JsonSetter("createDate")
-    public void setCreateDate(String createDate) {
+    public void setCreateDate(Date createDate) {
         this.createDate = createDate;
     }
 
     @JsonGetter("lastUpdateDate")
-    public String getLastUpdateDate() {
+    public Date getLastUpdateDate() {
         return lastUpdateDate;
     }
 
     @JsonSetter("lastUpdateDate")
-    public void setLastUpdateDate(String lastUpdateDate) {
+    public void setLastUpdateDate(Date lastUpdateDate) {
         this.lastUpdateDate = lastUpdateDate;
     }
 
